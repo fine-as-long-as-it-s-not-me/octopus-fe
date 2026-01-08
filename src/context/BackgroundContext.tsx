@@ -2,13 +2,16 @@ import { createContext, useContext } from 'react'
 
 type BackgroundContextType = {
   interacted: boolean
+  isMuted: boolean
   setInteracted: (interacted: boolean) => void
   playMusic: (key: string) => void
-  muteMusicToggle: (key: string) => void
+  muteMusicToggle: () => void
   setBackgroundImage: (key: string) => void
 }
 
-export const BackgroundContext = createContext<BackgroundContextType | null>(null)
+export const BackgroundContext = createContext<BackgroundContextType | null>(
+  null,
+)
 
 export const useBackground = () => {
   const ctx = useContext(BackgroundContext)

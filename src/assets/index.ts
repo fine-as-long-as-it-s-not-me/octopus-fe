@@ -72,9 +72,14 @@ export const avatarAssets = {
   'accessory30': '/images/avatar/accessory/accessory30.png',
 }
 
-export const bgAssets = {
-  'home-mobile': '/images/bg/home-mobile.png',
-  'home-desktop': '/images/bg/home-desktop.png',
+export const desktopBgAssets = {
+  'home': '/images/bg/home-desktop.jpeg',
+  'room': '/images/bg/room-desktop.jpeg',
+}
+
+export const mobileBgAssets = {
+  'home': '/images/bg/home-mobile.jpeg',
+  'room': '/images/bg/room-mobile.jpeg',
 }
 
 export const soundEffectsAssets = {

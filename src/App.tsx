@@ -1,6 +1,6 @@
 import { AssetProvider } from './context/AssetProvider'
 import { BackgroundProvider } from './context/BackgroundProvider'
-import EffectProvider from './context/EffectProvider'
+import EffectProvider from './context/EffectsProvider'
 import Routes from './routes'
 
 function App() {

@@ -4,9 +4,8 @@ import { IMAGE } from "../consts"
 
 
 export default function useAvatar (name: string): string {
-  const [avatarCache, setAvatarCache] = useState<Record<string, string>>({})
   const [avatarUrl, setAvatarUrl] = useState<string>('')
-  const { images, loading } = useAssets()
+  const { images, loading, avatarCache, setAvatarCache } = useAssets()
 
   const skinIndex = hashNameToSkinIndex(name)
   const accessoryIndex = hashNameToAccessoryIndex(name)
