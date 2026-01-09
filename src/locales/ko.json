@@ -1,0 +1,16 @@
+{
+  "hello": "안녕하세요",
+  "en": "English",
+  "ko": "한국어",
+  "Guest": "게스트",
+  "Your name?": "이름이 뭐에요?",
+  "Enter": "입장",
+  "Live Streamer": "스트리머",
+  "languages": "언어",
+  "Loading": "먹물 짜는 중",
+  "press anywhere to continue": "계속하려면 아무 곳이나 누르세요",
+  "Random Room": "랜덤 방",
+  "Use Room Code": "방 코드 사용",
+  "Create Room": "방 만들기",
+  "Leaderboard": "리더보드"
+}

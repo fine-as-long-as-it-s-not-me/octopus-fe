@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { useAssets } from './AssetContext'
 import { BackgroundContext } from './BackgroundContext'
@@ -59,17 +60,20 @@ export const BackgroundProvider = ({ children }: Props) => {
 
   function LoadingScreen() {
     const { progress } = useAssets()
+    const { t } = useTranslation()
     return (
       <div
-        className={`absolute flex items-center justify-center inset-0 bg-black flex-col text-white ${
+        className={`absolute flex items-center justify-center inset-0 bg-black gap-4 flex-col text-white ${
           interacted && progress === 100 ? 'hidden' : 'flex'
         }`}
         onClick={() => setInteracted(true)}
       >
-        <h2>Loading...</h2>
-        <progress value={progress} max={100} />
-        <p>{progress}%</p>
-        {progress === 100 && <p>press anywhere to continue</p>}
+        <h2>{t('Loading')}...</h2>
+        <div className='flex flex-col items-center'>
+          <progress value={progress} max={100} />
+          <p>{progress}%</p>
+        </div>
+        {progress === 100 && <p>{t('press anywhere to continue')}</p>}
       </div>
     )
   }
