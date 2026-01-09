@@ -22,9 +22,9 @@ export default function HomePage() {
       <Card>
         <Form onSubmit={() => {}} className='flex flex-col items-center gap-3'>
           <p>{t('Guest')}</p>
-          <div className='flex md:flex-row flex-col md:gap-4 items-center'>
+          <div className='flex md:flex-row flex-col gap-2 md:gap-4 items-center'>
             <Img
-              className='rounded-full'
+              className='rounded-full m-[-24px]'
               width={120}
               height={120}
               src={avatarUrl}
@@ -34,6 +34,7 @@ export default function HomePage() {
               placeholder={t('Your name?')}
               value={name}
               onChange={e => setName(e.target.value)}
+              maxLength={12}
             />
           </div>
           <Button
