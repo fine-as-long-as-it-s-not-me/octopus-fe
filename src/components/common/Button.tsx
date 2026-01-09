@@ -45,11 +45,7 @@ export default function Button({
         onClick?.()
       }}
       disabled={disabled}
-      className={twMerge(
-        'shrink-0 bg-transparent overflow-hidden',
-        size === 'sm' ? 'w-fit' : 'w-full',
-        className,
-      )}
+      className={twMerge('shrink-0 bg-transparent overflow-hidden', className)}
       {...rest}
     >
       <Card

@@ -51,7 +51,10 @@ export default function HomePage() {
           </Button>
         </Form>
       </Card>
-      <Button icon={<Img width={32} src={chzzkIcon} alt='Chzzk Icon' />}>
+      <Button
+        icon={<Img width={32} src={chzzkIcon} alt='Chzzk Icon' />}
+        className='w-full'
+      >
         {t('Live Streamer')}
       </Button>
       <Spacing />

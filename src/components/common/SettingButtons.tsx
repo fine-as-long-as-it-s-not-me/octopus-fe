@@ -11,7 +11,7 @@ export default function SettingButtons() {
   const { isMuted: isEffectMuted, muteSoundEffectToggle } = useEffects()
   const { openModal } = useModal()
   return (
-    <div className='grid grid-cols-3 gap-4 w-full'>
+    <>
       <Button
         size='md'
         onClick={() => {
@@ -26,6 +26,6 @@ export default function SettingButtons() {
       <Button size='md' onClick={() => muteSoundEffectToggle()}>
         <Icon name={isEffectMuted ? 'volume_off' : 'volume_up'} />
       </Button>
-    </div>
+    </>
   )
 }
