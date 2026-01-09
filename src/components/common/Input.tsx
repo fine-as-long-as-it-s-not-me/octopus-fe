@@ -1,33 +1,32 @@
 import { twMerge } from 'tailwind-merge'
 
-interface Props {
-  type?: string
-  value?: string
-  placeholder?: string
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  className?: string
-  maxLength?: number
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+  shape?: 'sm' | 'md'
 }
 
 export default function Input({
   type = 'text',
-  value,
-  placeholder,
-  onChange,
   className,
-  maxLength,
+  shape = 'md',
+  value,
+  onClick,
+  ...rest
 }: Props) {
+  const shapeClassName = {
+    sm: 'px-3 py-1.5 md:px-4 md:py-2',
+    md: 'px-4 py-3 md:px-6 md:py-4',
+  }
   return (
     <input
       type={type}
       value={value}
-      placeholder={placeholder}
-      onChange={onChange}
+      onClick={onClick}
       className={twMerge(
-        'h-fit px-4 py-3 md:px-6 md:py-4 text-base md:text-lg bg-white/75 rounded-xl',
+        'h-fit text-base md:text-lg bg-white/75 rounded-xl',
+        shapeClassName[shape],
         className,
       )}
-      maxLength={maxLength}
+      {...rest}
     />
   )
 }
