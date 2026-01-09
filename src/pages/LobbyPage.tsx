@@ -30,17 +30,10 @@ export default function LobbyPage() {
   return (
     <>
       <Spacing />
-      <Button className='w-full' onClick={randomRoomClickHandler}>
-        {t('Join Random Room')}
-      </Button>
-      <Button className='w-full' onClick={useRoomCodeClickHandler}>
-        {t('Use Room Code')}
-      </Button>
-      <Button className='w-full' onClick={createRoomClickHandler}>
-        {t('Create Room')}
-      </Button>
+      <Button onClick={randomRoomClickHandler}>{t('Join Random Room')}</Button>
+      <Button onClick={useRoomCodeClickHandler}>{t('Use Room Code')}</Button>
+      <Button onClick={createRoomClickHandler}>{t('Create Room')}</Button>
       <Button
-        className='w-full'
         icon={<Img width={32} src={chzzkIcon} alt='Chzzk Icon' />}
         onClick={leaderboardClickHandler}
       >
