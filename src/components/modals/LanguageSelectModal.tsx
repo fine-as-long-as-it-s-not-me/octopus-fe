@@ -11,7 +11,6 @@ export default function LanguageSelectModal() {
 
   const handleChangeLanguage = (lang: Languages) => {
     i18n.changeLanguage(lang)
-    localStorage.setItem('language', lang)
   }
 
   return (

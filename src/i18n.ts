@@ -25,4 +25,12 @@ i18n.use(initReactI18next).init({
   },
 })
 
+i18n.on('languageChanged', (lng: string) => {
+  try {
+    localStorage.setItem('language', lng)
+  } catch (e) {
+    console.error('Failed to save language preference to localStorage.', e)
+  }
+})
+
 export default i18n
