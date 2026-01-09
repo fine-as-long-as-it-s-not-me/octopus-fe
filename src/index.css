@@ -4,9 +4,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  font-family: "Shantell Sans", cursive;
-
-  font-weight: 500;
+  font-family: "Jua", sans-serif;
 }
 
 #root {
