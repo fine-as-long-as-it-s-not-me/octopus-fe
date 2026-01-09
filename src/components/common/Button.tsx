@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react'
+import type { MouseEvent, ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { useEffects } from '@/context/EffectsContext'
 import Card from './Card'
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode
   size?: 'sm' | 'md' | 'lg'
   className?: string
@@ -12,16 +12,20 @@ interface Props {
   disabled?: boolean
   children?: ReactNode
   type?: 'button' | 'submit' | 'reset'
+  active?: boolean
+  cardClassName?: string
 }
 
 export default function Button({
   icon,
-  type = 'button',
   size = 'lg',
   className,
   onClick,
   disabled,
   children,
+  active = false,
+  cardClassName,
+  ...rest
 }: Props) {
   const { playSoundEffect } = useEffects()
   const sizeCardClassName = {
@@ -29,13 +33,16 @@ export default function Button({
     md: 'px-6 py-3 md:px-8 md:py-4',
     lg: 'px-8 py-4 md:px-10 md:py-5',
   }
+  const defaultClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    playSoundEffect(disabled ? 'toong' : size == 'lg' ? 'chung' : 'ddok!')
+  }
+
   return (
     <button
-      type={type}
       onClick={e => {
-        e.stopPropagation()
+        defaultClickHandler(e)
         onClick?.()
-        playSoundEffect(disabled ? 'toong' : size == 'lg' ? 'chung' : 'ddok!')
       }}
       disabled={disabled}
       className={twMerge(
@@ -43,12 +50,15 @@ export default function Button({
         size === 'sm' ? 'w-fit' : 'w-full',
         className,
       )}
+      {...rest}
     >
       <Card
         size={size}
         className={twMerge(
-          'lg:w-auto active:scale-95 transition-transform flex items-center justify-center gap-4',
+          'active:scale-95 transition-transform flex items-center justify-center gap-4',
           sizeCardClassName[size],
+          active ? 'bg-black/75 text-white' : '',
+          cardClassName,
         )}
       >
         {icon}
