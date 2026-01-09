@@ -38,7 +38,9 @@ export default function Button({
     >
       <Card
         size={size}
-        className={`lg:w-auto active:scale-95 transition-transform flex items-center justify-center gap-4`}
+        className={`lg:w-auto active:scale-95 transition-transform flex items-center justify-center gap-4
+        ${size === 'sm' ? 'px-5 py-3 md:px-6 md:py-3' : size === 'md' ? 'px-6 py-3 md:px-8 md:py-4' : 'px-8 py-4 md:px-10 md:py-5'}
+          `}
       >
         {icon}
         {children}

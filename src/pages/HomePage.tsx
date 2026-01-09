@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Spacing } from 'sam-react-modal'
 
@@ -7,19 +9,33 @@ import Card from '@/components/common/Card'
 import Form from '@/components/common/Form'
 import Img from '@/components/common/Img'
 import Input from '@/components/common/Input'
+import useAvatar from '@/hooks/useAvatar'
 import { ROUTES } from '@/routes/ROUTES'
 
 export default function HomePage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
+  const [name, setName] = useState('')
+  const avatarUrl = useAvatar(name)
   return (
     <>
       <Card>
-        <Form
-          onSubmit={() => {}}
-          className='flex flex-col items-center gap-4 md:gap-6'
-        >
-          <p>Guest</p>
-          <Input placeholder='Your name?' className='w-full' />
+        <Form onSubmit={() => {}} className='flex flex-col items-center gap-3'>
+          <p>{t('Guest')}</p>
+          <div className='flex md:flex-row flex-col md:gap-4 items-center'>
+            <Img
+              className='rounded-full'
+              width={120}
+              height={120}
+              src={avatarUrl}
+              alt='Avatar'
+            />
+            <Input
+              placeholder={t('Your name?')}
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
+          </div>
           <Button
             size='sm'
             type='submit'
@@ -27,12 +43,12 @@ export default function HomePage() {
               navigate(ROUTES.LOBBY)
             }}
           >
-            Enter
+            {t('Enter')}
           </Button>
         </Form>
       </Card>
       <Button icon={<Img width={32} src={chzzkIcon} alt='Chzzk Icon' />}>
-        Live Streamer
+        {t('Live Streamer')}
       </Button>
       <Spacing />
     </>

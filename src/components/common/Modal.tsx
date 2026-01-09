@@ -1,3 +1,5 @@
+import Card from './Card'
+
 interface Props {
   children?: React.ReactNode
   className?: string
@@ -5,10 +7,11 @@ interface Props {
 
 export default function Modal({ children, className }: Props) {
   return (
-    <div
-      className={`flex flex-col p-4 items-center justify-center rounded-2xl bg-white ${className}`}
+    <Card
+      size='sm'
+      className={`flex flex-col gap-4 rounded-xl items-center ${className}`}
     >
       {children}
-    </div>
+    </Card>
   )
 }

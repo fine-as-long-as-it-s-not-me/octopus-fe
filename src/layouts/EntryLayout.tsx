@@ -15,11 +15,11 @@ export default function EntryLayout() {
   })
 
   return (
-    <div className='h-full w-full overflow-scroll no-scrollbar max-w-[720px] p-16 md:p-12 flex flex-col items-center gap-4 md:gap-5'>
+    <div className='h-full w-full overflow-scroll no-scrollbar max-w-[720px] p-16 md:p-12 flex flex-col items-center gap-4'>
       <Img
         src={logo}
         alt='Logo'
-        className='w-[50dvw] min-w-[400px] max-w-[600px]'
+        className='w-[50dvw] min-w-[400px] max-w-[560px]'
       />
       <Outlet />
       <SettingButtons />
