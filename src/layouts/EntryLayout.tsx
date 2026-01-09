@@ -10,7 +10,7 @@ export default function EntryLayout() {
   const { playMusic, setBackgroundImage } = useBackground()
 
   useEffect(() => {
-    playMusic('lobby')
+    playMusic('citymafia')
     setBackgroundImage('home')
   })
 
@@ -22,7 +22,9 @@ export default function EntryLayout() {
         className='w-[50dvw] min-w-[400px] max-w-[560px]'
       />
       <Outlet />
-      <SettingButtons />
+      <div className={`grid grid-cols-3 gap-4 w-full`}>
+        <SettingButtons />
+      </div>
     </div>
   )
 }

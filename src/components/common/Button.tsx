@@ -33,6 +33,11 @@ export default function Button({
     md: 'px-6 py-3 md:px-8 md:py-4',
     lg: 'px-8 py-4 md:px-10 md:py-5',
   }
+  const sizeButtonClassName = {
+    sm: '',
+    md: '',
+    lg: 'w-full',
+  }
   const defaultClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     playSoundEffect(disabled ? 'toong' : size == 'lg' ? 'chung' : 'ddok!')
@@ -47,7 +52,7 @@ export default function Button({
       disabled={disabled}
       className={twMerge(
         'shrink-0 bg-transparent overflow-hidden',
-        size === 'sm' ? 'w-fit' : 'w-full',
+        sizeButtonClassName[size],
         className,
       )}
       {...rest}

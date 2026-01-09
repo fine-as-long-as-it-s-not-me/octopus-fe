@@ -11,21 +11,26 @@ export default function SettingButtons() {
   const { isMuted: isEffectMuted, muteSoundEffectToggle } = useEffects()
   const { openModal } = useModal()
   return (
-    <div className='grid grid-cols-3 gap-4 w-full'>
+    <>
       <Button
         size='md'
+        className='grow-1'
         onClick={() => {
           openModal(<LanguageSelectModal />)
         }}
       >
         <Icon name='translate' />
       </Button>
-      <Button size='md' onClick={() => muteMusicToggle()}>
+      <Button size='md' className='grow-1' onClick={() => muteMusicToggle()}>
         <Icon name={isMuted ? 'music_off' : 'music_note'} />
       </Button>
-      <Button size='md' onClick={() => muteSoundEffectToggle()}>
+      <Button
+        size='md'
+        className='grow-1'
+        onClick={() => muteSoundEffectToggle()}
+      >
         <Icon name={isEffectMuted ? 'volume_off' : 'volume_up'} />
       </Button>
-    </div>
+    </>
   )
 }
