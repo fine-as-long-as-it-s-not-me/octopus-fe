@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import { useEffects } from '@/context/EffectsContext'
 import Card from './Card'
@@ -23,6 +24,11 @@ export default function Button({
   children,
 }: Props) {
   const { playSoundEffect } = useEffects()
+  const sizeCardClassName = {
+    sm: 'px-5 py-3 md:px-6 md:py-3',
+    md: 'px-6 py-3 md:px-8 md:py-4',
+    lg: 'px-8 py-4 md:px-10 md:py-5',
+  }
   return (
     <button
       type={type}
@@ -32,15 +38,18 @@ export default function Button({
         playSoundEffect(disabled ? 'toong' : size == 'lg' ? 'chung' : 'ddok!')
       }}
       disabled={disabled}
-      className={`shrink-0 bg-transparent overflow-hidden
-          ${size === 'sm' ? 'w-fit' : 'w-full'} ${className}
-        `}
+      className={twMerge(
+        'shrink-0 bg-transparent overflow-hidden',
+        size === 'sm' ? 'w-fit' : 'w-full',
+        className,
+      )}
     >
       <Card
         size={size}
-        className={`lg:w-auto active:scale-95 transition-transform flex items-center justify-center gap-4
-        ${size === 'sm' ? 'px-5 py-3 md:px-6 md:py-3' : size === 'md' ? 'px-6 py-3 md:px-8 md:py-4' : 'px-8 py-4 md:px-10 md:py-5'}
-          `}
+        className={twMerge(
+          'lg:w-auto active:scale-95 transition-transform flex items-center justify-center gap-4',
+          sizeCardClassName[size],
+        )}
       >
         {icon}
         {children}

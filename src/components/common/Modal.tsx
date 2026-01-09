@@ -1,3 +1,5 @@
+import { twMerge } from 'tailwind-merge'
+
 import Card from './Card'
 
 interface Props {
@@ -8,8 +10,7 @@ interface Props {
 export default function Modal({ children, className }: Props) {
   return (
     <Card
-      size='sm'
-      className={`flex flex-col gap-4 rounded-xl items-center ${className}`}
+      className={twMerge('flex flex-col gap-4 items-center w-fit', className)}
     >
       {children}
     </Card>

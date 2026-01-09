@@ -1,3 +1,5 @@
+import { twMerge } from 'tailwind-merge'
+
 interface Props {
   size?: 'sm' | 'md' | 'lg'
   children?: React.ReactNode
@@ -5,14 +7,18 @@ interface Props {
 }
 
 export default function Card({ size = 'lg', children, className }: Props) {
+  const sizeClassName = {
+    sm: 'text-sm md:text-base rounded-full w-fit',
+    md: 'text-lg rounded-2xl w-full',
+    lg: 'text-lg rounded-xl w-full',
+  }
   return (
     <div
-      className={`rounded-full bg-white/25 border border-white/45 backdrop-blur-[3px] p-4
-        ${size === 'sm' ? 'text-sm md:text-base' : size === 'md' ? 'text-lg' : 'text-lg'}
-        ${size === 'sm' ? 'rounded-full' : size === 'md' ? 'rounded-2xl' : 'rounded-xl'}
-        ${size === 'sm' ? 'w-fit' : 'w-full'}
-        ${className}
-      `}
+      className={twMerge(
+        'rounded-full bg-white/25 border border-white/45 backdrop-blur-[3px] p-4',
+        sizeClassName[size],
+        className,
+      )}
     >
       {children}
     </div>
