@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import Button from '@/components/common/Button'
@@ -11,6 +12,7 @@ import { ROUTES } from '@/routes/ROUTES'
 export default function RoomLayout() {
   const { playMusic, setBackgroundImage } = useBackground()
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const roomCode = '3561'
 
@@ -20,7 +22,7 @@ export default function RoomLayout() {
   })
 
   return (
-    <div className='max-w-[1440px] max-h-[1080px] flex flex-col w-full h-full p-8 md:p-12 lg:p-20 gap-4'>
+    <div className='flex h-full max-h-[1080px] w-full max-w-[1440px] flex-col gap-4 p-8 pb-0 md:p-12 md:pb-0 lg:p-20 lg:pb-0'>
       <div className='flex flex-row flex-wrap gap-4 md:gap-6'>
         <Button
           size='md'
@@ -29,13 +31,13 @@ export default function RoomLayout() {
             navigator.clipboard.writeText(
               `${import.meta.env.VITE_BASE_URL}/room/${roomCode}`,
             )
-            alert('Room link copied to clipboard!')
+            alert(t('Room link copied to clipboard!'))
           }}
         >
-          Room #3561
+          {t('Room Code')} {roomCode}
           <Icon name='content_copy' />
         </Button>
-        <div className='grow-1 flex gap-4'>
+        <div className='flex grow-1 gap-4'>
           <SettingButtons />
           <Button
             size='md'
@@ -46,9 +48,9 @@ export default function RoomLayout() {
           </Button>
         </div>
       </div>
-      <div className='flex flex-row flex-wrap gap-4 md:gap-6'>
+      <div className='no-scrollbar flex flex-row flex-wrap gap-4 overflow-scroll md:gap-6'>
         <Outlet />
-        <Card className='flex grow-1 w-[320px]'>CHAT</Card>
+        <Card className='flex w-[320px] grow-1'>{t('Chat')}</Card>
       </div>
     </div>
   )

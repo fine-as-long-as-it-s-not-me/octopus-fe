@@ -15,7 +15,7 @@ export default function Card({ size = 'lg', children, className }: Props) {
   return (
     <div
       className={twMerge(
-        `rounded-full bg-white/35 border border-white/45 backdrop-blur-[3px] p-2 md:p-4`,
+        `rounded-full overflow-hidden bg-white/35 border border-white/45 backdrop-blur-[3px] p-2 md:p-4`,
         sizeClassName[size],
         className,
       )}
