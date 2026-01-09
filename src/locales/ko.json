@@ -9,8 +9,17 @@
   "languages": "언어",
   "Loading": "먹물 짜는 중",
   "press anywhere to continue": "계속하려면 아무 곳이나 누르세요",
-  "Random Room": "랜덤 방",
+  "Join Random Room": "랜덤 방 입장",
   "Use Room Code": "방 코드 사용",
   "Create Room": "방 만들기",
-  "Leaderboard": "리더보드"
+  "Leaderboard": "리더보드",
+  "Rounds": "라운드",
+  "Max Players": "최대 인원",
+  "Drawing Time (seconds)": "그리기 시간 (초)",
+  "Create": "만들기",
+  "Use Custom Words": "사용자 지정 단어 사용",
+  "Room Type": "방 유형",
+  "Public": "공개",
+  "Private": "비공개",
+  "Room Code": "방 코드"
 }

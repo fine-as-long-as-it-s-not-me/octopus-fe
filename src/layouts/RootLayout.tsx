@@ -24,10 +24,13 @@ function ModalProviderWrapper({ children }: { children: React.ReactNode }) {
       }}
       backdropAttributes={{
         className: 'fadeIn',
+        style: {
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        },
       }}
       modalWrapperAttributes={{
         style: {
-          width: '100%',
+          width: 'fit-content',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',

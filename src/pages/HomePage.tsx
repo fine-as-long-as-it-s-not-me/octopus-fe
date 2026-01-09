@@ -17,10 +17,19 @@ export default function HomePage() {
   const { t } = useTranslation()
   const [name, setName] = useState('')
   const avatarUrl = useAvatar(name)
+
+  const enterSubmitHandler = (e: React.FormEvent) => {
+    e.preventDefault()
+    navigate(ROUTES.LOBBY)
+  }
+
   return (
     <>
       <Card>
-        <Form onSubmit={() => {}} className='flex flex-col items-center gap-3'>
+        <Form
+          onSubmit={enterSubmitHandler}
+          className='flex flex-col items-center gap-3'
+        >
           <p>{t('Guest')}</p>
           <div className='flex md:flex-row flex-col gap-2 md:gap-4 items-center'>
             <Img
@@ -37,13 +46,7 @@ export default function HomePage() {
               maxLength={12}
             />
           </div>
-          <Button
-            size='sm'
-            type='submit'
-            onClick={() => {
-              navigate(ROUTES.LOBBY)
-            }}
-          >
+          <Button size='sm' type='submit'>
             {t('Enter')}
           </Button>
         </Form>
