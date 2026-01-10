@@ -1,10 +1,12 @@
 import { Outlet } from 'react-router-dom'
 
+import Card from '@/components/common/Card'
+
 export default function GameLayout() {
   return (
-    <div>
-      Game Layout
+    <>
+      <Card>Game Layout</Card>
       <Outlet />
-    </div>
+    </>
   )
 }

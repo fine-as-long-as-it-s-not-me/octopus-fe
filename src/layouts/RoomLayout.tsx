@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import Button from '@/components/common/Button'
-import Card from '@/components/common/Card'
 import Icon from '@/components/common/Icon'
 import SettingButtons from '@/components/common/SettingButtons'
 import { useBackground } from '@/context/BackgroundContext'
@@ -50,7 +49,6 @@ export default function RoomLayout() {
       </div>
       <div className='no-scrollbar flex flex-row flex-wrap gap-4 overflow-scroll md:gap-6'>
         <Outlet />
-        <Card className='flex w-[320px] grow-1'>{t('Chat')}</Card>
       </div>
     </div>
   )
