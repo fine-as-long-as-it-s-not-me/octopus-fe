@@ -1,3 +1,5 @@
+import Card from '@/components/common/Card'
+
 export default function KeywordPage() {
-  return <div>Keyword Page</div>
+  return <Card>Keyword Page</Card>
 }
