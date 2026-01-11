@@ -28,7 +28,7 @@ jobs:
           context: .
           push: true
           platforms: linux/arm64
-          tags: ${{ secrets.OCI_REGISTRY }}/${{ secrets.OCI_NAMESPACE }}/findtheoctopus-fe:dev
+          tags: ${{ secrets.OCI_REGISTRY }}/axslwmgnmqcx/findtheoctopus-fe:dev
 
   deploy:
     needs: build-and-push
@@ -42,10 +42,10 @@ jobs:
           key: ${{ secrets.OCI_KEY }}
           script: |
             echo ${{ secrets.OCI_AUTH_TOKEN }} | docker login ${{ secrets.OCI_REGISTRY }} -u ${{ secrets.OCI_USERNAME }} --password-stdin
-            docker pull ${{ secrets.OCI_REGISTRY }}/${{ secrets.OCI_NAMESPACE }}/findtheoctopus-fe:dev
+            docker pull ${{ secrets.OCI_REGISTRY }}/axslwmgnmqcx/findtheoctopus-fe:dev
             docker stop octopus-fe || true
             docker rm octopus-fe || true
             
             docker run -d --name octopus-fe -p 80:80 \
               --platform linux/arm64 \
-              ${{ secrets.OCI_REGISTRY }}/${{ secrets.OCI_NAMESPACE }}/findtheoctopus-fe:dev
+              ${{ secrets.OCI_REGISTRY }}/axslwmgnmqcx/findtheoctopus-fe:dev
