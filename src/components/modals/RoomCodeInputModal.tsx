@@ -26,7 +26,6 @@ export default function RoomCodeInputModal() {
       >
         <Input
           placeholder='Enter Room Code'
-          required
           className='w-full'
           value={roomCode}
           onChange={e => setRoomCode(e.target.value)}
