@@ -1,12 +1,16 @@
 import { Outlet, useBlocker } from 'react-router-dom'
 import { ModalProvider, useModal } from 'sam-react-modal'
 
+import RoomProvider from '@/context/RoomProvider'
+
 export default function RootLayout() {
   return (
     <ModalProviderWrapper>
-      <div className='h-dvh w-dvw overflow-hidden no-scrollbar flex flex-col justify-center items-center'>
-        <Outlet />
-      </div>
+      <RoomProvider>
+        <div className='no-scrollbar flex h-dvh w-dvw flex-col items-center justify-center overflow-hidden'>
+          <Outlet />
+        </div>
+      </RoomProvider>
     </ModalProviderWrapper>
   )
 }

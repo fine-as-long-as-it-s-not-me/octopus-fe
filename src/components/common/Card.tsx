@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge'
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   size?: 'sm' | 'md' | 'lg'
   children?: React.ReactNode
   className?: string
@@ -8,14 +8,14 @@ interface Props {
 
 export default function Card({ size = 'lg', children, className }: Props) {
   const sizeClassName = {
-    sm: 'text-sm md:text-base rounded-full w-fit',
-    md: 'text-lg rounded-2xl w-full',
-    lg: 'text-lg rounded-xl w-full',
+    sm: 'text-sm md:text-base rounded-full w-fit px-2.5 py-2',
+    md: 'text-lg rounded-2xl w-full p-3 md:p-4',
+    lg: 'text-lg rounded-xl w-full p-3 md:p-4',
   }
   return (
     <div
       className={twMerge(
-        `rounded-full overflow-hidden bg-white/35 border border-white/45 backdrop-blur-[3px] p-2 md:p-4`,
+        `overflow-hidden rounded-full border border-white/45 bg-white/70 backdrop-blur-[3px]`,
         sizeClassName[size],
         className,
       )}

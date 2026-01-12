@@ -4,12 +4,13 @@ import EntryLayout from '@/layouts/EntryLayout'
 import GameLayout from '@/layouts/GameLayout'
 import RoomLayout from '@/layouts/RoomLayout'
 import RootLayout from '@/layouts/RootLayout'
-import DiscussionPage from '@/pages/DiscussionPage'
-import DrawingPage from '@/pages/DrawingPage'
+import DiscussionPage from '@/pages/game/DiscussionPage'
+import DrawingPage from '@/pages/game/DrawingPage'
+import KeywordPage from '@/pages/game/KeywordPage'
+import ResultPage from '@/pages/game/ResultPage'
 import HomePage from '@/pages/HomePage'
-import KeywordPage from '@/pages/KeywordPage'
+import KeywordSettingPage from '@/pages/KeywordSettingPage'
 import LobbyPage from '@/pages/LobbyPage'
-import ResultPage from '@/pages/ResultPage'
 import RoomPage from '@/pages/RoomPage'
 import { ROUTES } from './ROUTES'
 
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
           {
             element: <RoomPage />,
             path: ROUTES.ROOM(':roomId'),
+          },
+          {
+            element: <KeywordSettingPage />,
+            path: ROUTES.KEYWORD_SETTING(':roomId'),
           },
           {
             Component: () => <GameLayout />,

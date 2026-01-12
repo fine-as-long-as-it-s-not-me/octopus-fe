@@ -22,7 +22,7 @@ export default function RoomCodeInputModal() {
     <Modal>
       <Form
         onSubmit={roomCodeSubmitHandler}
-        className='flex flex-col gap-4 items-center w-full'
+        className='flex w-full flex-col items-center gap-4'
       >
         <Input
           placeholder='Enter Room Code'

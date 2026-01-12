@@ -1,3 +1,6 @@
+import Button from '../common/Button'
+import Card from '../common/Card'
+
 interface Props {
   icon: React.ReactNode
   label: string
@@ -5,17 +8,24 @@ interface Props {
   onClick?: () => void
 }
 export default function SettingItem({ icon, label, value, onClick }: Props) {
+  if (onClick) {
+    return (
+      <Button cardClassName='justify-between' onClick={onClick}>
+        <div className='flex flex-row items-center justify-start gap-4'>
+          {icon}
+          <span className='font-medium'>{label}</span>
+        </div>
+        <span className='text-gray-600'>{value}</span>
+      </Button>
+    )
+  }
   return (
-    <button
-      className='w-full flex flex-row items-center justify-between p-4 border border-gray-300 rounded-lg hover:bg-gray-100'
-      onClick={onClick}
-      disabled={!onClick}
-    >
-      <div className='flex flex-row items-center gap-4'>
+    <Card className={`flex justify-between`}>
+      <div className='flex flex-row items-center justify-start gap-4'>
         {icon}
         <span className='font-medium'>{label}</span>
       </div>
       <span className='text-gray-600'>{value}</span>
-    </button>
+    </Card>
   )
 }

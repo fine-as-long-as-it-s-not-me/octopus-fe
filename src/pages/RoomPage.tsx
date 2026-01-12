@@ -1,13 +1,16 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Spacing, useModal } from 'sam-react-modal'
 
 import ChatCard from '@/components/chat/ChatCard'
+import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
 import Icon from '@/components/common/Icon'
 import SettingItem from '@/components/game/SettingItem'
 import CreateRoomModal from '@/components/modals/CreateRoomModal'
 import PlayersCard from '@/components/player/PlayersCard'
+import { useRoom } from '@/context/RoomContext'
 import { ROUTES } from '@/routes/ROUTES'
 
 export default function RoomPage() {
@@ -15,6 +18,20 @@ export default function RoomPage() {
   const navigate = useNavigate()
   const roomId = 'roomIdGoesHere'
   const { openModal } = useModal()
+
+  const { setCloseButton } = useRoom()
+
+  useEffect(() => {
+    setCloseButton(
+      <Button size='md' onClick={() => navigate(ROUTES.LOBBY)}>
+        <Icon name={'logout'} />
+      </Button>,
+    )
+  }, [navigate, setCloseButton])
+
+  const startGameClickHandler = () => {
+    navigate(ROUTES.KEYWORD(roomId))
+  }
 
   const settings = [
     { label: 'Rounds', value: 5, icon: 'change_circle' },
@@ -24,7 +41,7 @@ export default function RoomPage() {
     {
       label: 'Custom Words',
       value: 'On',
-      onClick: () => navigate(ROUTES.KEYWORD(roomId)),
+      onClick: () => navigate(ROUTES.KEYWORD_SETTING(roomId)),
       icon: 'abc',
     },
     { label: 'Room Type', value: 'Private', icon: 'lock' },
@@ -32,27 +49,32 @@ export default function RoomPage() {
   return (
     <>
       <PlayersCard />
-      <Card className='flex w-[320px] grow flex-col'>
-        <button
-          className='flex flex-row items-center justify-center gap-2 p-2 pt-0'
-          onClick={() => openModal(<CreateRoomModal />)}
-        >
-          <p>{t('Game Settings')}</p>
-          <Icon name='arrow_forward' />
-        </button>
-        <Spacing />
-        <div className='flex flex-col gap-4'>
-          {settings.map(({ label, value, onClick, icon }) => (
-            <SettingItem
-              key={label}
-              icon={<Icon name={icon} />}
-              label={t(label)}
-              value={value}
-              onClick={onClick}
-            />
-          ))}
-        </div>
-      </Card>
+      <div className='flex flex-col gap-4 md:gap-6'>
+        <Card className='flex w-[320px] grow flex-col'>
+          <button
+            className='flex flex-row items-center justify-center gap-2 p-2 pt-0'
+            onClick={() => openModal(<CreateRoomModal />)}
+          >
+            <p>{t('Game Settings')}</p>
+            <Icon name='arrow_forward' />
+          </button>
+          <Spacing />
+          <div className='flex flex-col gap-4'>
+            {settings.map(({ label, value, onClick, icon }) => (
+              <SettingItem
+                key={label}
+                icon={<Icon name={icon} />}
+                label={t(label)}
+                value={value}
+                onClick={onClick}
+              />
+            ))}
+          </div>
+        </Card>
+        <Button className='flex grow-2' onClick={startGameClickHandler}>
+          <h1>{t('Start Game')}</h1>
+        </Button>
+      </div>
       <ChatCard />
     </>
   )
