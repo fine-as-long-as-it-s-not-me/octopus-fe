@@ -1,23 +1,23 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 import Button from '@/components/common/Button'
 import Icon from '@/components/common/Icon'
 import SettingButtons from '@/components/common/SettingButtons'
 import { useBackground } from '@/context/BackgroundContext'
-import { ROUTES } from '@/routes/ROUTES'
+import { useRoom } from '@/context/RoomContext'
 
 export default function RoomLayout() {
   const { playMusic, setBackgroundImage } = useBackground()
-  const navigate = useNavigate()
   const { t } = useTranslation()
 
-  const roomCode = '3561'
+  const { setRoomCode, roomCode, closeButton } = useRoom()
 
   useEffect(() => {
     playMusic('lobby')
     setBackgroundImage('room')
+    setRoomCode('ABCD1234')
   })
 
   return (
@@ -33,21 +33,15 @@ export default function RoomLayout() {
             alert(t('Room link copied to clipboard!'))
           }}
         >
-          {t('Room Code')} {roomCode}
+          {t('Room Code')} #{roomCode}
           <Icon name='content_copy' />
         </Button>
         <div className='flex grow-1 gap-4'>
           <SettingButtons />
-          <Button
-            size='md'
-            onClick={() => navigate(ROUTES.LOBBY)}
-            className='grow-1'
-          >
-            <Icon name={'logout'} />
-          </Button>
+          {closeButton}
         </div>
       </div>
-      <div className='no-scrollbar flex flex-row flex-wrap gap-4 overflow-scroll md:gap-6'>
+      <div className='no-scrollbar flex h-[80vh] flex-row flex-wrap gap-4 overflow-scroll md:gap-6'>
         <Outlet />
       </div>
     </div>
