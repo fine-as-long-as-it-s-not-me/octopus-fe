@@ -6,7 +6,7 @@ import Img from '../common/Img'
 
 interface Props {
   name: string
-  size: 'sm' | 'md'
+  size?: 'sm' | 'md'
 }
 
 export default function Profile({ name, size = 'md' }: Props) {
