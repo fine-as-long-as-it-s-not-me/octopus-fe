@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useUser } from '@/context/UserContext'
 import Card from '../common/Card'
 import Form from '../common/Form'
 import Input from '../common/Input'
@@ -15,6 +16,7 @@ export default function ChatCard() {
     { author: mockAuthor, message: mockMessage },
   ])
   const [message, setMessage] = useState('')
+  const { name, id } = useUser()
 
   const chatListRef = useRef<HTMLDivElement>(null)
 
@@ -31,7 +33,7 @@ export default function ChatCard() {
           if (message.trim() === '') return
           setChatBubbles([
             ...chatBubbles,
-            { author: mockAuthor, message: message },
+            { author: { name, id }, message: message },
           ])
           setMessage('')
           if (chatListRef.current) {

@@ -1,7 +1,6 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { Spacing } from 'sam-react-modal'
+import { Spacing, useModal } from 'sam-react-modal'
 
 import chzzkIcon from '@/assets/images/icons/chzzk.png'
 import Button from '@/components/common/Button'
@@ -9,17 +8,23 @@ import Card from '@/components/common/Card'
 import Form from '@/components/common/Form'
 import Img from '@/components/common/Img'
 import Input from '@/components/common/Input'
+import Alert from '@/components/modals/Alert'
+import { useUser } from '@/context/UserContext'
 import useAvatar from '@/hooks/useAvatar'
 import { ROUTES } from '@/routes/ROUTES'
 
 export default function HomePage() {
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const [name, setName] = useState('')
-  const avatarUrl = useAvatar(name)
 
+  const { name, setName } = useUser()
+  const { openModal } = useModal()
+
+  const avatarUrl = useAvatar(name)
   const enterSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!name.trim())
+      return openModal(<Alert>{t('Please enter your name.')}</Alert>)
     navigate(ROUTES.LOBBY)
   }
 
@@ -31,9 +36,9 @@ export default function HomePage() {
           className='flex flex-col items-center gap-3'
         >
           <p>{t('Guest')}</p>
-          <div className='flex md:flex-row flex-col gap-2 md:gap-4 items-center'>
+          <div className='flex flex-col items-center gap-2 md:flex-row md:gap-4'>
             <Img
-              className='rounded-full m-[-24px]'
+              className='m-[-24px] rounded-full'
               width={120}
               height={120}
               src={avatarUrl}
@@ -46,7 +51,7 @@ export default function HomePage() {
               maxLength={12}
             />
           </div>
-          <Button size='sm' type='submit'>
+          <Button size='md' type='submit'>
             {t('Enter')}
           </Button>
         </Form>
