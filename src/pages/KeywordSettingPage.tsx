@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -7,12 +7,18 @@ import Card from '@/components/common/Card'
 import Form from '@/components/common/Form'
 import Icon from '@/components/common/Icon'
 import Input from '@/components/common/Input'
+import KeywordListItem from '@/components/game/KeywordListItem'
 import { useRoom } from '@/context/RoomContext'
+import { useUser } from '@/context/UserContext'
+import type { Keyword } from '@/types'
 
 export default function KeywordSettingPage() {
   const navigate = useNavigate()
   const { setCloseButton } = useRoom()
   const { t } = useTranslation()
+  const { id, name } = useUser()
+
+  const [keywords, setKeywords] = useState<Keyword[]>([])
 
   useEffect(() => {
     setCloseButton(
@@ -21,16 +27,44 @@ export default function KeywordSettingPage() {
       </Button>,
     )
   }, [navigate, setCloseButton])
+
+  const addKeywordHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const word = formData.get('customWord') as string
+    if (!word) return
+    const newKeyword: Keyword = {
+      id: crypto.randomUUID(),
+      word,
+      addedBy: {
+        id,
+        name,
+      },
+      votes: 1,
+    }
+    setKeywords(prevKeywords => [...prevKeywords, newKeyword])
+    e.currentTarget.reset()
+  }
+
   return (
     <div className='flex flex-row gap-4 md:gap-6'>
       <div className='flex w-1/2 grow flex-col gap-4'>
         <Card className='flex flex-col items-center gap-4'>
           {t('Custom Word List')}
+          <div className='flex flex-row flex-wrap justify-center gap-2 p-4'>
+            {keywords.map(keyword => (
+              <KeywordListItem key={keyword.id} keyword={keyword} />
+            ))}
+          </div>
           <Form
-            onSubmit={() => {}}
+            onSubmit={addKeywordHandler}
             className='flex flex-row items-center gap-2'
           >
-            <Input shape='sm'></Input>
+            <Input
+              shape='sm'
+              placeholder={t('Enter a custom word')}
+              name='customWord'
+            ></Input>
             <Button type='submit' size='sm'>
               {t('Add')}
             </Button>

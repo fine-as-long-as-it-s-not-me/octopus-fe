@@ -3,3 +3,10 @@ export interface Player {
   name: string
   photoUrl?: string
 }
+
+export interface Keyword {
+  id: string
+  word: string
+  addedBy: Player
+  votes: number
+}
