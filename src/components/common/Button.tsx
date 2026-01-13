@@ -33,6 +33,11 @@ export default function Button({
     md: '',
     lg: 'w-full',
   }
+  const sizeCardClassName = {
+    sm: '',
+    md: 'py-1.5 md:py-2',
+    lg: '',
+  }
   const defaultClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     playSoundEffect(disabled ? 'toong' : size == 'lg' ? 'chung' : 'ddok!')
@@ -57,6 +62,7 @@ export default function Button({
         className={twMerge(
           'flex items-center justify-center gap-4 transition-transform active:scale-95',
           active ? 'bg-black/75 text-white' : '',
+          sizeCardClassName[size],
           cardClassName,
         )}
       >

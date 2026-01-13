@@ -14,19 +14,26 @@ export default function SettingButtons() {
     <>
       <Button
         size='md'
-        className='grow-1'
+        className='grow'
+        cardClassName='py-2 md:py-3'
         onClick={() => {
           openModal(<LanguageSelectModal />)
         }}
       >
         <Icon name='translate' />
       </Button>
-      <Button size='md' className='grow-1' onClick={() => muteMusicToggle()}>
+      <Button
+        size='md'
+        className='grow'
+        cardClassName='py-2 md:py-3'
+        onClick={() => muteMusicToggle()}
+      >
         <Icon name={isMuted ? 'music_off' : 'music_note'} />
       </Button>
       <Button
         size='md'
-        className='grow-1'
+        className='grow'
+        cardClassName='py-2 md:py-3'
         onClick={() => muteSoundEffectToggle()}
       >
         <Icon name={isEffectMuted ? 'volume_off' : 'volume_up'} />
