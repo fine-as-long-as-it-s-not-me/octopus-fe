@@ -1,3 +1,5 @@
+import { twMerge } from 'tailwind-merge'
+
 interface Props {
   children?: React.ReactNode
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
@@ -11,7 +13,7 @@ export default function Form({ children, onSubmit, className }: Props) {
         e.preventDefault()
         onSubmit(e)
       }}
-      className={className}
+      className={twMerge('h-fit', className)}
     >
       {children}
     </form>
