@@ -23,7 +23,11 @@ export default function RoomPage() {
 
   useEffect(() => {
     setCloseButton(
-      <Button size='md' onClick={() => navigate(ROUTES.LOBBY)}>
+      <Button
+        size='md'
+        onClick={() => navigate(ROUTES.LOBBY)}
+        cardClassName='py-2 md:py-3'
+      >
         <Icon name={'logout'} />
       </Button>,
     )
@@ -40,11 +44,11 @@ export default function RoomPage() {
     { label: 'Drawing Time (seconds)', value: '60s', icon: 'timer' },
     {
       label: 'Custom Words',
-      value: 'On',
+      value: t('On'),
       onClick: () => navigate(ROUTES.KEYWORD_SETTING(roomId)),
       icon: 'abc',
     },
-    { label: 'Room Type', value: 'Private', icon: 'lock' },
+    { label: 'Room Type', value: t('Private'), icon: 'lock' },
   ]
   return (
     <>

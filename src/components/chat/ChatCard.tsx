@@ -15,7 +15,6 @@ export default function ChatCard() {
   const [chatBubbles, setChatBubbles] = useState([
     { author: mockAuthor, message: mockMessage },
   ])
-  const [message, setMessage] = useState('')
   const { name, id } = useUser()
 
   const chatListRef = useRef<HTMLDivElement>(null)
@@ -29,13 +28,19 @@ export default function ChatCard() {
       </div>
       <Form
         className='mt-auto w-full rounded-t-none'
-        onSubmit={() => {
-          if (message.trim() === '') return
-          setChatBubbles([
-            ...chatBubbles,
-            { author: { name, id }, message: message },
-          ])
-          setMessage('')
+        onSubmit={e => {
+          e.preventDefault()
+          const formData = new FormData(e.currentTarget)
+          const message = formData.get('chatMessage') as string
+          if (!message.trim()) return
+          const newMessage = {
+            author: { name, id },
+            message,
+          }
+          setChatBubbles(prevBubbles => [...prevBubbles, newMessage])
+
+          e.currentTarget.reset()
+
           if (chatListRef.current) {
             chatListRef.current.scrollTop = chatListRef.current.scrollHeight
           }
@@ -44,8 +49,7 @@ export default function ChatCard() {
         <Input
           placeholder={t('Type your message...')}
           className='w-full rounded-t-none'
-          value={message}
-          onChange={e => setMessage(e.target.value)}
+          name='chatMessage'
         />
       </Form>
     </Card>

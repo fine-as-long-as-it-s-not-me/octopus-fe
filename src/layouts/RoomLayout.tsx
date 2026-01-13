@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
+import { useModal } from 'sam-react-modal'
 
 import Button from '@/components/common/Button'
 import Icon from '@/components/common/Icon'
 import SettingButtons from '@/components/common/SettingButtons'
+import Alert from '@/components/modals/Alert'
 import { useBackground } from '@/context/BackgroundContext'
 import { useRoom } from '@/context/RoomContext'
 
@@ -13,6 +15,7 @@ export default function RoomLayout() {
   const { t } = useTranslation()
 
   const { setRoomCode, roomCode, closeButton } = useRoom()
+  const { openModal } = useModal()
 
   useEffect(() => {
     playMusic('lobby')
@@ -26,11 +29,12 @@ export default function RoomLayout() {
         <Button
           size='md'
           className='min-w-[360px] grow-1'
+          cardClassName='py-2 md:py-3'
           onClick={() => {
             navigator.clipboard.writeText(
               `${import.meta.env.VITE_BASE_URL}/room/${roomCode}`,
             )
-            alert(t('Room link copied to clipboard!'))
+            openModal(<Alert>{t('Room link copied to clipboard!')}</Alert>)
           }}
         >
           {t('Room Code')} #{roomCode}

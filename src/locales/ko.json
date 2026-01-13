@@ -28,7 +28,6 @@
   "Start Game": "게임 시작",
   "Game Settings": "게임 설정",
   "Chat": "채팅",
-  "Room link copied to clipboard!": "방 링크가 클립보드에 복사되었습니다!",
   "Type your message...": "메시지를 입력하세요...",
   "Add": "추가",
   "Remove": "제거",
@@ -41,5 +40,10 @@
   "Close Vote": "투표 닫기",
   "Please enter your name.": "이름을 입력해주세요.",
   "Please enter the room code.": "방 코드를 입력해주세요.",
-  "Enter the room code.": "방 코드를 입력하세요."
+  "Enter the room code.": "방 코드를 입력하세요.",
+  "Room link copied to clipboard!": "방 링크가 클립보드에 복사되었습니다!",
+  "Enter new custom word": "새 사용자 지정 단어 입력",
+  "OK": "확인",
+  "s": "초",
+  "On": "사용"
 }

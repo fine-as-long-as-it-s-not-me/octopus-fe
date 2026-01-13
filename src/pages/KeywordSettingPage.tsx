@@ -22,7 +22,11 @@ export default function KeywordSettingPage() {
 
   useEffect(() => {
     setCloseButton(
-      <Button size='md' onClick={() => navigate(-1)}>
+      <Button
+        size='md'
+        onClick={() => navigate(-1)}
+        cardClassName='py-2 md:py-3'
+      >
         <Icon name={'arrow_back'} />
       </Button>,
     )
@@ -62,7 +66,7 @@ export default function KeywordSettingPage() {
           >
             <Input
               shape='sm'
-              placeholder={t('Enter a custom word')}
+              placeholder={t('Enter new custom word')}
               name='customWord'
             ></Input>
             <Button type='submit' size='sm'>
@@ -82,7 +86,7 @@ export default function KeywordSettingPage() {
               `Anyone with the link can vote words to register. This feature is recommended to use with setting ‘Minimum votes to get registered’ to more than 0 to prevent trolls.`,
             )}
           </p>
-          <Button size='sm' cardClassName='gap-2 px-4 py-3 md:px-6 md:py-4'>
+          <Button size='md' cardClassName='gap-2 px-4 py-3 md:px-6 md:py-4'>
             <p>{t('Copy vote link')}</p>
             <Icon name='content_copy' />
           </Button>
