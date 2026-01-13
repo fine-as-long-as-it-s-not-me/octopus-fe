@@ -42,26 +42,26 @@ const router = createBrowserRouter([
             element: <KeywordSettingPage />,
             path: ROUTES.KEYWORD_SETTING(':roomId'),
           },
+        ],
+      },
+      {
+        Component: () => <GameLayout />,
+        children: [
           {
-            Component: () => <GameLayout />,
-            children: [
-              {
-                element: <DrawingPage />,
-                path: ROUTES.DRAWING(':roomId'),
-              },
-              {
-                element: <KeywordPage />,
-                path: ROUTES.KEYWORD(':roomId'),
-              },
-              {
-                element: <DiscussionPage />,
-                path: ROUTES.DISCUSSION(':roomId'),
-              },
-              {
-                element: <ResultPage />,
-                path: ROUTES.RESULT(':roomId'),
-              },
-            ],
+            element: <DrawingPage />,
+            path: ROUTES.DRAWING(':roomId'),
+          },
+          {
+            element: <KeywordPage />,
+            path: ROUTES.KEYWORD(':roomId'),
+          },
+          {
+            element: <DiscussionPage />,
+            path: ROUTES.DISCUSSION(':roomId'),
+          },
+          {
+            element: <ResultPage />,
+            path: ROUTES.RESULT(':roomId'),
           },
         ],
       },

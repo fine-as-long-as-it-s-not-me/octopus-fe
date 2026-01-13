@@ -19,7 +19,7 @@ export default function PlayersCard() {
   const { t } = useTranslation()
 
   return (
-    <Card className='flex w-[320px] grow flex-col gap-2'>
+    <Card className='flex w-fit grow-1 flex-col gap-2'>
       <div className='flex flex-row items-center justify-center gap-2'>
         <Icon name='group' />
         <p>
@@ -27,7 +27,7 @@ export default function PlayersCard() {
         </p>
       </div>
       <Spacing />
-      <div className='flex flex-row flex-wrap gap-4'>
+      <div className='flex flex-col items-start gap-6'>
         {players.map(player => (
           <Profile key={player} name={player} />
         ))}
