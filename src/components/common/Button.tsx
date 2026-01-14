@@ -40,7 +40,7 @@ export default function Button({
   }
   const defaultClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
-    playSoundEffect(disabled ? 'toong' : size == 'lg' ? 'chung' : 'ddok!')
+    playSoundEffect(disabled ? 'toong' : size == 'lg' ? 'chung' : 'pop')
   }
 
   return (

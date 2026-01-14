@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 
 import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
@@ -8,29 +7,14 @@ import Form from '@/components/common/Form'
 import Icon from '@/components/common/Icon'
 import Input from '@/components/common/Input'
 import KeywordListItem from '@/components/game/KeywordListItem'
-import { useRoom } from '@/context/RoomContext'
 import { useUser } from '@/context/UserContext'
 import type { Keyword } from '@/types'
 
-export default function KeywordSettingPage() {
-  const navigate = useNavigate()
-  const { setCloseButton } = useRoom()
+export default function CustomWordPage() {
   const { t } = useTranslation()
   const { id, name } = useUser()
 
   const [keywords, setKeywords] = useState<Keyword[]>([])
-
-  useEffect(() => {
-    setCloseButton(
-      <Button
-        size='md'
-        onClick={() => navigate(-1)}
-        cardClassName='py-2 md:py-3'
-      >
-        <Icon name={'arrow_back'} />
-      </Button>,
-    )
-  }, [navigate, setCloseButton])
 
   const addKeywordHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -56,9 +40,13 @@ export default function KeywordSettingPage() {
         <Card className='flex flex-col items-center gap-4'>
           {t('Custom Word List')}
           <div className='flex flex-row flex-wrap justify-center gap-2 p-4'>
-            {keywords.map(keyword => (
-              <KeywordListItem key={keyword.id} keyword={keyword} />
-            ))}
+            {keywords.length ? (
+              keywords.map(keyword => (
+                <KeywordListItem key={keyword.id} keyword={keyword} />
+              ))
+            ) : (
+              <p className='text-black/50'>{t('No custom words added yet.')}</p>
+            )}
           </div>
           <Form
             onSubmit={addKeywordHandler}
@@ -94,7 +82,18 @@ export default function KeywordSettingPage() {
         <Card>
           <Form onSubmit={() => {}} className='flex flex-col gap-2'>
             <h2>{t('Minimum votes to get registered')}</h2>
-            <Input shape='sm' type='number' min={0} defaultValue={0}></Input>
+            <Input
+              shape='sm'
+              type='number'
+              min={0}
+              defaultValue={0}
+              onChange={e => {
+                e.currentTarget.value = Math.max(
+                  0,
+                  parseInt(e.currentTarget.value) || 0,
+                ).toString()
+              }}
+            ></Input>
           </Form>
         </Card>
       </div>

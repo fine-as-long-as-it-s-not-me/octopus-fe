@@ -45,5 +45,7 @@
   "Enter new custom word": "새 사용자 지정 단어 입력",
   "OK": "확인",
   "s": "초",
-  "On": "사용"
+  "On": "사용",
+  "Off": "사용 안 함",
+  "No custom words added yet.": "아직 추가된 사용자 지정 단어가 없습니다."
 }

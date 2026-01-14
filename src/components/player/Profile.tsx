@@ -1,7 +1,6 @@
 import { twMerge } from 'tailwind-merge'
 
 import useAvatar from '@/hooks/useAvatar'
-import Card from '../common/Card'
 import Img from '../common/Img'
 
 interface Props {
@@ -16,19 +15,12 @@ export default function Profile({ name, size = 'md' }: Props) {
     md: 'gap-2',
   }
   return (
-    <div
-      className={twMerge(
-        `m-[-2px] flex w-fit grow items-center rounded-full`,
-        sizeClassName[size],
-      )}
-    >
-      {size === 'md' ? (
-        <Card size='sm' className='p-0 md:p-0'>
-          <Img src={avatarUrl} alt={`${name}'s avatar`} className='h-16 w-16' />
-        </Card>
-      ) : (
-        <Img src={avatarUrl} alt={`${name}'s avatar`} className='h-12 w-12' />
-      )}
+    <div className={twMerge(`m-[-2px] flex items-center`, sizeClassName[size])}>
+      <Img
+        src={avatarUrl}
+        alt={`${name}'s avatar`}
+        className={size === 'sm' ? 'h-12 w-12' : 'h-16 w-16'}
+      />
       {name}
     </div>
   )

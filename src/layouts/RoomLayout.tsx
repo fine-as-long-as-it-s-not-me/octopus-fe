@@ -11,16 +11,15 @@ import { useBackground } from '@/context/BackgroundContext'
 import { useRoom } from '@/context/RoomContext'
 
 export default function RoomLayout() {
-  const { playMusic, setBackgroundImage } = useBackground()
   const { t } = useTranslation()
+  const { playMusic, setBackgroundImage } = useBackground()
 
-  const { setRoomCode, roomCode, closeButton } = useRoom()
+  const { roomCode, CloseButton } = useRoom()
   const { openModal } = useModal()
 
   useEffect(() => {
-    playMusic('lobby')
+    playMusic('waiting')
     setBackgroundImage('room')
-    setRoomCode('ABCD1234')
   })
 
   return (
@@ -42,7 +41,7 @@ export default function RoomLayout() {
         </Button>
         <div className='flex grow-1 gap-4'>
           <SettingButtons />
-          {closeButton}
+          <CloseButton />
         </div>
       </div>
       <div className='no-scrollbar flex h-[80vh] flex-row flex-wrap gap-4 overflow-scroll md:gap-6'>

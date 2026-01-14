@@ -10,3 +10,22 @@ export interface Keyword {
   addedBy: Player
   votes: number
 }
+
+export type Phase =
+  | 'waiting'
+  | 'keyword'
+  | 'drawing'
+  | 'discussion'
+  | 'voting'
+  | 'vote-result'
+  | 'result'
+  | 'guessing'
+
+export interface Setting {
+  rounds: number
+  maxPlayers: number
+  liars: number
+  drawingTime: number
+  customWords: boolean
+  roomType: 'public' | 'private'
+}

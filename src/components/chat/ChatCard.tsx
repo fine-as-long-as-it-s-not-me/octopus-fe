@@ -20,7 +20,7 @@ export default function ChatCard() {
   const chatListRef = useRef<HTMLDivElement>(null)
 
   return (
-    <Card className='flex h-full w-[320px] grow-1 flex-col p-0 md:p-0 lg:p-0'>
+    <Card className='flex h-full w-[320px] grow-3 flex-col p-0 md:p-0 lg:p-0'>
       <div className='no-scrollbar h-full overflow-scroll' ref={chatListRef}>
         {chatBubbles.map(({ author, message }, index) => (
           <Bubble key={index} author={author} message={message} />
