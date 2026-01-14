@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMatch, useNavigate } from 'react-router-dom'
 import { useModal } from 'sam-react-modal'
@@ -6,26 +6,13 @@ import { useModal } from 'sam-react-modal'
 import Button from '@/components/common/Button'
 import Icon from '@/components/common/Icon'
 import Confirm from '@/components/modals/Confirm'
+import { useRoomSocket } from '@/hooks/useRoomSocket'
 import { ROUTES } from '@/routes/ROUTES'
-import type { Phase, Player, Setting } from '@/types'
 import { RoomContext } from './RoomContext'
 
-const PHASES: Record<Phase, { label: string; time: number; nextPhase: Phase }> =
-  {
-    waiting: { label: 'waiting', time: 0, nextPhase: 'keyword' },
-    keyword: { label: 'keyword', time: 10, nextPhase: 'drawing' },
-    drawing: { label: 'drawing', time: 20, nextPhase: 'discussion' },
-    discussion: { label: 'discussion', time: 15, nextPhase: 'voting' },
-    voting: { label: 'voting', time: 10, nextPhase: 'vote-result' },
-    'vote-result': { label: 'vote-result', time: 15, nextPhase: 'guessing' },
-    guessing: { label: 'guessing', time: 10, nextPhase: 'result' },
-    result: { label: 'result', time: 15, nextPhase: 'keyword' },
-  }
-
 export default function RoomProvider({ children }: { children: ReactNode }) {
-  const [roomCode, setRoomCode] = useState<string>('ABCD1234')
-  const [players, setPlayers] = useState<Player[]>([])
-  const [phase, setPhase] = useState<Phase>('waiting')
+  const [roomCode, setRoomCode] = useState<string>('A234')
+  const { round, setting, timeLeft, phase, players } = useRoomSocket(roomCode)
   const phaseDescription = useMemo(() => {
     switch (phase) {
       case 'waiting':
@@ -48,46 +35,35 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
         return ''
     }
   }, [phase])
-  const [timeLeft, setTimeLeft] = useState<number>(0)
-  const [round, setRound] = useState<number>(0)
-  const [setting] = useState<Setting>({
-    rounds: 3,
-    maxPlayers: 8,
-    liars: 1,
-    drawingTime: 60,
-    customWords: true,
-    roomType: 'public',
-  })
 
   const { t } = useTranslation()
   const { openModal } = useModal()
   const navigate = useNavigate()
 
-  const isRoomPage = useMatch(ROUTES.ROOM(roomCode))
-  const isCustomWordPage = useMatch(ROUTES.CUSTOM_WORD(roomCode))
-  const isGamePage = useMatch(ROUTES.GAME(`${roomCode}/*`))
+  const isRoomPage = useMatch(ROUTES.ROOM(':roomCode'))
+  const isCustomWordPage = useMatch(ROUTES.CUSTOM_WORD(':roomCode'))
+  const isGamePage = useMatch(ROUTES.GAME('*'))
+  console.log({ isRoomPage, isCustomWordPage, isGamePage })
 
-  const startGame = () => {
-    setPhase('keyword')
-    setInterval(() => {
-      setTimeLeft(prev => (prev > 0 ? prev - 1 : 0))
-    }, 1000)
-    setRound(1)
-  }
-
-  useEffect(() => {
-    if (timeLeft === 0) {
-      const newPhase = PHASES[phase].nextPhase
-      setPhase(newPhase)
-      setTimeLeft(PHASES[newPhase].time)
-    }
-  }, [timeLeft, phase])
+  const startGame = () => {}
 
   function CloseButton() {
-    if (isRoomPage || isGamePage)
+    if (isCustomWordPage)
       return (
         <Button
           cardClassName='py-2 md:py-3'
+          size='md'
+          onClick={() => {
+            navigate(ROUTES.ROOM(roomCode))
+          }}
+        >
+          <Icon name='arrow_back' />
+        </Button>
+      )
+    if (isRoomPage || isGamePage)
+      return (
+        <Button
+          cardClassName='py-2 md:py-3 h-full'
           size='md'
           onClick={async () => {
             if (
@@ -103,19 +79,7 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
           <Icon name='logout' />
         </Button>
       )
-    if (isCustomWordPage)
-      return (
-        <Button
-          cardClassName='py-2 md:py-3'
-          size='md'
-          onClick={() => {
-            navigate(ROUTES.ROOM(roomCode))
-          }}
-        >
-          <Icon name='arrow_back' />
-        </Button>
-      )
-    return <p>close</p>
+    return <p></p>
   }
 
   return (
@@ -129,7 +93,6 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
         timeLeft,
         round,
         setting,
-        setPlayers,
         setRoomCode,
         startGame,
       }}

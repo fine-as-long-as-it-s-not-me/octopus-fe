@@ -20,14 +20,17 @@ export default function ChatCard() {
   const chatListRef = useRef<HTMLDivElement>(null)
 
   return (
-    <Card className='flex h-full w-[320px] grow-3 flex-col p-0 md:p-0 lg:p-0'>
-      <div className='no-scrollbar h-full overflow-scroll' ref={chatListRef}>
+    <Card className='flex h-[40%] w-[320px] grow-3 flex-col justify-start p-0 sm:h-auto md:p-0 lg:p-0'>
+      <div
+        className='no-scrollbar flex h-full w-full flex-col overflow-scroll'
+        ref={chatListRef}
+      >
         {chatBubbles.map(({ author, message }, index) => (
           <Bubble key={index} author={author} message={message} />
         ))}
       </div>
       <Form
-        className='mt-auto w-full rounded-t-none'
+        className='mt-auto w-full shrink-0 rounded-t-none'
         onSubmit={e => {
           e.preventDefault()
           const formData = new FormData(e.currentTarget)
@@ -48,7 +51,7 @@ export default function ChatCard() {
       >
         <Input
           placeholder={t('Type your message...')}
-          className='w-full rounded-t-none'
+          className='w-full shrink-0 sm:rounded-t-none'
           name='chatMessage'
         />
       </Form>

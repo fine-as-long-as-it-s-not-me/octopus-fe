@@ -8,14 +8,14 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export default function Card({ size = 'lg', children, className }: Props) {
   const sizeClassName = {
-    sm: 'text-sm md:text-base rounded-full w-fit px-2.5 py-2',
-    md: 'text-lg rounded-2xl w-full p-3 md:p-4',
-    lg: 'text-lg rounded-xl w-full p-3 md:p-4',
+    sm: 'text-sm md:text-base sm:rounded-full w-fit px-2.5 py-2',
+    md: 'text-lg sm:rounded-2xl w-full p-3 md:p-4',
+    lg: 'text-lg sm:rounded-xl w-full p-3 md:p-4',
   }
   return (
     <div
       className={twMerge(
-        `flex overflow-hidden rounded-full border border-white/45 bg-white/70 backdrop-blur-[3px]`,
+        `flex overflow-hidden border border-white/45 bg-white/70 backdrop-blur-[3px]`,
         sizeClassName[size],
         className,
       )}

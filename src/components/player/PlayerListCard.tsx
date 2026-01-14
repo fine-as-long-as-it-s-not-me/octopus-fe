@@ -29,15 +29,18 @@ export default function PlayerListCard() {
   const { t } = useTranslation()
 
   return (
-    <Card className='flex w-fit min-w-[320px] grow-1 flex-col gap-2 p-4 md:p-6'>
+    <Card
+      size='md'
+      className='flex w-fit items-center gap-4 sm:min-w-[320px] sm:grow-1 sm:flex-col sm:py-2 md:py-3'
+    >
       <div className='flex flex-row items-center justify-center gap-2'>
         <Icon name='group' />
-        <p>
+        <p className='hidden sm:inline'>
           {t('Players')} ({players.length})
         </p>
       </div>
-      <Spacing />
-      <div className='flex w-full flex-col items-start gap-4'>
+
+      <div className='hidden w-full flex-col items-center gap-4 sm:flex'>
         {players.map(player => (
           <PlayerListItem key={player.name} {...player} />
         ))}

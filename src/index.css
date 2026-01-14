@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  --text-base: 1rem;
   --color-blue: #dbeafe;
   --color-accent: #2563eb;
   --color-disabled: #f3f4f6;

@@ -12,7 +12,6 @@ type RoomContextType = {
   round: number
   setting: Setting
   startGame: () => void
-  setPlayers: (players: Player[]) => void
   setRoomCode: (code: string) => void
 }
 

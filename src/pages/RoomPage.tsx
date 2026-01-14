@@ -28,7 +28,7 @@ export default function RoomPage() {
   return (
     <>
       <PlayersCard />
-      <div className='flex min-w-[320px] grow-16 flex-col gap-4 md:gap-6'>
+      <div className='flex min-w-[320px] grow-16 flex-col sm:gap-4 md:gap-6'>
         <Card className='flex flex-col'>
           <button
             className='flex flex-row items-center justify-center gap-2 p-2 pt-0'

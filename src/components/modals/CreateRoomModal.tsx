@@ -33,7 +33,7 @@ export default function CreateRoomModal() {
       useCustomWords: !!e.currentTarget.useCustomWords.checked,
       roomType: e.currentTarget.roomType.value,
     })
-    navigate(ROUTES.ROOM('ABCD1234'))
+    navigate(ROUTES.ROOM('A234'))
   }
 
   return (
@@ -74,8 +74,8 @@ export default function CreateRoomModal() {
             }}
             className='w-32'
             shape='sm'
+            defaultValue={8}
             name='maxPlayers'
-            placeholder='8'
           />
         </SettingInputWrapper>
         <SettingInputWrapper

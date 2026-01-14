@@ -14,8 +14,8 @@ export default function SettingButtons() {
     <>
       <Button
         size='md'
-        className='grow'
-        cardClassName='py-2 md:py-3'
+        className='grow-1'
+        cardClassName='h-auto py-2 md:py-3 grow-1 h-full'
         onClick={() => {
           openModal(<LanguageSelectModal />)
         }}
@@ -24,16 +24,16 @@ export default function SettingButtons() {
       </Button>
       <Button
         size='md'
-        className='grow'
-        cardClassName='py-2 md:py-3'
+        className='grow-1'
+        cardClassName='h-auto py-2 md:py-3 grow-1 h-full'
         onClick={() => muteMusicToggle()}
       >
         <Icon name={isMuted ? 'music_off' : 'music_note'} />
       </Button>
       <Button
         size='md'
-        className='grow'
-        cardClassName='py-2 md:py-3'
+        className='grow-1'
+        cardClassName='h-auto py-2 md:py-3 grow-1 h-full'
         onClick={() => muteSoundEffectToggle()}
       >
         <Icon name={isEffectMuted ? 'volume_off' : 'volume_up'} />

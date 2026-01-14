@@ -13,7 +13,7 @@ export default function Form({ children, onSubmit, className }: Props) {
         e.preventDefault()
         onSubmit(e)
       }}
-      className={twMerge('flex h-fit grow items-center', className)}
+      className={twMerge('flex items-center', className)}
     >
       {children}
     </form>

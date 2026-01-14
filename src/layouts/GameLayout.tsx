@@ -20,26 +20,20 @@ export default function GameLayout() {
 
   useEffect(() => {})
   return (
-    <div className='flex h-full max-h-[1080px] w-full max-w-[1440px] flex-col p-8 pb-0 sm:gap-4 md:p-12 md:pb-0 lg:p-20 lg:pb-0'>
-      <div className='flex flex-wrap sm:gap-4 md:gap-6'>
-        <Card size='md' className='w-auto items-center'>
-          Round 1/3
-        </Card>
-        <Card size='md' className='flex w-auto flex-row items-center sm:gap-2'>
-          <Icon name='abc' />
-          <p>Fish</p>
-        </Card>
-        <PhaseDescCard />
-        <div className='flex grow-2 sm:gap-4'>
-          <TimerCard />
-          <SettingButtons />
-          <CloseButton />
-        </div>
-      </div>
-      <div className='no-scrollbar flex h-[80vh] flex-row flex-wrap overflow-scroll sm:gap-4 md:gap-6'>
-        <PlayersCard />
-        <Outlet /> <ChatCard />
-      </div>
+    <div className='flex h-dvh max-h-[1080px] w-full max-w-[1440px] flex-row flex-wrap pb-0 sm:items-start sm:gap-4 sm:p-8 md:gap-6 md:p-12 md:pb-0 lg:p-20 lg:pb-0'>
+      <Card size='md' className='w-auto items-center'>
+        Round 1/3
+      </Card>
+      <Card size='md' className='flex w-auto flex-row items-center sm:gap-2'>
+        <Icon name='abc' />
+        <p>Fish</p>
+      </Card>
+      <PhaseDescCard />
+      <TimerCard />
+      <SettingButtons />
+      <CloseButton />
+      <PlayersCard />
+      <Outlet /> <ChatCard />
     </div>
   )
 }
