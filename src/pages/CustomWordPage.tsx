@@ -35,7 +35,7 @@ export default function CustomWordPage() {
   }
 
   return (
-    <div className='flex flex-row gap-4 md:gap-6'>
+    <div className='flex flex-row flex-wrap gap-4 md:gap-6'>
       <div className='flex w-1/2 grow flex-col gap-4'>
         <Card className='flex flex-col items-center gap-4'>
           {t('Custom Word List')}

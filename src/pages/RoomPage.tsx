@@ -18,9 +18,10 @@ export default function RoomPage() {
   const { roomCode } = useRoom()
   const { openModal } = useModal()
 
-  const { setting } = useRoom()
+  const { setting, startGame } = useRoom()
 
   const startGameClickHandler = () => {
+    startGame()
     navigate(ROUTES.KEYWORD(roomCode))
   }
 

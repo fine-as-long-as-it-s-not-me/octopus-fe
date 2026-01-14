@@ -37,7 +37,7 @@ export default function PlayerListCard() {
         </p>
       </div>
       <Spacing />
-      <div className='flex flex-col items-start gap-4'>
+      <div className='flex w-full flex-col items-start gap-4'>
         {players.map(player => (
           <PlayerListItem key={player.name} {...player} />
         ))}

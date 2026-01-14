@@ -8,7 +8,7 @@ export default function PhaseDescCard() {
   const { phaseDescription } = useRoom()
 
   return (
-    <Card size='md' className='w-auto grow-4'>
+    <Card size='md' className='w-auto grow-4 items-center'>
       {t(phaseDescription)}
     </Card>
   )

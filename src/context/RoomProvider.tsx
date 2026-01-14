@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMatch, useNavigate } from 'react-router-dom'
 import { useModal } from 'sam-react-modal'
@@ -10,11 +10,44 @@ import { ROUTES } from '@/routes/ROUTES'
 import type { Phase, Player, Setting } from '@/types'
 import { RoomContext } from './RoomContext'
 
+const PHASES: Record<Phase, { label: string; time: number; nextPhase: Phase }> =
+  {
+    waiting: { label: 'waiting', time: 0, nextPhase: 'keyword' },
+    keyword: { label: 'keyword', time: 10, nextPhase: 'drawing' },
+    drawing: { label: 'drawing', time: 20, nextPhase: 'discussion' },
+    discussion: { label: 'discussion', time: 15, nextPhase: 'voting' },
+    voting: { label: 'voting', time: 10, nextPhase: 'vote-result' },
+    'vote-result': { label: 'vote-result', time: 15, nextPhase: 'guessing' },
+    guessing: { label: 'guessing', time: 10, nextPhase: 'result' },
+    result: { label: 'result', time: 15, nextPhase: 'keyword' },
+  }
+
 export default function RoomProvider({ children }: { children: ReactNode }) {
   const [roomCode, setRoomCode] = useState<string>('ABCD1234')
   const [players, setPlayers] = useState<Player[]>([])
   const [phase, setPhase] = useState<Phase>('waiting')
-  const [phaseDescription] = useState<string>('Waiting for players...')
+  const phaseDescription = useMemo(() => {
+    switch (phase) {
+      case 'waiting':
+        return 'Waiting for players...'
+      case 'keyword':
+        return 'Check your given word'
+      case 'drawing':
+        return 'Draw the word as best as you can'
+      case 'discussion':
+        return 'Discuss with other players'
+      case 'voting':
+        return 'Vote for the suspicious drawing'
+      case 'vote-result':
+        return 'See the voting results'
+      case 'guessing':
+        return 'Guess the correct word'
+      case 'result':
+        return 'See the round results'
+      default:
+        return ''
+    }
+  }, [phase])
   const [timeLeft, setTimeLeft] = useState<number>(0)
   const [round, setRound] = useState<number>(0)
   const [setting] = useState<Setting>({
@@ -36,9 +69,19 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
 
   const startGame = () => {
     setPhase('keyword')
-    setTimeLeft(60)
+    setInterval(() => {
+      setTimeLeft(prev => (prev > 0 ? prev - 1 : 0))
+    }, 1000)
     setRound(1)
   }
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      const newPhase = PHASES[phase].nextPhase
+      setPhase(newPhase)
+      setTimeLeft(PHASES[newPhase].time)
+    }
+  }, [timeLeft, phase])
 
   function CloseButton() {
     if (isRoomPage || isGamePage)
