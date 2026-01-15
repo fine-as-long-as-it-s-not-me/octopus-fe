@@ -6,18 +6,16 @@ import Button from '@/components/common/Button'
 import PlayerListCard from '@/components/player/PlayerListCard'
 import GameSettingListCard from '@/components/room/GameSettingListCard'
 import { useRoom } from '@/context/RoomContext'
-import { ROUTES } from '@/routes/ROUTES'
 
 export default function RoomPage() {
   const { t } = useTranslation()
-  const navigate = useNavigate()
-  const { roomCode } = useRoom()
 
-  const { startGame } = useRoom()
+  const navigate = useNavigate()
+  const { roomCode, startGame } = useRoom()
 
   const startGameClickHandler = () => {
     startGame()
-    navigate(ROUTES.KEYWORD(roomCode))
+    navigate(`/room/${roomCode}/keyword`)
   }
 
   return (

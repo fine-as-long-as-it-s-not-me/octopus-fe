@@ -12,6 +12,7 @@ type RoomContextType = {
   setting: Setting
   startGame: () => void
   setRoomCode: (code: string) => void
+  nextPhase: () => void // for dev
 }
 
 export const RoomContext = createContext<RoomContextType | null>(null)

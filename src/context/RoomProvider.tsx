@@ -5,7 +5,8 @@ import { RoomContext } from './RoomContext'
 
 export default function RoomProvider({ children }: { children: ReactNode }) {
   const [roomCode, setRoomCode] = useState<string>('A234')
-  const { round, setting, timeLeft, phase, players } = useRoomSocket(roomCode)
+  const { round, setting, timeLeft, phase, players, setPhase, setRound } =
+    useRoomSocket(roomCode)
   const phaseDescription = useMemo(() => {
     switch (phase) {
       case 'waiting':
@@ -28,7 +29,34 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
         return ''
     }
   }, [phase])
-  const startGame = () => {}
+
+  const startGame = () => {
+    setPhase('keyword')
+    setRound(1)
+  }
+
+  const nextPhase = () => {
+    // for dev
+    const phases = [
+      'waiting',
+      'keyword',
+      'drawing',
+      'discussion',
+      'voting',
+      'vote-result',
+      'guessing',
+      'result',
+    ]
+    const currentIndex = phases.indexOf(phase)
+    const nextIndex = (currentIndex + 1) % phases.length
+    setPhase(phases[nextIndex] as typeof phase)
+    if (phases[nextIndex] === 'keyword') {
+      setRound(prev => prev + 1)
+    }
+    if (phases[nextIndex] === 'waiting') {
+      setRound(0)
+    }
+  }
 
   return (
     <RoomContext.Provider
@@ -42,6 +70,7 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
         setting,
         setRoomCode,
         startGame,
+        nextPhase, // for dev
       }}
     >
       {children}

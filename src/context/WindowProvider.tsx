@@ -31,7 +31,9 @@ export default function WindowProvider({
         lg: window.innerWidth >= 1024,
       })
       const newD =
-        window.innerWidth >= window.innerHeight ? 'horizontal' : 'vertical'
+        window.innerWidth >= window.innerHeight - 100
+          ? 'horizontal'
+          : 'vertical'
       setDirection(newD)
     }
 

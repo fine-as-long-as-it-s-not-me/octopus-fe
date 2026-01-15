@@ -12,7 +12,7 @@ export default function CloseButton() {
   const navigate = useNavigate()
   const isRoomPage = useMatch(ROUTES.ROOM(':roomCode'))
   const isCustomWordPage = useMatch(ROUTES.CUSTOM_WORD(':roomCode'))
-  const isGamePage = useMatch(ROUTES.GAME('*'))
+  const isGamePage = useMatch(`${ROUTES.ROOM(':roomCode')}/*`)
 
   const { roomCode } = useRoom()
   const { t } = useTranslation()

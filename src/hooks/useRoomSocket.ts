@@ -104,5 +104,7 @@ export function useRoomSocket(code: string) {
     players,
     roomCode,
     setRoomCode,
+    setPhase,
+    setRound,
   }
 }

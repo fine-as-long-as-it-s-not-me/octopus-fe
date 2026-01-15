@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
 
 import ChatCard from '@/components/chat/ChatCard'
@@ -9,19 +9,28 @@ import SettingModalButton from '@/components/common/SettingModalButton'
 import PlayerListButton from '@/components/player/PlayerListButton'
 import PlayersCard from '@/components/player/PlayerListCard'
 import CloseButton from '@/components/room/CloseButton'
+import NextPhaseButton from '@/components/room/NextPhaseButton'
 import PhaseDescCard from '@/components/room/PhaseDescCard'
 import TimerCard from '@/components/room/TimerCard'
 import { useBackground } from '@/context/BackgroundContext'
+import { useRoom } from '@/context/RoomContext'
 import { useWindow } from '@/context/WindowContext'
+import { getPhasePath } from '@/utils/getPhasePath'
 
 export default function GameLayout() {
   const { setBackgroundImage } = useBackground()
   const { setIsCompact, direction } = useWindow()
+  const { phase, roomCode } = useRoom()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setBackgroundImage('room')
     setIsCompact(true)
-  })
+  }, [])
+
+  useEffect(() => {
+    navigate(getPhasePath(phase, roomCode), { replace: true })
+  }, [phase, roomCode, navigate])
 
   return (
     <div className='no-scrollbar flex h-dvh max-h-[1080px] w-full max-w-[1440px] flex-col overflow-scroll sm:gap-4 sm:p-8 md:gap-6 lg:p-16'>
@@ -42,7 +51,7 @@ export default function GameLayout() {
         <div className='flex grow sm:grow-0 sm:gap-2'>
           <TimerCard />
           <PlayerListButton />
-
+          {import.meta.env.DEV && <NextPhaseButton />}
           <SettingModalButton />
           <CloseButton />
         </div>
@@ -54,7 +63,9 @@ export default function GameLayout() {
         )}
       >
         <PlayersCard />
-        <Outlet /> <ChatCard />
+        <Outlet />
+        {/* TODO: ChatCard 크기 너무 작아지면 (horizontal, w<1000px?), playerCard와 병합하여 아코디언*/}
+        <ChatCard />
       </div>
     </div>
   )
