@@ -59,7 +59,7 @@ export default function ChatCard() {
       >
         <Input
           placeholder={t('Type your message...')}
-          className='h-full w-full shrink-0 sm:rounded-t-none'
+          className='h-full w-full shrink-0 rounded-t-none'
           name='chatMessage'
         />
       </Form>

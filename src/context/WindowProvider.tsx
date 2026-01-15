@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { WindowContext, type ScreenSize } from './WindowContext'
 
-const RESIZE_THROTTLE_MS = 100
+const RESIZE_THROTTLE_MS = 1000
 
 export default function WindowProvider({
   children,
@@ -30,9 +30,9 @@ export default function WindowProvider({
         md: window.innerWidth >= 768,
         lg: window.innerWidth >= 1024,
       })
-      setDirection(
-        window.innerWidth >= window.innerHeight ? 'horizontal' : 'vertical',
-      )
+      const newD =
+        window.innerWidth >= window.innerHeight ? 'horizontal' : 'vertical'
+      setDirection(newD)
     }
 
     window.addEventListener('resize', handleResize)
