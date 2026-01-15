@@ -1,13 +1,16 @@
-import { createContext, useContext, type ReactNode } from 'react'
+import { createContext, useContext } from 'react'
 
-import type { Player } from '@/types'
+import type { Phase, Player, Setting } from '@/types'
 
 type RoomContextType = {
   roomCode: string
-  closeButton: ReactNode
   players: Player[]
-  setPlayers: (players: Player[]) => void
-  setCloseButton: (button: ReactNode) => void
+  phase: Phase
+  phaseDescription: string
+  timeLeft: number
+  round: number
+  setting: Setting
+  startGame: () => void
   setRoomCode: (code: string) => void
 }
 

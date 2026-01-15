@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 
 import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
@@ -8,29 +7,12 @@ import Form from '@/components/common/Form'
 import Icon from '@/components/common/Icon'
 import Input from '@/components/common/Input'
 import KeywordListItem from '@/components/game/KeywordListItem'
-import { useRoom } from '@/context/RoomContext'
-import { useUser } from '@/context/UserContext'
 import type { Keyword } from '@/types'
 
-export default function KeywordSettingPage() {
-  const navigate = useNavigate()
-  const { setCloseButton } = useRoom()
+export default function CustomWordPage() {
   const { t } = useTranslation()
-  const { id, name } = useUser()
 
   const [keywords, setKeywords] = useState<Keyword[]>([])
-
-  useEffect(() => {
-    setCloseButton(
-      <Button
-        size='md'
-        onClick={() => navigate(-1)}
-        cardClassName='py-2 md:py-3'
-      >
-        <Icon name={'arrow_back'} />
-      </Button>,
-    )
-  }, [navigate, setCloseButton])
 
   const addKeywordHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -40,10 +22,6 @@ export default function KeywordSettingPage() {
     const newKeyword: Keyword = {
       id: crypto.randomUUID(),
       word,
-      addedBy: {
-        id,
-        name,
-      },
       votes: 1,
     }
     setKeywords(prevKeywords => [...prevKeywords, newKeyword])
@@ -51,31 +29,33 @@ export default function KeywordSettingPage() {
   }
 
   return (
-    <div className='flex flex-row gap-4 md:gap-6'>
-      <div className='flex w-1/2 grow flex-col gap-4'>
-        <Card className='flex flex-col items-center gap-4'>
-          {t('Custom Word List')}
-          <div className='flex flex-row flex-wrap justify-center gap-2 p-4'>
-            {keywords.map(keyword => (
+    <div className='flex flex-col sm:flex-row sm:gap-4 md:gap-6'>
+      <Card className='flex h-fit min-h-[30dvh] flex-col items-center justify-between gap-4 sm:w-1/2'>
+        {t('Custom Word List')}
+        <div className='no-scrollbar flex max-h-[calc(70dvh-120px)] flex-row flex-wrap justify-center gap-2 overflow-scroll p-4'>
+          {keywords.length ? (
+            keywords.map(keyword => (
               <KeywordListItem key={keyword.id} keyword={keyword} />
-            ))}
-          </div>
-          <Form
-            onSubmit={addKeywordHandler}
-            className='flex flex-row items-center gap-2'
-          >
-            <Input
-              shape='sm'
-              placeholder={t('Enter new custom word')}
-              name='customWord'
-            ></Input>
-            <Button type='submit' size='sm'>
-              {t('Add')}
-            </Button>
-          </Form>
-        </Card>
-      </div>
-      <div className='flex w-1/2 grow flex-col gap-4'>
+            ))
+          ) : (
+            <p className='text-black/50'>{t('No custom words added yet.')}</p>
+          )}
+        </div>
+        <Form
+          onSubmit={addKeywordHandler}
+          className='flex flex-row items-center gap-2'
+        >
+          <Input
+            shape='sm'
+            placeholder={t('Enter new custom word')}
+            name='customWord'
+          ></Input>
+          <Button type='submit' size='sm'>
+            {t('Add')}
+          </Button>
+        </Form>
+      </Card>
+      <div className='flex h-full flex-col sm:h-auto sm:w-1/2 sm:gap-4'>
         <Button size='lg'>{t('Close Vote')}</Button>
         <Card className='flex flex-col items-center gap-4'>
           <p className='text-center text-xl'>
@@ -91,10 +71,21 @@ export default function KeywordSettingPage() {
             <Icon name='content_copy' />
           </Button>
         </Card>
-        <Card>
+        <Card className='justify-center'>
           <Form onSubmit={() => {}} className='flex flex-col gap-2'>
             <h2>{t('Minimum votes to get registered')}</h2>
-            <Input shape='sm' type='number' min={0} defaultValue={0}></Input>
+            <Input
+              shape='sm'
+              type='number'
+              min={0}
+              defaultValue={0}
+              onChange={e => {
+                e.currentTarget.value = Math.max(
+                  0,
+                  parseInt(e.currentTarget.value) || 0,
+                ).toString()
+              }}
+            ></Input>
           </Form>
         </Card>
       </div>

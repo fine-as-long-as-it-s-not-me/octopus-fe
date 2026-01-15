@@ -1,7 +1,9 @@
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { twMerge } from 'tailwind-merge'
 
 import { useUser } from '@/context/UserContext'
+import { useWindow } from '@/context/WindowContext'
 import Card from '../common/Card'
 import Form from '../common/Form'
 import Input from '../common/Input'
@@ -16,18 +18,27 @@ export default function ChatCard() {
     { author: mockAuthor, message: mockMessage },
   ])
   const { name, id } = useUser()
+  const { direction } = useWindow()
 
   const chatListRef = useRef<HTMLDivElement>(null)
 
   return (
-    <Card className='flex h-full w-[320px] grow-1 flex-col p-0 md:p-0 lg:p-0'>
-      <div className='no-scrollbar h-full overflow-scroll' ref={chatListRef}>
+    <Card
+      className={twMerge(
+        'flex h-[40dvh] min-h-[320px] grow-4 flex-col justify-start p-0 sm:h-auto md:p-0 lg:p-0',
+        direction === 'vertical' ? 'w-auto' : 'h-full w-fit',
+      )}
+    >
+      <div
+        className='no-scrollbar flex h-[calc(100%-56px)] flex-col overflow-scroll'
+        ref={chatListRef}
+      >
         {chatBubbles.map(({ author, message }, index) => (
           <Bubble key={index} author={author} message={message} />
         ))}
       </div>
       <Form
-        className='mt-auto w-full rounded-t-none'
+        className='mt-auto flex h-[56px] shrink-0 rounded-t-none'
         onSubmit={e => {
           e.preventDefault()
           const formData = new FormData(e.currentTarget)
@@ -48,7 +59,7 @@ export default function ChatCard() {
       >
         <Input
           placeholder={t('Type your message...')}
-          className='w-full rounded-t-none'
+          className='h-full w-full shrink-0 sm:rounded-t-none'
           name='chatMessage'
         />
       </Form>

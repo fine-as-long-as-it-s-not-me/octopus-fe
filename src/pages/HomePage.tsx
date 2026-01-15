@@ -30,15 +30,12 @@ export default function HomePage() {
 
   return (
     <>
-      <Card>
-        <Form
-          onSubmit={enterSubmitHandler}
-          className='flex flex-col items-center gap-3'
-        >
+      <Card className='justify-center'>
+        <Form onSubmit={enterSubmitHandler} className='flex-col gap-3'>
           <p>{t('Guest')}</p>
           <div className='flex flex-col items-center gap-2 md:flex-row md:gap-4'>
             <Img
-              className='m-[-24px] rounded-full'
+              className='m-[-24px]'
               width={120}
               height={120}
               src={avatarUrl}

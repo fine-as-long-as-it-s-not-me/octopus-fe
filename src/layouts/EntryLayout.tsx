@@ -5,24 +5,27 @@ import logo from '@/assets/images/logo/logo.png'
 import Img from '@/components/common/Img'
 import SettingButtons from '@/components/common/SettingButtons'
 import { useBackground } from '@/context/BackgroundContext'
+import { useWindow } from '@/context/WindowContext'
 
 export default function EntryLayout() {
   const { playMusic, setBackgroundImage } = useBackground()
+  const { setIsCompact } = useWindow()
 
   useEffect(() => {
     playMusic('citymafia')
     setBackgroundImage('home')
+    setIsCompact(false)
   })
 
   return (
-    <div className='h-full w-full overflow-scroll no-scrollbar max-w-[720px] p-16 md:p-12 flex flex-col items-center gap-4'>
+    <div className='no-scrollbar flex h-full w-full max-w-[720px] flex-col items-center gap-4 overflow-scroll p-16 md:p-12'>
       <Img
         src={logo}
         alt='Logo'
-        className='w-[50dvw] min-w-[400px] max-w-[560px]'
+        className='w-[50dvw] max-w-[560px] min-w-[400px]'
       />
       <Outlet />
-      <div className={`grid grid-cols-3 gap-4 w-full`}>
+      <div className={`grid w-full grid-cols-3 gap-4`}>
         <SettingButtons />
       </div>
     </div>

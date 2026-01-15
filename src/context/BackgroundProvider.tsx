@@ -63,7 +63,7 @@ export const BackgroundProvider = ({ children }: Props) => {
     const { t } = useTranslation()
     return (
       <div
-        className={`absolute flex items-center justify-center inset-0 bg-black gap-4 flex-col text-white ${
+        className={`absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black text-white ${
           interacted && progress === 100 ? 'hidden' : 'flex'
         }`}
         onClick={() => setInteracted(true)}
@@ -90,7 +90,7 @@ export const BackgroundProvider = ({ children }: Props) => {
       }}
     >
       <div
-        className='flex flex-col width-full height-full items-center'
+        className='width-full height-full flex flex-col items-center'
         style={{
           backgroundImage: bgImage ? `url(${bgImage.src})` : 'none',
           backgroundSize: 'cover',
