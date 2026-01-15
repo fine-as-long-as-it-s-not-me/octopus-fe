@@ -13,8 +13,8 @@ export default function Card({ size = 'lg', children, className }: Props) {
 
   const sizeClassName = {
     sm: `text-sm md:text-base w-fit px-2.5 py-2 ${isCompact ? 'sm:rounded-[24px]' : 'rounded-[24px]'}`,
-    md: `text-lg w-full p-3 md:p-4 ${isCompact ? 'sm:sm:rounded-2xl' : 'rounded-2xl'}`,
-    lg: `text-lg w-full p-3 md:p-4 ${isCompact ? 'sm:sm:rounded-xl' : 'rounded-xl'}`,
+    md: `text-lg w-full p-3 md:p-4 ${isCompact ? 'sm:rounded-2xl' : 'rounded-2xl'}`,
+    lg: `text-lg w-full p-3 md:p-4 ${isCompact ? 'sm:rounded-xl' : 'rounded-xl'}`,
   }
   return (
     <div
