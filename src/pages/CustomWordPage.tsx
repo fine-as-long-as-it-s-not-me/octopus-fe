@@ -6,7 +6,7 @@ import Card from '@/components/common/Card'
 import Form from '@/components/common/Form'
 import Icon from '@/components/common/Icon'
 import Input from '@/components/common/Input'
-import KeywordListItem from '@/components/game/KeywordListItem'
+import KeywordListItem from '@/components/room/KeywordListItem'
 import type { Keyword } from '@/types'
 
 export default function CustomWordPage() {
