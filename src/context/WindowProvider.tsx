@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 
 import { WindowContext, type ScreenSize } from './WindowContext'
 
+const RESIZE_THROTTLE_MS = 100
+
 export default function WindowProvider({
   children,
 }: {
@@ -16,12 +18,13 @@ export default function WindowProvider({
   const [direction, setDirection] = useState<'vertical' | 'horizontal'>(
     window.innerWidth >= window.innerHeight ? 'horizontal' : 'vertical',
   )
-  const ref = useRef(new Date().getTime())
+  const lastResizeTimeRef = useRef(new Date().getTime())
 
   useEffect(() => {
     const handleResize = () => {
-      if (new Date().getTime() - ref.current < 100) return
-      ref.current = new Date().getTime()
+      if (new Date().getTime() - lastResizeTimeRef.current < RESIZE_THROTTLE_MS)
+        return
+      lastResizeTimeRef.current = new Date().getTime()
       setSize({
         sm: window.innerWidth >= 640,
         md: window.innerWidth >= 768,

@@ -10,7 +10,7 @@ import Form from '../common/Form'
 import Icon from '../common/Icon'
 import Input from '../common/Input'
 import Modal from '../common/Modal'
-import SettingInputWrapper from '../game/SettingInputWrapper'
+import SettingInputWrapper from '../room/SettingInputWrapper'
 
 const settingOptions = {
   rounds: [1, 3, 5, 7],

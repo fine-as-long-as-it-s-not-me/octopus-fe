@@ -6,11 +6,11 @@ import ChatCard from '@/components/chat/ChatCard'
 import Card from '@/components/common/Card'
 import Icon from '@/components/common/Icon'
 import SettingModalButton from '@/components/common/SettingModalButton'
-import CloseButton from '@/components/game/CloseButton'
-import PhaseDescCard from '@/components/game/PhaseDescCard'
-import TimerCard from '@/components/game/TimerCard'
 import PlayerListButton from '@/components/player/PlayerListButton'
 import PlayersCard from '@/components/player/PlayerListCard'
+import CloseButton from '@/components/room/CloseButton'
+import PhaseDescCard from '@/components/room/PhaseDescCard'
+import TimerCard from '@/components/room/TimerCard'
 import { useBackground } from '@/context/BackgroundContext'
 import { useWindow } from '@/context/WindowContext'
 
@@ -22,8 +22,6 @@ export default function GameLayout() {
     setBackgroundImage('room')
     setIsCompact(true)
   })
-
-  useEffect(() => {})
 
   return (
     <div className='no-scrollbar flex h-dvh max-h-[1080px] w-full max-w-[1440px] flex-col overflow-scroll sm:gap-4 sm:p-8 md:gap-6 lg:p-16'>
