@@ -1,3 +1,6 @@
+import { twMerge } from 'tailwind-merge'
+
+import { useWindow } from '@/context/WindowContext'
 import Button from '../common/Button'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
@@ -28,11 +31,19 @@ function Parent({
   onClick?: () => void
   children: React.ReactNode
 }) {
-  const commonClass =
-    'w-fit sm:w-auto break-keep rounded-[24px] gap-4 pr-4 shrink-0'
+  const { direction } = useWindow()
+
+  const commonClass = twMerge(
+    'break-keep rounded-[24px] gap-4 pr-4 shrink-0',
+    direction === 'vertical' ? 'w-fit' : 'w-auto',
+  )
   if (onClick) {
     return (
-      <Button cardClassName={commonClass} onClick={onClick}>
+      <Button
+        cardClassName={commonClass}
+        onClick={onClick}
+        className={direction === 'vertical' ? 'w-fit' : 'w-auto'}
+      >
         {children}
         <div className='ml-[-8px] flex items-center justify-center'>
           <Icon name='chevron_forward' />

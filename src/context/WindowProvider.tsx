@@ -12,6 +12,10 @@ export default function WindowProvider({
     md: window.innerWidth >= 768,
     lg: window.innerWidth >= 1024,
   })
+  const [isCompact, setIsCompact] = useState<boolean>(false)
+  const [direction, setDirection] = useState<'vertical' | 'horizontal'>(
+    'vertical',
+  )
 
   useEffect(() => {
     const handleResize = () => {
@@ -20,6 +24,9 @@ export default function WindowProvider({
         md: window.innerWidth >= 768,
         lg: window.innerWidth >= 1024,
       })
+      setDirection(
+        window.innerWidth >= window.innerHeight ? 'horizontal' : 'vertical',
+      )
     }
 
     window.addEventListener('resize', handleResize)
@@ -29,6 +36,10 @@ export default function WindowProvider({
   }, [])
 
   return (
-    <WindowContext.Provider value={{ size }}>{children}</WindowContext.Provider>
+    <WindowContext.Provider
+      value={{ size, direction, isCompact, setIsCompact }}
+    >
+      {children}
+    </WindowContext.Provider>
   )
 }

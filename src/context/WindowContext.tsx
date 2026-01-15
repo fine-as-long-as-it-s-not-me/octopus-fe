@@ -8,6 +8,9 @@ export interface ScreenSize {
 
 type WindowContextType = {
   size: ScreenSize
+  direction: 'vertical' | 'horizontal'
+  isCompact: boolean
+  setIsCompact: (isCompact: boolean) => void
 }
 
 export const WindowContext = createContext<WindowContextType | null>(null)

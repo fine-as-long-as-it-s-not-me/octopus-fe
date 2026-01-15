@@ -7,12 +7,10 @@ import Form from '@/components/common/Form'
 import Icon from '@/components/common/Icon'
 import Input from '@/components/common/Input'
 import KeywordListItem from '@/components/game/KeywordListItem'
-import { useUser } from '@/context/UserContext'
 import type { Keyword } from '@/types'
 
 export default function CustomWordPage() {
   const { t } = useTranslation()
-  const { id, name } = useUser()
 
   const [keywords, setKeywords] = useState<Keyword[]>([])
 
@@ -24,10 +22,6 @@ export default function CustomWordPage() {
     const newKeyword: Keyword = {
       id: crypto.randomUUID(),
       word,
-      addedBy: {
-        id,
-        name,
-      },
       votes: 1,
     }
     setKeywords(prevKeywords => [...prevKeywords, newKeyword])
@@ -38,7 +32,7 @@ export default function CustomWordPage() {
     <div className='flex flex-col sm:flex-row sm:gap-4 md:gap-6'>
       <Card className='flex h-fit min-h-[30dvh] flex-col items-center justify-between gap-4 sm:w-1/2'>
         {t('Custom Word List')}
-        <div className='no-scrollbar flex max-h-[calc(72dvh-120px)] flex-row flex-wrap justify-center gap-2 overflow-scroll p-4'>
+        <div className='no-scrollbar flex max-h-[calc(70dvh-120px)] flex-row flex-wrap justify-center gap-2 overflow-scroll p-4'>
           {keywords.length ? (
             keywords.map(keyword => (
               <KeywordListItem key={keyword.id} keyword={keyword} />

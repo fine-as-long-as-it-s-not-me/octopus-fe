@@ -5,13 +5,16 @@ import logo from '@/assets/images/logo/logo.png'
 import Img from '@/components/common/Img'
 import SettingButtons from '@/components/common/SettingButtons'
 import { useBackground } from '@/context/BackgroundContext'
+import { useWindow } from '@/context/WindowContext'
 
 export default function EntryLayout() {
   const { playMusic, setBackgroundImage } = useBackground()
+  const { setIsCompact } = useWindow()
 
   useEffect(() => {
     playMusic('citymafia')
     setBackgroundImage('home')
+    setIsCompact(false)
   })
 
   return (

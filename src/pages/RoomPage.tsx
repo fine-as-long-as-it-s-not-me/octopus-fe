@@ -23,9 +23,9 @@ export default function RoomPage() {
   return (
     <>
       <PlayerListCard />
-      <div className='flex grow-8 flex-col sm:gap-4'>
+      <div className='flex flex-col sm:gap-4'>
         <GameSettingListCard />
-        <Button className='flex grow-2' onClick={startGameClickHandler}>
+        <Button className='flex grow-1' onClick={startGameClickHandler}>
           <h1>{t('Start Game')}</h1>
         </Button>
       </div>

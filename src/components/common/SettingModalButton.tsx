@@ -8,7 +8,8 @@ export default function SettingModalButton() {
   const { openModal } = useModal()
   return (
     <Button
-      className='w-fit sm:hidden'
+      className='w-fit grow sm:grow-0'
+      cardClassName='h-full'
       onClick={() => {
         openModal(<SettingButtonsModal />)
       }}

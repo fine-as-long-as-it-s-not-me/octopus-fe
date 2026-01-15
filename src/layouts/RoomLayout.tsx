@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 import { useModal } from 'sam-react-modal'
+import { twMerge } from 'tailwind-merge'
 
 import Button from '@/components/common/Button'
 import Icon from '@/components/common/Icon'
@@ -20,11 +21,12 @@ export default function RoomLayout() {
 
   const { roomCode } = useRoom()
   const { openModal } = useModal()
-  const { size } = useWindow()
+  const { size, setIsCompact, direction } = useWindow()
 
   useEffect(() => {
     playMusic('waiting')
     setBackgroundImage('room')
+    setIsCompact(true)
   })
 
   const copyLinkHandler = () => {
@@ -35,7 +37,7 @@ export default function RoomLayout() {
   }
 
   return (
-    <div className='no-scrollbar flex h-dvh max-h-[1080px] w-full max-w-[1440px] flex-col overflow-scroll sm:gap-4 sm:p-8 md:gap-6 md:p-12 lg:p-20'>
+    <div className='no-scrollbar flex h-dvh max-h-[1080px] w-full max-w-[1440px] flex-col overflow-scroll sm:gap-4 sm:p-8 md:gap-6 lg:p-16'>
       <div className='flex h-fit w-full flex-row sm:gap-2'>
         <Button
           size='md'
@@ -50,7 +52,12 @@ export default function RoomLayout() {
         {size.sm ? <SettingButtons /> : <SettingModalButton />}
         <CloseButton />
       </div>
-      <div className='flex h-full w-full flex-col sm:h-[calc(100%-80px)] sm:flex-row sm:gap-2'>
+      <div
+        className={twMerge(
+          'flex h-full w-full sm:h-[calc(100%-80px)] sm:gap-2',
+          direction === 'vertical' ? 'flex-col' : 'flex-row',
+        )}
+      >
         <Outlet />
       </div>
     </div>

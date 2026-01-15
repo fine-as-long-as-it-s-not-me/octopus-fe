@@ -1,8 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Spacing, useModal } from 'sam-react-modal'
+import { twMerge } from 'tailwind-merge'
 
 import { useRoom } from '@/context/RoomContext'
+import { useWindow } from '@/context/WindowContext'
 import { ROUTES } from '@/routes/ROUTES'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
@@ -14,9 +16,10 @@ export default function GameSettingListCard() {
   const { t } = useTranslation()
   const { setting, roomCode } = useRoom()
   const navigate = useNavigate()
+  const { direction } = useWindow()
 
   return (
-    <Card className='flex w-full flex-col'>
+    <Card className='flex w-full grow-2 flex-col sm:min-w-[240px]'>
       <button
         className='flex flex-row items-center justify-center gap-2 p-2 pt-0'
         onClick={() => openModal(<CreateRoomModal />)}
@@ -25,7 +28,12 @@ export default function GameSettingListCard() {
         <Icon name='arrow_forward' />
       </button>
       <Spacing />
-      <div className='no-scrollbar flex min-w-[160px] flex-row flex-wrap gap-4 overflow-scroll sm:flex-col sm:flex-nowrap sm:gap-4'>
+      <div
+        className={twMerge(
+          'no-scrollbar flex flex-row flex-wrap items-center gap-4 overflow-scroll sm:gap-4',
+          direction === 'vertical' ? '' : 'max-w-[400px]',
+        )}
+      >
         <SettingItem
           icon={<Icon name='change_circle' />}
           label={t('Rounds')}
