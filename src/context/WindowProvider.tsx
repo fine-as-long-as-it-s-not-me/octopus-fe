@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { WindowContext, type ScreenSize } from './WindowContext'
 
@@ -16,9 +16,12 @@ export default function WindowProvider({
   const [direction, setDirection] = useState<'vertical' | 'horizontal'>(
     window.innerWidth >= window.innerHeight ? 'horizontal' : 'vertical',
   )
+  const ref = useRef(new Date().getTime())
 
   useEffect(() => {
     const handleResize = () => {
+      if (new Date().getTime() - ref.current < 100) return
+      ref.current = new Date().getTime()
       setSize({
         sm: window.innerWidth >= 640,
         md: window.innerWidth >= 768,
