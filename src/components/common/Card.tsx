@@ -8,7 +8,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export default function Card({ size = 'lg', children, className }: Props) {
   const sizeClassName = {
-    sm: 'text-sm md:text-base sm:rounded-full w-fit px-2.5 py-2',
+    sm: 'text-sm md:text-base sm:rounded-[24px] w-fit px-2.5 py-2',
     md: 'text-lg sm:rounded-2xl w-full p-3 md:p-4',
     lg: 'text-lg sm:rounded-xl w-full p-3 md:p-4',
   }

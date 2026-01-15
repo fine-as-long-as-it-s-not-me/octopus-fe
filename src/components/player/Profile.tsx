@@ -12,14 +12,19 @@ export default function Profile({ name, size = 'md' }: Props) {
   const avatarUrl = useAvatar(name)
   const sizeClassName = {
     sm: 'gap-0',
-    md: 'gap-2',
+    md: 'gap-1',
   }
   return (
-    <div className={twMerge(`m-[-2px] flex items-center`, sizeClassName[size])}>
+    <div
+      className={twMerge(
+        `m-[-2px] flex shrink-0 items-center`,
+        sizeClassName[size],
+      )}
+    >
       <Img
         src={avatarUrl}
         alt={`${name}'s avatar`}
-        className={size === 'sm' ? 'h-12 w-12' : 'h-16 w-16'}
+        className={size === 'sm' ? 'h-12 w-12' : 'h-14 w-14'}
       />
       {name}
     </div>

@@ -3,18 +3,21 @@ import { ModalProvider, useModal } from 'sam-react-modal'
 
 import RoomProvider from '@/context/RoomProvider'
 import UserProvider from '@/context/UserProvider'
+import WindowProvider from '@/context/WindowProvider'
 
 export default function RootLayout() {
   return (
-    <ModalProviderWrapper>
-      <UserProvider>
-        <RoomProvider>
-          <div className='no-scrollbar flex h-dvh w-dvw flex-col items-center justify-center overflow-hidden'>
-            <Outlet />
-          </div>
-        </RoomProvider>
-      </UserProvider>
-    </ModalProviderWrapper>
+    <WindowProvider>
+      <RoomProvider>
+        <ModalProviderWrapper>
+          <UserProvider>
+            <div className='no-scrollbar flex h-dvh w-dvw flex-col items-center overflow-hidden'>
+              <Outlet />
+            </div>
+          </UserProvider>
+        </ModalProviderWrapper>
+      </RoomProvider>
+    </WindowProvider>
   )
 }
 

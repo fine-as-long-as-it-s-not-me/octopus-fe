@@ -1,10 +1,9 @@
-import { createContext, useContext, type JSX } from 'react'
+import { createContext, useContext } from 'react'
 
 import type { Phase, Player, Setting } from '@/types'
 
 type RoomContextType = {
   roomCode: string
-  CloseButton: () => JSX.Element
   players: Player[]
   phase: Phase
   phaseDescription: string

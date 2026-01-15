@@ -2,6 +2,9 @@ export interface Player {
   id: string
   name: string
   photoUrl?: string
+  host: boolean
+  drawing: boolean
+  nextDrawer: boolean
 }
 
 export interface Keyword {

@@ -60,7 +60,7 @@ export default function Button({
       <Card
         size={size}
         className={twMerge(
-          'flex items-center justify-center gap-4 transition-transform active:scale-95',
+          'flex items-center justify-center gap-4 transition-transform sm:active:scale-95',
           active ? 'bg-black/75 text-white' : '',
           sizeCardClassName[size],
           cardClassName,

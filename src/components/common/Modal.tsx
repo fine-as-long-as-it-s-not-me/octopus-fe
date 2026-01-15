@@ -11,7 +11,7 @@ export default function Modal({ children, className }: Props) {
   return (
     <Card
       className={twMerge(
-        'm-2 flex w-fit flex-col items-center justify-center gap-4 md:p-6',
+        'm-2 flex w-dvw flex-col items-center justify-center gap-4 py-8 sm:h-auto sm:w-fit md:p-6',
         className,
       )}
     >

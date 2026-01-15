@@ -18,12 +18,12 @@ export default function Bubble({ author, message }: Props) {
   return (
     <div
       className={twMerge(
-        'px-4 py-1 md:py-2',
-        isMe ? 'flex flex-col items-end' : '',
+        'w-fit px-4 py-1 md:py-2',
+        isMe ? 'flex flex-col items-end self-end' : '',
       )}
     >
       <Profile name={author.name} size='sm' />
-      <Card size='sm' className='px-4 py-2 md:py-2'>
+      <Card size='sm' className='rounded-full px-4 py-2 md:py-2'>
         <p>{message}</p>
       </Card>
     </div>

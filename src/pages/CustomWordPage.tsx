@@ -35,35 +35,33 @@ export default function CustomWordPage() {
   }
 
   return (
-    <div className='flex flex-row flex-wrap gap-4 md:gap-6'>
-      <div className='flex w-1/2 grow flex-col gap-4'>
-        <Card className='flex flex-col items-center gap-4'>
-          {t('Custom Word List')}
-          <div className='flex flex-row flex-wrap justify-center gap-2 p-4'>
-            {keywords.length ? (
-              keywords.map(keyword => (
-                <KeywordListItem key={keyword.id} keyword={keyword} />
-              ))
-            ) : (
-              <p className='text-black/50'>{t('No custom words added yet.')}</p>
-            )}
-          </div>
-          <Form
-            onSubmit={addKeywordHandler}
-            className='flex flex-row items-center gap-2'
-          >
-            <Input
-              shape='sm'
-              placeholder={t('Enter new custom word')}
-              name='customWord'
-            ></Input>
-            <Button type='submit' size='sm'>
-              {t('Add')}
-            </Button>
-          </Form>
-        </Card>
-      </div>
-      <div className='flex w-1/2 grow flex-col gap-4'>
+    <div className='flex flex-col sm:flex-row sm:gap-4 md:gap-6'>
+      <Card className='flex h-fit min-h-[30dvh] flex-col items-center justify-between gap-4 sm:w-1/2'>
+        {t('Custom Word List')}
+        <div className='no-scrollbar flex max-h-[calc(72dvh-120px)] flex-row flex-wrap justify-center gap-2 overflow-scroll p-4'>
+          {keywords.length ? (
+            keywords.map(keyword => (
+              <KeywordListItem key={keyword.id} keyword={keyword} />
+            ))
+          ) : (
+            <p className='text-black/50'>{t('No custom words added yet.')}</p>
+          )}
+        </div>
+        <Form
+          onSubmit={addKeywordHandler}
+          className='flex flex-row items-center gap-2'
+        >
+          <Input
+            shape='sm'
+            placeholder={t('Enter new custom word')}
+            name='customWord'
+          ></Input>
+          <Button type='submit' size='sm'>
+            {t('Add')}
+          </Button>
+        </Form>
+      </Card>
+      <div className='flex h-full flex-col sm:h-auto sm:w-1/2 sm:gap-4'>
         <Button size='lg'>{t('Close Vote')}</Button>
         <Card className='flex flex-col items-center gap-4'>
           <p className='text-center text-xl'>
@@ -79,7 +77,7 @@ export default function CustomWordPage() {
             <Icon name='content_copy' />
           </Button>
         </Card>
-        <Card>
+        <Card className='justify-center'>
           <Form onSubmit={() => {}} className='flex flex-col gap-2'>
             <h2>{t('Minimum votes to get registered')}</h2>
             <Input

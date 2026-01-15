@@ -21,16 +21,20 @@ export default function PlayerListItem({
     <div className={twMerge(`m-[-2px] flex w-full items-center`)}>
       <Card
         size='sm'
-        className='flex w-full items-center justify-between py-0 pr-2 md:pr-4'
+        className='flex w-full shrink-0 items-center justify-between gap-2 py-0 pr-2 md:pr-4'
       >
         <Profile name={name} />
         <Card
           size='sm'
           className='items-center gap-2 border-none bg-transparent'
         >
-          {drawing && <Icon name='edit' />}
-          {nextDrawer && <p>next</p>}
-          {host && <Icon name='crown' />}
+          {drawing ? (
+            <Icon name='edit' />
+          ) : nextDrawer ? (
+            <p>next</p>
+          ) : (
+            host && <Icon name='crown' />
+          )}
         </Card>
       </Card>
     </div>

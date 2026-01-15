@@ -3,20 +3,45 @@ import { useEffect, useRef, useState } from 'react'
 import type { Phase, Player, Setting } from '@/types'
 import { getRoomSocketUrl, parseRoomSocketMessage } from '@/utils/roomSocket'
 
+const mockPlayers: Player[] = [
+  {
+    id: '1',
+    name: 'Player 1',
+    host: true,
+    drawing: true,
+    nextDrawer: false,
+  },
+  {
+    id: '2',
+    name: 'Player 2',
+    host: false,
+    drawing: false,
+    nextDrawer: false,
+  },
+  {
+    id: '3',
+    name: 'Player 3',
+    host: false,
+    drawing: false,
+    nextDrawer: true,
+  },
+]
+const mockSetting: Setting = {
+  customWords: true,
+  rounds: 3,
+  drawingTime: 60,
+  maxPlayers: 8,
+  liars: 2,
+  roomType: 'public',
+}
+
 export function useRoomSocket(code: string) {
   const socketRef = useRef<WebSocket | null>(null)
   const [round, setRound] = useState<number>(0)
-  const [setting, setSetting] = useState<Setting>({
-    customWords: true,
-    rounds: 3,
-    drawingTime: 60,
-    maxPlayers: 8,
-    liars: 2,
-    roomType: 'public',
-  })
+  const [setting, setSetting] = useState<Setting>(mockSetting)
   const [timeLeft, setTimeLeft] = useState<number>(0)
   const [phase, setPhase] = useState<Phase>('waiting')
-  const [players, setPlayers] = useState<Player[]>([])
+  const [players, setPlayers] = useState<Player[]>(mockPlayers)
   const [roomCode, setRoomCode] = useState<string>(code)
 
   useEffect(() => {
