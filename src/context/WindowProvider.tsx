@@ -14,7 +14,7 @@ export default function WindowProvider({
   })
   const [isCompact, setIsCompact] = useState<boolean>(false)
   const [direction, setDirection] = useState<'vertical' | 'horizontal'>(
-    'vertical',
+    window.innerWidth >= window.innerHeight ? 'horizontal' : 'vertical',
   )
 
   useEffect(() => {
