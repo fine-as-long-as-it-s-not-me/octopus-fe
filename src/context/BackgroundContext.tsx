@@ -5,6 +5,7 @@ type BackgroundContextType = {
   isMuted: boolean
   setInteracted: (interacted: boolean) => void
   playMusic: (key: string) => void
+  pauseMusic: () => void
   muteMusicToggle: () => void
   setBackgroundImage: (key: string) => void
 }

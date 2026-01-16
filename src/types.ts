@@ -31,3 +31,17 @@ export interface Setting {
   customWords: boolean
   roomType: 'public' | 'private'
 }
+
+export interface Vector {
+  id: string
+  type: 'pen' | 'eraser'
+  color: string
+  strokeWidth: number
+  points: number[] // for freehand: [x1, y1, x2, y2, ...], for others: [x, y, w, h]
+}
+
+export interface Score {
+  player: Player
+  delta: number
+  total: number
+}

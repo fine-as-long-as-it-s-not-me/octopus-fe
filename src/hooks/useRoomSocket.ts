@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 
-import type { Phase, Player, Setting } from '@/types'
+import {
+  type Phase,
+  type Player,
+  type Score,
+  type Setting,
+  type Vector,
+} from '@/types'
 import { getRoomSocketUrl, parseRoomSocketMessage } from '@/utils/roomSocket'
 
 const mockPlayers: Player[] = [
@@ -34,6 +40,11 @@ const mockSetting: Setting = {
   liars: 2,
   roomType: 'public',
 }
+const mockScores: Score[] = mockPlayers.map((player, index) => ({
+  player,
+  delta: (index + 1) * 10,
+  total: 1000 - (index + 1) * 30,
+}))
 
 export function useRoomSocket(code: string) {
   const socketRef = useRef<WebSocket | null>(null)
@@ -43,6 +54,9 @@ export function useRoomSocket(code: string) {
   const [phase, setPhase] = useState<Phase>('waiting')
   const [players, setPlayers] = useState<Player[]>(mockPlayers)
   const [roomCode, setRoomCode] = useState<string>(code)
+  const [strokes, setStrokes] = useState<Vector[]>([])
+  const [bgColor, setBgColor] = useState<string>('ffffff')
+  const [scores, setScores] = useState<Score[]>(mockScores)
 
   useEffect(() => {
     if (!roomCode) return
@@ -96,6 +110,9 @@ export function useRoomSocket(code: string) {
   }, [roomCode])
 
   return {
+    scores,
+    strokes,
+    bgColor,
     socketRef,
     round,
     setting,

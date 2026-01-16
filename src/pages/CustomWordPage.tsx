@@ -6,7 +6,7 @@ import Card from '@/components/common/Card'
 import Form from '@/components/common/Form'
 import Icon from '@/components/common/Icon'
 import Input from '@/components/common/Input'
-import KeywordListItem from '@/components/room/KeywordListItem'
+import CustomWordListItem from '@/components/room/CustomWordListItem'
 import type { Keyword } from '@/types'
 
 export default function CustomWordPage() {
@@ -35,7 +35,7 @@ export default function CustomWordPage() {
         <div className='no-scrollbar flex max-h-[calc(70dvh-120px)] flex-row flex-wrap justify-center gap-2 overflow-scroll p-4'>
           {keywords.length ? (
             keywords.map(keyword => (
-              <KeywordListItem key={keyword.id} keyword={keyword} />
+              <CustomWordListItem key={keyword.id} keyword={keyword} />
             ))
           ) : (
             <p className='text-black/50'>{t('No custom words added yet.')}</p>

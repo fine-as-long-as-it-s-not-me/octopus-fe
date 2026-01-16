@@ -11,7 +11,7 @@ import DiscussionPage from '@/pages/phase/DiscussionPage'
 import DrawingPage from '@/pages/phase/DrawingPage'
 import GuessingPage from '@/pages/phase/GuessingPage'
 import KeywordPage from '@/pages/phase/KeywordPage'
-import ResultPage from '@/pages/phase/ResultPage'
+import RoundResultPage from '@/pages/phase/RoundResultPage'
 import VoteResultPage from '@/pages/phase/VoteResultPage'
 import VotingPage from '@/pages/phase/VotingPage'
 import RoomPage from '@/pages/RoomPage'
@@ -75,7 +75,7 @@ const router = createBrowserRouter([
             path: ROUTES.VOTE_RESULT(':roomId'),
           },
           {
-            element: <ResultPage />,
+            element: <RoundResultPage />,
             path: ROUTES.RESULT(':roomId'),
           },
         ],

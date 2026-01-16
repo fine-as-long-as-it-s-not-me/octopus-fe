@@ -1,15 +1,17 @@
 import { createContext, useContext } from 'react'
 
-import type { Phase, Player, Setting } from '@/types'
+import type { Phase, Player, Score, Setting, Vector } from '@/types'
 
 type RoomContextType = {
+  strokes: Vector[]
+  bgColor: string
   roomCode: string
   players: Player[]
   phase: Phase
-  phaseDescription: string
   timeLeft: number
   round: number
   setting: Setting
+  scores: Score[]
   startGame: () => void
   setRoomCode: (code: string) => void
   nextPhase: () => void // for dev

@@ -6,12 +6,12 @@ import ChatCard from '@/components/chat/ChatCard'
 import Card from '@/components/common/Card'
 import Icon from '@/components/common/Icon'
 import SettingModalButton from '@/components/common/SettingModalButton'
+import NextPhaseButton from '@/components/game/NextPhaseButton'
+import PhaseDescCard from '@/components/game/PhaseDescCard'
+import TimerCard from '@/components/game/TimerCard'
 import PlayerListButton from '@/components/player/PlayerListButton'
 import PlayersCard from '@/components/player/PlayerListCard'
 import CloseButton from '@/components/room/CloseButton'
-import NextPhaseButton from '@/components/room/NextPhaseButton'
-import PhaseDescCard from '@/components/room/PhaseDescCard'
-import TimerCard from '@/components/room/TimerCard'
 import { useBackground } from '@/context/BackgroundContext'
 import { useRoom } from '@/context/RoomContext'
 import { useWindow } from '@/context/WindowContext'
@@ -46,7 +46,7 @@ export default function GameLayout() {
             <Icon name='abc' />
             <p>Fish</p>
           </Card>
-          <PhaseDescCard className='order-1 sm:order-2' />
+          <PhaseDescCard />
         </div>
         <div className='flex grow sm:grow-0 sm:gap-2'>
           <TimerCard />
@@ -59,12 +59,11 @@ export default function GameLayout() {
       <div
         className={twMerge(
           'flex h-full w-full flex-col sm:h-[calc(100%-80px)] sm:gap-2',
-          direction === 'vertical' ? 'flex-col' : 'flex-row',
+          direction === 'vertical' ? 'flex-col' : 'flex-row flex-wrap',
         )}
       >
         <PlayersCard />
         <Outlet />
-        {/* TODO: ChatCard 크기 너무 작아지면 (horizontal, w<1000px?), playerCard와 병합하여 아코디언*/}
         <ChatCard />
       </div>
     </div>

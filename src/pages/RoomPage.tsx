@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 
 import ChatCard from '@/components/chat/ChatCard'
 import Button from '@/components/common/Button'
+import GameSettingListCard from '@/components/game/GameSettingListCard'
 import PlayerListCard from '@/components/player/PlayerListCard'
-import GameSettingListCard from '@/components/room/GameSettingListCard'
 import { useRoom } from '@/context/RoomContext'
 
 export default function RoomPage() {

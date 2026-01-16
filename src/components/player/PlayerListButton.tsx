@@ -5,16 +5,12 @@ import Button from '../common/Button'
 import Icon from '../common/Icon'
 import PlayerListModal from './PlayerListModal'
 
-interface Props {
-  className?: string
-}
-
-export default function PlayerListButton({ className }: Props) {
+export default function PlayerListButton() {
   const { openModal } = useModal()
   return (
     <Button
       size='md'
-      className={twMerge('grow self-stretch sm:hidden sm:grow-0', className)}
+      className={twMerge('grow self-stretch sm:hidden sm:grow-0')}
       cardClassName='h-full'
       onClick={() => {
         openModal(<PlayerListModal />)

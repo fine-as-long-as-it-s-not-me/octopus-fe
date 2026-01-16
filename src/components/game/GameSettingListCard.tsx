@@ -9,7 +9,7 @@ import { ROUTES } from '@/routes/ROUTES'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
 import CreateRoomModal from '../modals/CreateRoomModal'
-import SettingItem from './SettingItem'
+import SettingItem from '../room/SettingItem'
 
 export default function GameSettingListCard() {
   const { openModal } = useModal()

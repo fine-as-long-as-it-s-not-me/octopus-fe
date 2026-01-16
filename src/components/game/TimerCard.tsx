@@ -4,11 +4,7 @@ import { useRoom } from '@/context/RoomContext'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
 
-interface Props {
-  className?: string
-}
-
-export default function TimerCard({ className }: Props) {
+export default function TimerCard() {
   const { timeLeft } = useRoom()
   const colorClass = (time: number) => {
     if (time > 10) return ''
@@ -20,7 +16,6 @@ export default function TimerCard({ className }: Props) {
       size='md'
       className={twMerge(
         'w-fit grow items-center justify-center gap-2 px-2 sm:grow-0',
-        className,
       )}
     >
       <p

@@ -40,6 +40,14 @@ export const BackgroundProvider = ({ children }: Props) => {
     }
   }
 
+  function pauseMusic() {
+    if (playingMusic) {
+      playingMusic.pause()
+      setPlayingMusicKey(null)
+      setPlayingMusic(null)
+    }
+  }
+
   function muteMusicToggle() {
     setMuteMusic(prev => {
       const newMuteState = !prev
@@ -85,6 +93,7 @@ export const BackgroundProvider = ({ children }: Props) => {
         isMuted: muteMusic,
         setInteracted,
         playMusic,
+        pauseMusic,
         muteMusicToggle,
         setBackgroundImage,
       }}

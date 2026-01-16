@@ -27,8 +27,11 @@ export default function EffectProvider({ children }: { children: ReactNode }) {
   })
 
   function playSoundEffect(key: string) {
+    console.log('playSoundEffect', key)
     if (loading) return
     if (muteSoundEffects) return
+
+    console.log('Playing sound effect:', key)
 
     const sound = sounds[key]
     if (!sound) return
