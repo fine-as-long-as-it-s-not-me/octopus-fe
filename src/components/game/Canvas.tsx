@@ -23,9 +23,9 @@ export default function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const pointsRef = useRef<Point[]>([])
 
-  const [brushType, setBrushType] = useState<'pen' | 'eraser'>('pen')
-  const [color, setColor] = useState('#000000')
-  const [strokeWidth, setStrokeWidth] = useState(4)
+  const [brushType] = useState<'pen' | 'eraser'>('pen')
+  const [color] = useState('#000000')
+  const [strokeWidth] = useState(4)
 
   useEffect(() => {
     const canvas = canvasRef.current

@@ -47,7 +47,7 @@ const mockScores: Score[] = mockPlayers.map((player, index) => ({
 }))
 const mockStrokes: Stroke[] = [
   {
-    id: '1',
+    id: 1,
     sequence: 0,
     type: 'pen',
     color: '#ff0000',
@@ -59,7 +59,7 @@ const mockStrokes: Stroke[] = [
     ],
   },
   {
-    id: '1',
+    id: 1,
     sequence: 1,
     type: 'pen',
     color: '#00ff00',
@@ -75,16 +75,16 @@ const mockStrokes: Stroke[] = [
 export function useRoomSocket(code: string) {
   const socketRef = useRef<WebSocket | null>(null)
   const [round, setRound] = useState<number>(0)
-  const [setting, setSetting] = useState<Setting>(mockSetting)
-  const [timeLeft, setTimeLeft] = useState<number>(0)
   const [phase, setPhase] = useState<Phase>('waiting')
-  const [players, setPlayers] = useState<Player[]>(mockPlayers)
   const [roomCode, setRoomCode] = useState<string>(code)
   const [strokes, setStrokes] = useState<Stroke[]>(mockStrokes)
-  const [bgColor, setBgColor] = useState<string>('#ffffff')
-  const [scores, setScores] = useState<Score[]>(mockScores)
-  const [keyword, setKeyword] = useState<string>('Fish')
-  const [paintingPlayerId, setPaintingPlayerId] = useState<number>('1')
+  const [setting] = useState<Setting>(mockSetting)
+  const [timeLeft] = useState<number>(0)
+  const [players] = useState<Player[]>(mockPlayers)
+  const [bgColor] = useState<string>('#ffffff')
+  const [scores] = useState<Score[]>(mockScores)
+  const [keyword] = useState<string>('Fish')
+  const [paintingPlayerId] = useState<string>('1')
 
   useEffect(() => {
     if (!roomCode) return
