@@ -75,6 +75,7 @@ export const BackgroundProvider = ({ children }: Props) => {
           interacted && progress === 100 ? 'hidden' : 'flex'
         }`}
         onClick={() => setInteracted(true)}
+        onKeyDown={() => setInteracted(true)}
       >
         <h2>{t('Loading')}...</h2>
         <div className='flex flex-col items-center'>
