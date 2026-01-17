@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom'
 
 import logo from '@/assets/images/logo/logo.png'
 import Img from '@/components/common/Img'
-import SettingButtons from '@/components/common/SettingButtons'
 import SettingModalButton from '@/components/common/Settings'
 import { useBackground } from '@/context/BackgroundContext'
 import { useWindow } from '@/context/WindowContext'
