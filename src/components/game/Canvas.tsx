@@ -130,13 +130,17 @@ export default function Canvas() {
       sequenceRef.current = 0
     }
   }, [id, painterId, brushType, color, strokeWidth, addStroke, lastStrokeId])
+  console.log(bgColor)
   return (
     <Card
       className={twMerge(
-        'flex min-w-[480px] grow items-center justify-center p-0 sm:p-0 md:p-0 lg:p-0',
+        'flex min-w-[480px] grow items-center justify-center',
         direction === 'vertical' ? '' : '',
-        `bg-[${bgColor}]`,
       )}
+      style={{
+        backgroundColor: bgColor,
+        padding: '0px',
+      }}
     >
       <canvas className='block aspect-square w-full' ref={canvasRef} />
     </Card>
