@@ -25,8 +25,8 @@ export default function ChatCard() {
   return (
     <Card
       className={twMerge(
-        'flex h-[40dvh] min-h-[320px] grow-4 flex-col justify-start p-0 sm:h-auto md:p-0 lg:p-0',
-        direction === 'vertical' ? 'w-auto' : 'h-full w-fit',
+        'flex min-h-[240px] flex-col justify-start p-0 sm:h-auto md:p-0 lg:p-0',
+        direction === 'vertical' ? 'w-auto grow-12' : 'h-full w-fit grow-1',
       )}
     >
       <div
@@ -38,7 +38,7 @@ export default function ChatCard() {
         ))}
       </div>
       <Form
-        className='mt-auto flex h-[56px] shrink-0 rounded-t-none'
+        className='mt-auto flex h-[56px] shrink-0 sm:rounded-t-none'
         onSubmit={e => {
           e.preventDefault()
           const formData = new FormData(e.currentTarget)
@@ -59,7 +59,7 @@ export default function ChatCard() {
       >
         <Input
           placeholder={t('Type your message...')}
-          className='h-full w-full shrink-0 sm:rounded-t-none'
+          className='h-full w-full shrink-0 rounded-none sm:rounded-t-none'
           name='chatMessage'
         />
       </Form>

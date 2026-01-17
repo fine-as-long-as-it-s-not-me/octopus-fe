@@ -9,8 +9,11 @@ import HomePage from '@/pages/HomePage'
 import LobbyPage from '@/pages/LobbyPage'
 import DiscussionPage from '@/pages/phase/DiscussionPage'
 import DrawingPage from '@/pages/phase/DrawingPage'
+import GuessingPage from '@/pages/phase/GuessingPage'
 import KeywordPage from '@/pages/phase/KeywordPage'
-import ResultPage from '@/pages/phase/ResultPage'
+import RoundResultPage from '@/pages/phase/RoundResultPage'
+import VoteResultPage from '@/pages/phase/VoteResultPage'
+import VotingPage from '@/pages/phase/VotingPage'
 import RoomPage from '@/pages/RoomPage'
 import { ROUTES } from './ROUTES'
 
@@ -60,7 +63,19 @@ const router = createBrowserRouter([
             path: ROUTES.DISCUSSION(':roomId'),
           },
           {
-            element: <ResultPage />,
+            element: <GuessingPage />,
+            path: ROUTES.GUESSING(':roomId'),
+          },
+          {
+            element: <VotingPage />,
+            path: ROUTES.VOTING(':roomId'),
+          },
+          {
+            element: <VoteResultPage />,
+            path: ROUTES.VOTE_RESULT(':roomId'),
+          },
+          {
+            element: <RoundResultPage />,
             path: ROUTES.RESULT(':roomId'),
           },
         ],

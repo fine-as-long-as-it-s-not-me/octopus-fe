@@ -6,7 +6,7 @@ import Card from '@/components/common/Card'
 import Form from '@/components/common/Form'
 import Icon from '@/components/common/Icon'
 import Input from '@/components/common/Input'
-import KeywordListItem from '@/components/room/KeywordListItem'
+import CustomWordListItem from '@/components/room/CustomWordListItem'
 import type { Keyword } from '@/types'
 
 export default function CustomWordPage() {
@@ -29,13 +29,13 @@ export default function CustomWordPage() {
   }
 
   return (
-    <div className='flex flex-col sm:flex-row sm:gap-4 md:gap-6'>
-      <Card className='flex h-fit min-h-[30dvh] flex-col items-center justify-between gap-4 sm:w-1/2'>
+    <>
+      <Card className='flex h-fit min-h-[30dvh] grow flex-col items-center justify-between gap-4'>
         {t('Custom Word List')}
         <div className='no-scrollbar flex max-h-[calc(70dvh-120px)] flex-row flex-wrap justify-center gap-2 overflow-scroll p-4'>
           {keywords.length ? (
             keywords.map(keyword => (
-              <KeywordListItem key={keyword.id} keyword={keyword} />
+              <CustomWordListItem key={keyword.id} keyword={keyword} />
             ))
           ) : (
             <p className='text-black/50'>{t('No custom words added yet.')}</p>
@@ -55,9 +55,11 @@ export default function CustomWordPage() {
           </Button>
         </Form>
       </Card>
-      <div className='flex h-full flex-col sm:h-auto sm:w-1/2 sm:gap-4'>
-        <Button size='lg'>{t('Close Vote')}</Button>
-        <Card className='flex flex-col items-center gap-4'>
+      <div className='flex h-full grow flex-col sm:h-auto sm:gap-4'>
+        <Button size='lg' className='grow-1' cardClassName='h-full'>
+          {t('Close Vote')}
+        </Button>
+        <Card className='flex grow-2 flex-col items-center justify-center gap-4'>
           <p className='text-center text-xl'>
             {t('Public Vote (for streamers)')}
           </p>
@@ -66,12 +68,15 @@ export default function CustomWordPage() {
               `Anyone with the link can vote words to register. This feature is recommended to use with setting ‘Minimum votes to get registered’ to more than 0 to prevent trolls.`,
             )}
           </p>
-          <Button size='md' cardClassName='gap-2 px-4 py-3 md:px-6 md:py-4'>
+          <Button
+            size='md'
+            cardClassName='gap-2 px-4 py-3 md:px-6 md:py-4 rounded-xl'
+          >
             <p>{t('Copy vote link')}</p>
             <Icon name='content_copy' />
           </Button>
         </Card>
-        <Card className='justify-center'>
+        <Card className='grow-1 items-center justify-center'>
           <Form onSubmit={() => {}} className='flex flex-col gap-2'>
             <h2>{t('Minimum votes to get registered')}</h2>
             <Input
@@ -89,6 +94,6 @@ export default function CustomWordPage() {
           </Form>
         </Card>
       </div>
-    </div>
+    </>
   )
 }

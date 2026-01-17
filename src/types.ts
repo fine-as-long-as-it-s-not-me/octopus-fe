@@ -31,3 +31,23 @@ export interface Setting {
   customWords: boolean
   roomType: 'public' | 'private'
 }
+
+export interface Stroke {
+  id: number
+  sequence: number
+  type: 'pen' | 'eraser'
+  color: string
+  strokeWidth: number
+  points: Point[]
+}
+
+export interface Point {
+  x: number
+  y: number
+}
+
+export interface Score {
+  player: Player
+  delta: number
+  total: number
+}

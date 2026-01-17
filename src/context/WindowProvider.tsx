@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { debounce } from 'lodash'
 
 import { WindowContext, type ScreenSize } from './WindowContext'
 
-const RESIZE_THROTTLE_MS = 100
+const RESIZE_THROTTLE_MS = 500
 
 export default function WindowProvider({
   children,
@@ -18,22 +19,20 @@ export default function WindowProvider({
   const [direction, setDirection] = useState<'vertical' | 'horizontal'>(
     window.innerWidth >= window.innerHeight ? 'horizontal' : 'vertical',
   )
-  const lastResizeTimeRef = useRef(new Date().getTime())
 
   useEffect(() => {
-    const handleResize = () => {
-      if (new Date().getTime() - lastResizeTimeRef.current < RESIZE_THROTTLE_MS)
-        return
-      lastResizeTimeRef.current = new Date().getTime()
+    const handleResize = debounce(() => {
       setSize({
         sm: window.innerWidth >= 640,
         md: window.innerWidth >= 768,
         lg: window.innerWidth >= 1024,
       })
-      setDirection(
-        window.innerWidth >= window.innerHeight ? 'horizontal' : 'vertical',
-      )
-    }
+      const newD =
+        window.innerWidth >= window.innerHeight - 100
+          ? 'horizontal'
+          : 'vertical'
+      setDirection(newD)
+    }, RESIZE_THROTTLE_MS)
 
     window.addEventListener('resize', handleResize)
     return () => {

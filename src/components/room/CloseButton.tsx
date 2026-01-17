@@ -12,7 +12,7 @@ export default function CloseButton() {
   const navigate = useNavigate()
   const isRoomPage = useMatch(ROUTES.ROOM(':roomCode'))
   const isCustomWordPage = useMatch(ROUTES.CUSTOM_WORD(':roomCode'))
-  const isGamePage = useMatch(ROUTES.GAME('*'))
+  const isGamePage = useMatch(`${ROUTES.ROOM(':roomCode')}/*`)
 
   const { roomCode } = useRoom()
   const { t } = useTranslation()
@@ -33,7 +33,6 @@ export default function CloseButton() {
   if (isRoomPage || isGamePage)
     return (
       <Button
-        className='grow sm:grow-0'
         cardClassName='py-2 md:py-3 h-full'
         size='md'
         onClick={async () => {
