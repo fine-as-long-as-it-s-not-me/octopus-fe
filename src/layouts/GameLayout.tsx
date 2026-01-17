@@ -20,7 +20,7 @@ import { getPhasePath } from '@/utils/getPhasePath'
 export default function GameLayout() {
   const { setBackgroundImage } = useBackground()
   const { setIsCompact, direction } = useWindow()
-  const { phase, roomCode } = useRoom()
+  const { phase, roomCode, keyword } = useRoom()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function GameLayout() {
             className='order-2 flex w-auto shrink-0 flex-row items-center sm:order-1 sm:gap-2'
           >
             <Icon name='abc' />
-            <p>Fish</p>
+            <p>{keyword}</p>
           </Card>
           <PhaseDescCard />
         </div>
@@ -58,7 +58,7 @@ export default function GameLayout() {
       </div>
       <div
         className={twMerge(
-          'flex h-full w-full flex-col sm:h-[calc(100%-80px)] sm:gap-2',
+          'flex h-[calc(100%-112px)] w-full flex-col sm:h-[calc(100%-80px)] sm:gap-2',
           direction === 'vertical' ? 'flex-col' : 'flex-row flex-wrap',
         )}
       >

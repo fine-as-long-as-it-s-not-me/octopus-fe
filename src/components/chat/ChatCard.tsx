@@ -38,7 +38,7 @@ export default function ChatCard() {
         ))}
       </div>
       <Form
-        className='mt-auto flex h-[56px] shrink-0 rounded-t-none'
+        className='mt-auto flex h-[56px] shrink-0 sm:rounded-t-none'
         onSubmit={e => {
           e.preventDefault()
           const formData = new FormData(e.currentTarget)
@@ -59,7 +59,7 @@ export default function ChatCard() {
       >
         <Input
           placeholder={t('Type your message...')}
-          className='h-full w-full shrink-0 rounded-t-none'
+          className='h-full w-full shrink-0 rounded-none sm:rounded-t-none'
           name='chatMessage'
         />
       </Form>

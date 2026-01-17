@@ -5,7 +5,7 @@ import {
   type Player,
   type Score,
   type Setting,
-  type Vector,
+  type Stroke,
 } from '@/types'
 import { getRoomSocketUrl, parseRoomSocketMessage } from '@/utils/roomSocket'
 
@@ -45,6 +45,32 @@ const mockScores: Score[] = mockPlayers.map((player, index) => ({
   delta: (index + 1) * 10,
   total: 1000 - (index + 1) * 30,
 }))
+const mockStrokes: Stroke[] = [
+  {
+    id: '1',
+    sequence: 0,
+    type: 'pen',
+    color: '#ff0000',
+    strokeWidth: 5,
+    points: [
+      { x: 100, y: 100 },
+      { x: 150, y: 150 },
+      { x: 200, y: 100 },
+    ],
+  },
+  {
+    id: '1',
+    sequence: 1,
+    type: 'pen',
+    color: '#00ff00',
+    strokeWidth: 10,
+    points: [
+      { x: 300, y: 300 },
+      { x: 350, y: 350 },
+      { x: 400, y: 300 },
+    ],
+  },
+]
 
 export function useRoomSocket(code: string) {
   const socketRef = useRef<WebSocket | null>(null)
@@ -54,9 +80,11 @@ export function useRoomSocket(code: string) {
   const [phase, setPhase] = useState<Phase>('waiting')
   const [players, setPlayers] = useState<Player[]>(mockPlayers)
   const [roomCode, setRoomCode] = useState<string>(code)
-  const [strokes, setStrokes] = useState<Vector[]>([])
-  const [bgColor, setBgColor] = useState<string>('ffffff')
+  const [strokes, setStrokes] = useState<Stroke[]>(mockStrokes)
+  const [bgColor, setBgColor] = useState<string>('#ffffff')
   const [scores, setScores] = useState<Score[]>(mockScores)
+  const [keyword, setKeyword] = useState<string>('Fish')
+  const [paintingPlayerId, setPaintingPlayerId] = useState<number>('1')
 
   useEffect(() => {
     if (!roomCode) return
@@ -67,37 +95,8 @@ export function useRoomSocket(code: string) {
       if (typeof event.data !== 'string') return
       const message = parseRoomSocketMessage(event.data)
       if (!message) return
-      switch (message.type) {
-        case 'room_state': {
-          if (message.payload.roomCode) setRoomCode(message.payload.roomCode)
-          if (message.payload.players) setPlayers(message.payload.players)
-          if (message.payload.phase) setPhase(message.payload.phase)
-          if (typeof message.payload.timeLeft === 'number')
-            setTimeLeft(message.payload.timeLeft)
-          if (typeof message.payload.round === 'number')
-            setRound(message.payload.round)
-          if (message.payload.setting) setSetting(message.payload.setting)
-          return
-        }
-        case 'players_updated':
-          setPlayers(message.payload.players)
-          return
-        case 'phase_updated':
-          setPhase(message.payload.phase)
-          if (typeof message.payload.timeLeft === 'number')
-            setTimeLeft(message.payload.timeLeft)
-          if (typeof message.payload.round === 'number')
-            setRound(message.payload.round)
-          return
-        case 'setting_updated':
-          setSetting(prev => ({ ...prev, ...(message.payload as Setting) }))
-          return
-        case 'room_code':
-          setRoomCode(message.payload.roomCode)
-          return
-        default:
-          return
-      }
+
+      console.log('Received message:', message)
     }
 
     socket.addEventListener('message', handleMessage)
@@ -109,7 +108,13 @@ export function useRoomSocket(code: string) {
     }
   }, [roomCode])
 
+  // for dev test
+  const addStroke = (stroke: Stroke) => {
+    setStrokes(prevStrokes => [...prevStrokes, stroke])
+  }
+
   return {
+    keyword,
     scores,
     strokes,
     bgColor,
@@ -119,9 +124,11 @@ export function useRoomSocket(code: string) {
     timeLeft,
     phase,
     players,
+    paintingPlayerId,
     roomCode,
     setRoomCode,
     setPhase,
     setRound,
+    addStroke,
   }
 }

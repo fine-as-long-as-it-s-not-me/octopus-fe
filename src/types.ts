@@ -32,12 +32,18 @@ export interface Setting {
   roomType: 'public' | 'private'
 }
 
-export interface Vector {
-  id: string
+export interface Stroke {
+  id: number
+  sequence: number
   type: 'pen' | 'eraser'
   color: string
   strokeWidth: number
-  points: number[] // for freehand: [x1, y1, x2, y2, ...], for others: [x, y, w, h]
+  points: Point[]
+}
+
+export interface Point {
+  x: number
+  y: number
 }
 
 export interface Score {

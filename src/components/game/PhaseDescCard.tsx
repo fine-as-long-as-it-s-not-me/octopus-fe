@@ -7,9 +7,9 @@ import Card from '../common/Card'
 const PHASE_DESCRIPTIONS: Record<string, string> = {
   waiting: 'Waiting for players...',
   keyword: 'Check your given word',
-  drawing: 'Draw the word as best as you can',
+  drawing: 'Draw!',
   discussion: 'Discuss with other players',
-  voting: 'Vote for the suspicious drawing',
+  voting: 'Vote for the suspicious...',
   'vote-result': 'See the voting results',
   guessing: 'Guess the correct word',
   result: 'See the round results',

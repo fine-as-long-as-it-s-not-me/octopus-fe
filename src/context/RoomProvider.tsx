@@ -14,8 +14,11 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
     bgColor,
     strokes,
     scores,
+    keyword,
+    paintingPlayerId,
     setPhase,
     setRound,
+    addStroke,
   } = useRoomSocket(roomCode)
 
   const startGame = () => {
@@ -49,6 +52,7 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
   return (
     <RoomContext.Provider
       value={{
+        keyword,
         scores,
         bgColor,
         strokes,
@@ -57,10 +61,12 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
         phase,
         timeLeft,
         round,
+        painterId: paintingPlayerId,
         setting,
         setRoomCode,
         startGame,
         nextPhase, // for dev
+        addStroke,
       }}
     >
       {children}

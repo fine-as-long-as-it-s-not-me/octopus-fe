@@ -27,14 +27,7 @@ export default function DrawingPage() {
         direction === 'vertical' ? '' : '',
       )}
     >
-      <Card
-        className={twMerge(
-          'flex min-w-[480px] grow items-center justify-center',
-          direction === 'vertical' ? '' : '',
-        )}
-      >
-        <Canvas />
-      </Card>
+      <Canvas />
       <Card className='flex shrink-0'>palette</Card>
     </div>
   )
