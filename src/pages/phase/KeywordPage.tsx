@@ -8,10 +8,9 @@ export default function KeywordPage() {
   const { pauseMusic } = useBackground()
   const { playSoundEffect } = useEffects()
   useEffect(() => {
-    console.log('KeywordPage mounted')
     playSoundEffect('keyword-intro')
     pauseMusic()
-  })
+  }, [])
   return (
     <Card className='flex min-h-[43dvh] w-auto grow-12 flex-col items-center justify-center gap-6 sm:h-auto'>
       <p className='text-2xl'>Your given word is...</p>
