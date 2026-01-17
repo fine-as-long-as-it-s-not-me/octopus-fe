@@ -23,7 +23,9 @@ export default function PhaseDescCard() {
   return (
     <Card
       size='md'
-      className={twMerge(`order-1 w-auto grow-4 items-center sm:order-2`)}
+      className={twMerge(
+        `order-1 w-auto shrink-0 grow-4 items-center sm:order-2`,
+      )}
     >
       {t(phaseDescription)}
     </Card>

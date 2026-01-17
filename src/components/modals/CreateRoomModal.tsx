@@ -80,7 +80,7 @@ export default function CreateRoomModal() {
         </SettingInputWrapper>
         <SettingInputWrapper
           icon={<Icon name='timer' />}
-          label={t('Drawing Time (seconds)')}
+          label={t('Drawing Time')}
         >
           <div className='flex gap-2'>
             {settingOptions.drawingTimes.map(option => (

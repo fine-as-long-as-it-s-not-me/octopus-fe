@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import { ROUTES } from '@/routes/ROUTES'
 import {
+  type Message,
   type Phase,
   type Player,
   type Score,
   type Setting,
   type Stroke,
 } from '@/types'
-import { getRoomSocketUrl, parseRoomSocketMessage } from '@/utils/roomSocket'
+import { getRoomSocketUrl } from '@/utils/socket'
 
 const mockPlayers: Player[] = [
   {
@@ -86,32 +89,53 @@ export function useRoomSocket(code: string) {
   const [keyword] = useState<string>('Fish')
   const [paintingPlayerId] = useState<string>('1')
 
-  useEffect(() => {
-    if (!roomCode) return
-    const socket = new WebSocket(getRoomSocketUrl(roomCode))
-    socketRef.current = socket
-
-    const handleMessage = (event: MessageEvent) => {
-      if (typeof event.data !== 'string') return
-      const message = parseRoomSocketMessage(event.data)
-      if (!message) return
-
-      console.log('Received message:', message)
-    }
-
-    socket.addEventListener('message', handleMessage)
-
-    return () => {
-      socket.removeEventListener('message', handleMessage)
-      socket.close()
-      socketRef.current = null
-    }
-  }, [roomCode])
+  const navigate = useNavigate()
 
   // for dev test
   const addStroke = (stroke: Stroke) => {
     setStrokes(prevStrokes => [...prevStrokes, stroke])
   }
+
+  const joinRoom = (roomCode: string, name: string) => {
+    if (!socketRef.current) return
+    socketRef.current.send(
+      JSON.stringify({
+        mainType: 'room',
+        subType: 'join',
+        data: { roomCode, name },
+      }),
+    )
+  }
+
+  useEffect(() => {
+    const handlers = {
+      welcome: ({ roomCode }: { roomCode: string }) => {
+        setRoomCode(roomCode)
+        navigate(ROUTES.ROOM(roomCode))
+      },
+    }
+
+    if (!roomCode) return
+    const socket = new WebSocket(getRoomSocketUrl())
+    socketRef.current = socket
+
+    const messageHandler = (event: MessageEvent) => {
+      try {
+        const { type, data } = JSON.parse(event.data) as Message
+        handlers[type](data)
+      } catch (error) {
+        console.error('Error parsing message:', error)
+      }
+    }
+
+    socket.addEventListener('message', messageHandler)
+
+    return () => {
+      socket.removeEventListener('message', messageHandler)
+      socket.close()
+      socketRef.current = null
+    }
+  }, [roomCode])
 
   return {
     keyword,
@@ -130,5 +154,6 @@ export function useRoomSocket(code: string) {
     setPhase,
     setRound,
     addStroke,
+    joinRoom,
   }
 }

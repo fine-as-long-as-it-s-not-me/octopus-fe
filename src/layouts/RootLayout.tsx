@@ -8,15 +8,15 @@ import WindowProvider from '@/context/WindowProvider'
 export default function RootLayout() {
   return (
     <WindowProvider>
-      <RoomProvider>
-        <ModalProviderWrapper>
-          <UserProvider>
+      <UserProvider>
+        <RoomProvider>
+          <ModalProviderWrapper>
             <div className='no-scrollbar flex h-dvh w-dvw flex-col items-center overflow-hidden'>
               <Outlet />
             </div>
-          </UserProvider>
-        </ModalProviderWrapper>
-      </RoomProvider>
+          </ModalProviderWrapper>
+        </RoomProvider>
+      </UserProvider>
     </WindowProvider>
   )
 }

@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { useModal } from 'sam-react-modal'
 
-import { ROUTES } from '@/routes/ROUTES'
+import { useRoom } from '@/context/RoomContext'
+import { useUser } from '@/context/UserContext'
 import Button from '../common/Button'
 import Form from '../common/Form'
 import Input from '../common/Input'
@@ -11,9 +11,10 @@ import Alert from './Alert'
 
 export default function RoomCodeInputModal() {
   const { t } = useTranslation()
-  const navigate = useNavigate()
 
   const { openModal } = useModal()
+  const { joinRoom } = useRoom()
+  const { name } = useUser()
 
   const roomCodeSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -21,7 +22,7 @@ export default function RoomCodeInputModal() {
     const roomCode = formData.get('roomCode') as string
     if (!roomCode.trim())
       return openModal(<Alert>{t('Please enter the room code.')}</Alert>)
-    navigate(ROUTES.ROOM(roomCode))
+    joinRoom(roomCode, name)
   }
   return (
     <Modal>

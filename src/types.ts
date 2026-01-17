@@ -51,3 +51,12 @@ export interface Score {
   delta: number
   total: number
 }
+
+export interface Message {
+  type: MessageType
+  data: DataType
+}
+
+export type MessageType = 'welcome'
+
+export type DataType = { roomCode: string }

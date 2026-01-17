@@ -13,7 +13,6 @@ export default function Canvas() {
   const { direction } = useWindow()
   const { strokes, bgColor, painterId, addStroke } = useRoom()
   const { id } = useUser()
-  console.log(id, painterId)
   const lastStrokeId = strokes.reduce(
     (max, stroke) => Math.max(max, stroke.id),
     -1,
@@ -111,7 +110,6 @@ export default function Canvas() {
       sendCurrentStroke()
     }
     canvas.onpointermove = e => {
-      console.log(e.layerX, e.layerY)
       if (id !== painterId || strokeIdRef.current === null) return
       if (!canvas.hasPointerCapture(e.pointerId)) return
       e.preventDefault()
@@ -130,7 +128,6 @@ export default function Canvas() {
       sequenceRef.current = 0
     }
   }, [id, painterId, brushType, color, strokeWidth, addStroke, lastStrokeId])
-  console.log(bgColor)
   return (
     <Card
       className={twMerge(

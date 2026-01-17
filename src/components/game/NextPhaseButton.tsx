@@ -8,8 +8,8 @@ export default function NextPhaseButton() {
   }
 
   return (
-    <Button onClick={handleClick} className='w-fit'>
-      NP
+    <Button onClick={handleClick} className='flex h-full w-fit'>
+      ?
     </Button>
   )
 }

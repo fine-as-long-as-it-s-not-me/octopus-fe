@@ -18,7 +18,7 @@ export default function DrawingPage() {
     const me = players.find(p => p.id === id)
     if (me && me.drawing) playMusic('drawing')
     else playMusic('kidsgame')
-  }, [])
+  }, [players, id, playMusic])
 
   return (
     <div

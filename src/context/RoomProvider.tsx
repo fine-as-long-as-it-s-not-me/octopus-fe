@@ -19,6 +19,7 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
     setPhase,
     setRound,
     addStroke,
+    joinRoom,
   } = useRoomSocket(roomCode)
 
   const startGame = () => {
@@ -67,6 +68,7 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
         startGame,
         nextPhase, // for dev
         addStroke,
+        joinRoom,
       }}
     >
       {children}

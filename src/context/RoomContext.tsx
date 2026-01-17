@@ -18,6 +18,7 @@ type RoomContextType = {
   setRoomCode: (code: string) => void
   nextPhase: () => void // for dev
   addStroke: (stroke: Stroke) => void // for dev
+  joinRoom: (roomCode: string, name: string) => void
 }
 
 export const RoomContext = createContext<RoomContextType | null>(null)
