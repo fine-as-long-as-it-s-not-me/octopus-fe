@@ -51,7 +51,7 @@ export default function GameLayout() {
         <div className='flex grow sm:grow-0 sm:gap-2'>
           <TimerCard />
           <PlayerListButton />
-          {import.meta.env.DEV && <NextPhaseButton />}
+          {import.meta.env.PROD || <NextPhaseButton />}
           <SettingModalButton />
           <CloseButton />
         </div>

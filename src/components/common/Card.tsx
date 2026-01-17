@@ -8,7 +8,12 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   className?: string
 }
 
-export default function Card({ size = 'lg', children, className }: Props) {
+export default function Card({
+  size = 'lg',
+  children,
+  className,
+  ...rest
+}: Props) {
   const { isCompact } = useWindow()
 
   const sizeClassName = {
@@ -23,6 +28,7 @@ export default function Card({ size = 'lg', children, className }: Props) {
         sizeClassName[size],
         className,
       )}
+      {...rest}
     >
       {children}
     </div>
