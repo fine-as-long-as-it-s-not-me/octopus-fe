@@ -7,15 +7,17 @@ import Button from '@/components/common/Button'
 import Img from '@/components/common/Img'
 import CreateRoomModal from '@/components/modals/CreateRoomModal'
 import RoomCodeInputModal from '@/components/modals/RoomCodeInputModal'
+import { useRoom } from '@/context/RoomContext'
 import { ROUTES } from '@/routes/ROUTES'
 
 export default function LobbyPage() {
   const { t } = useTranslation()
   const { openModal } = useModal()
   const navigate = useNavigate()
+  const { joinRandomRoom } = useRoom()
 
   const randomRoomClickHandler = () => {
-    navigate(ROUTES.ROOM('random?'))
+    joinRandomRoom()
   }
   const useRoomCodeClickHandler = () => {
     openModal(<RoomCodeInputModal />)

@@ -14,7 +14,7 @@ import SettingItem from '../room/SettingItem'
 export default function GameSettingListCard() {
   const { openModal } = useModal()
   const { t } = useTranslation()
-  const { setting, roomCode } = useRoom()
+  const { setting } = useRoom()
   const navigate = useNavigate()
   const { direction } = useWindow()
 
@@ -61,7 +61,7 @@ export default function GameSettingListCard() {
           onClick={
             setting.customWords
               ? () => {
-                  navigate(ROUTES.CUSTOM_WORD(roomCode))
+                  navigate(ROUTES.CUSTOM_WORD)
                 }
               : undefined
           }

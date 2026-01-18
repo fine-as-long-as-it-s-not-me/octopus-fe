@@ -1,13 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import { useUser } from '@/context/UserContext'
+import { ROUTES } from '@/routes/ROUTES'
 import {
+  type Message,
   type Phase,
   type Player,
+  type PlayersUpdatedData,
   type Score,
   type Setting,
   type Stroke,
+  type WelcomeData,
 } from '@/types'
-import { getRoomSocketUrl, parseRoomSocketMessage } from '@/utils/roomSocket'
+import { getRoomSocketUrl, sendMessage } from '@/utils/socket'
 
 const mockPlayers: Player[] = [
   {
@@ -72,46 +78,98 @@ const mockStrokes: Stroke[] = [
   },
 ]
 
-export function useRoomSocket(code: string) {
+export function useRoomSocket() {
   const socketRef = useRef<WebSocket | null>(null)
   const [round, setRound] = useState<number>(0)
   const [phase, setPhase] = useState<Phase>('waiting')
-  const [roomCode, setRoomCode] = useState<string>(code)
+  const [roomCode, setRoomCode] = useState<string | null>(null)
   const [strokes, setStrokes] = useState<Stroke[]>(mockStrokes)
   const [setting] = useState<Setting>(mockSetting)
   const [timeLeft] = useState<number>(0)
-  const [players] = useState<Player[]>(mockPlayers)
+  const [players, setPlayers] = useState<Player[]>([])
   const [bgColor] = useState<string>('#ffffff')
   const [scores] = useState<Score[]>(mockScores)
   const [keyword] = useState<string>('Fish')
   const [paintingPlayerId] = useState<string>('1')
 
-  useEffect(() => {
-    if (!roomCode) return
-    const socket = new WebSocket(getRoomSocketUrl(roomCode))
-    socketRef.current = socket
-
-    const handleMessage = (event: MessageEvent) => {
-      if (typeof event.data !== 'string') return
-      const message = parseRoomSocketMessage(event.data)
-      if (!message) return
-
-      console.log('Received message:', message)
-    }
-
-    socket.addEventListener('message', handleMessage)
-
-    return () => {
-      socket.removeEventListener('message', handleMessage)
-      socket.close()
-      socketRef.current = null
-    }
-  }, [roomCode])
+  const navigate = useNavigate()
+  const { setId: setUserId, name } = useUser()
 
   // for dev test
   const addStroke = (stroke: Stroke) => {
     setStrokes(prevStrokes => [...prevStrokes, stroke])
   }
+
+  const joinRoom = (roomCode: string) => {
+    if (!socketRef.current) return
+    sendMessage(socketRef.current, 'room', 'join', { roomCode, name })
+  }
+
+  const joinRandomRoom = () => {
+    if (!socketRef.current) return
+    sendMessage(socketRef.current, 'room', 'join_random', { name })
+  }
+
+  const leaveRoom = () => {
+    if (!socketRef.current) return
+    sendMessage(socketRef.current, 'room', 'leave', { roomCode })
+    setRoomCode(null)
+  }
+
+  useEffect(() => {
+    const socket = new WebSocket(getRoomSocketUrl())
+    socketRef.current = socket
+
+    return () => {
+      socket.close()
+      socketRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    const socket = socketRef.current
+    if (!socket) return
+
+    const handlers = {
+      welcome: ({ roomCode, userId }: WelcomeData) => {
+        setUserId(userId)
+        setRoomCode(roomCode)
+        navigate(ROUTES.WAITING)
+      },
+      players_updated: ({ hostId, players }: PlayersUpdatedData) => {
+        // Update players state here
+        setPlayers(
+          players.map(player => ({
+            ...player,
+            host: player.id === hostId,
+          })),
+        )
+      },
+    }
+
+    const messageHandler = (event: MessageEvent) => {
+      try {
+        const { type, data } = JSON.parse(event.data) as Message
+        console.log('Received message:', type, data)
+        handlers[type](data)
+      } catch (error) {
+        console.error('Error parsing message:', error)
+      }
+    }
+
+    socket.addEventListener('message', messageHandler)
+    socket.addEventListener('disconnect', () => {
+      //retry connection
+      console.warn('Socket disconnected, retrying connection...')
+
+      const newSocket = new WebSocket(getRoomSocketUrl())
+      socketRef.current = newSocket
+    })
+
+    return () => {
+      socket.removeEventListener('message', messageHandler)
+    }
+  }, [navigate, setUserId])
 
   return {
     keyword,
@@ -130,5 +188,8 @@ export function useRoomSocket(code: string) {
     setPhase,
     setRound,
     addStroke,
+    joinRoom,
+    joinRandomRoom,
+    leaveRoom,
   }
 }

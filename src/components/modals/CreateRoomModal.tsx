@@ -33,7 +33,7 @@ export default function CreateRoomModal() {
       useCustomWords: !!e.currentTarget.useCustomWords.checked,
       roomType: e.currentTarget.roomType.value,
     })
-    navigate(ROUTES.ROOM('A234'))
+    navigate(ROUTES.WAITING)
   }
 
   return (
@@ -80,7 +80,7 @@ export default function CreateRoomModal() {
         </SettingInputWrapper>
         <SettingInputWrapper
           icon={<Icon name='timer' />}
-          label={t('Drawing Time (seconds)')}
+          label={t('Drawing Time')}
         >
           <div className='flex gap-2'>
             {settingOptions.drawingTimes.map(option => (

@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import EntryLayout from '@/layouts/EntryLayout'
 import GameLayout from '@/layouts/GameLayout'
+import GameRoomLayout from '@/layouts/GameRoomLayout'
 import RoomLayout from '@/layouts/RoomLayout'
 import RootLayout from '@/layouts/RootLayout'
 import CustomWordPage from '@/pages/CustomWordPage'
@@ -35,48 +36,53 @@ const router = createBrowserRouter([
         ],
       },
       {
-        Component: () => <RoomLayout />,
+        Component: () => <GameRoomLayout />,
         children: [
           {
-            element: <RoomPage />,
-            path: ROUTES.ROOM(':roomId'),
+            Component: () => <RoomLayout />,
+            children: [
+              {
+                element: <RoomPage />,
+                path: ROUTES.WAITING,
+              },
+              {
+                element: <CustomWordPage />,
+                path: ROUTES.CUSTOM_WORD,
+              },
+            ],
           },
           {
-            element: <CustomWordPage />,
-            path: ROUTES.CUSTOM_WORD(':roomId'),
-          },
-        ],
-      },
-      {
-        Component: () => <GameLayout />,
-        children: [
-          {
-            element: <DrawingPage />,
-            path: ROUTES.DRAWING(':roomId'),
-          },
-          {
-            element: <KeywordPage />,
-            path: ROUTES.KEYWORD(':roomId'),
-          },
-          {
-            element: <DiscussionPage />,
-            path: ROUTES.DISCUSSION(':roomId'),
-          },
-          {
-            element: <GuessingPage />,
-            path: ROUTES.GUESSING(':roomId'),
-          },
-          {
-            element: <VotingPage />,
-            path: ROUTES.VOTING(':roomId'),
-          },
-          {
-            element: <VoteResultPage />,
-            path: ROUTES.VOTE_RESULT(':roomId'),
-          },
-          {
-            element: <RoundResultPage />,
-            path: ROUTES.RESULT(':roomId'),
+            Component: () => <GameLayout />,
+            children: [
+              {
+                element: <DrawingPage />,
+                path: ROUTES.DRAWING,
+              },
+              {
+                element: <KeywordPage />,
+                path: ROUTES.KEYWORD,
+              },
+              {
+                element: <DiscussionPage />,
+                path: ROUTES.DISCUSSION,
+              },
+              {
+                element: <GuessingPage />,
+                path: ROUTES.GUESSING,
+              },
+              {
+                element: <VotingPage />,
+                path: ROUTES.VOTING,
+              },
+              {
+                element: <VoteResultPage />,
+                path: ROUTES.VOTE_RESULT,
+              },
+              {
+                element: <RoundResultPage />,
+                path: ROUTES.RESULT,
+              },
+            ],
           },
         ],
       },

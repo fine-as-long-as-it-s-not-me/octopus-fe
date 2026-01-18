@@ -51,3 +51,16 @@ export interface Score {
   delta: number
   total: number
 }
+
+export interface Message {
+  type: 'welcome' | 'players_updated'
+  data: WelcomeData & PlayersUpdatedData
+}
+export type WelcomeData = {
+  roomCode: string
+  userId: string
+}
+export type PlayersUpdatedData = {
+  hostId: string
+  players: Player[]
+}

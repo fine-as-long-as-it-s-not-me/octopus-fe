@@ -15,7 +15,7 @@ export default function TimerCard() {
     <Card
       size='md'
       className={twMerge(
-        'w-fit grow items-center justify-center gap-2 px-2 sm:grow-0',
+        'w-fit max-w-[120px] grow items-center justify-center gap-2 px-2',
       )}
     >
       <p

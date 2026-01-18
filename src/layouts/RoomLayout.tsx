@@ -7,17 +7,19 @@ import { twMerge } from 'tailwind-merge'
 import Button from '@/components/common/Button'
 import Icon from '@/components/common/Icon'
 import SettingButtons from '@/components/common/SettingButtons'
-import SettingModalButton from '@/components/common/SettingModalButton'
+import SettingModalButton from '@/components/common/Settings'
 import Alert from '@/components/modals/Alert'
 import PlayerListButton from '@/components/player/PlayerListButton'
 import CloseButton from '@/components/room/CloseButton'
 import { useBackground } from '@/context/BackgroundContext'
 import { useRoom } from '@/context/RoomContext'
+import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
 
 export default function RoomLayout() {
   const { t } = useTranslation()
-  const { playMusic, setBackgroundImage } = useBackground()
+  const { setBackgroundImage } = useBackground()
+  const { playMusic } = useSound()
 
   const { roomCode } = useRoom()
   const { openModal } = useModal()

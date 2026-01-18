@@ -3,13 +3,15 @@ import { Outlet } from 'react-router-dom'
 
 import logo from '@/assets/images/logo/logo.png'
 import Img from '@/components/common/Img'
-import SettingButtons from '@/components/common/SettingButtons'
+import SettingModalButton from '@/components/common/Settings'
 import { useBackground } from '@/context/BackgroundContext'
+import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
 
 export default function EntryLayout() {
-  const { playMusic, setBackgroundImage } = useBackground()
+  const { setBackgroundImage } = useBackground()
   const { setIsCompact } = useWindow()
+  const { playMusic } = useSound()
 
   useEffect(() => {
     playMusic('citymafia')
@@ -25,8 +27,8 @@ export default function EntryLayout() {
         className='w-[50dvw] max-w-[560px] min-w-[400px]'
       />
       <Outlet />
-      <div className={`grid w-full grid-cols-3 gap-4`}>
-        <SettingButtons />
+      <div className={`flex w-full`}>
+        <SettingModalButton />
       </div>
     </div>
   )

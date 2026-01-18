@@ -22,6 +22,7 @@ export const AssetProvider = ({ children }: Props) => {
   const [sounds, setSounds] = useState<Record<string, HTMLAudioElement>>({})
   const [loading, setLoading] = useState(true)
   const [progress, setProgress] = useState(0)
+  const [avatarCache, setAvatarCache] = useState<Record<string, string>>({})
 
   useEffect(() => {
     const loadAll = async () => {
@@ -100,10 +101,6 @@ export const AssetProvider = ({ children }: Props) => {
 
     loadAll()
   }, [])
-
-  // 조합된 아바타
-
-  const [avatarCache, setAvatarCache] = useState<Record<string, string>>({})
 
   return (
     <AssetContext.Provider
