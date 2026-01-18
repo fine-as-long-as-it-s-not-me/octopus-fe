@@ -2,6 +2,12 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 
+ARG VITE_WS_URL
+ARG VITE_BASE_URL
+
+ENV VITE_WS_URL=$VITE_WS_URL
+ENV VITE_BASE_URL=$VITE_BASE_URL
+
 # 의존성
 COPY package*.json ./
 RUN npm install
