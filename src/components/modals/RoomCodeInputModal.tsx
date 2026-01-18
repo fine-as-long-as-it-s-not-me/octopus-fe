@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 import { useModal } from 'sam-react-modal'
 
 import { useRoom } from '@/context/RoomContext'
-import { useUser } from '@/context/UserContext'
 import Button from '../common/Button'
 import Form from '../common/Form'
 import Input from '../common/Input'
@@ -14,7 +13,6 @@ export default function RoomCodeInputModal() {
 
   const { openModal } = useModal()
   const { joinRoom } = useRoom()
-  const { name } = useUser()
 
   const roomCodeSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -22,7 +20,7 @@ export default function RoomCodeInputModal() {
     const roomCode = formData.get('roomCode') as string
     if (!roomCode.trim())
       return openModal(<Alert>{t('Please enter the room code.')}</Alert>)
-    joinRoom(roomCode, name)
+    joinRoom(roomCode)
   }
   return (
     <Modal>
