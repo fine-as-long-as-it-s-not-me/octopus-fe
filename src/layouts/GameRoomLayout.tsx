@@ -10,6 +10,6 @@ export default function GameRoomLayout() {
     return () => {
       leaveRoom()
     }
-  }, [])
+  }, [leaveRoom])
   return <Outlet />
 }

@@ -93,23 +93,27 @@ export function useRoomSocket() {
   const [paintingPlayerId] = useState<string>('1')
 
   const navigate = useNavigate()
-  const { setId: setUserId } = useUser()
+  const { setId: setUserId, name } = useUser()
 
   // for dev test
   const addStroke = (stroke: Stroke) => {
     setStrokes(prevStrokes => [...prevStrokes, stroke])
   }
 
-  const joinRoom = (roomCode: string, name: string) => {
+  const joinRoom = (roomCode: string) => {
     if (!socketRef.current) return
     sendMessage(socketRef.current, 'room', 'join', { roomCode, name })
+  }
+
+  const joinRandomRoom = () => {
+    if (!socketRef.current) return
+    sendMessage(socketRef.current, 'room', 'join_random', { name })
   }
 
   const leaveRoom = () => {
     if (!socketRef.current) return
     sendMessage(socketRef.current, 'room', 'leave', { roomCode })
     setRoomCode(null)
-    navigate(ROUTES.HOME)
   }
 
   useEffect(() => {
@@ -185,6 +189,7 @@ export function useRoomSocket() {
     setRound,
     addStroke,
     joinRoom,
+    joinRandomRoom,
     leaveRoom,
   }
 }

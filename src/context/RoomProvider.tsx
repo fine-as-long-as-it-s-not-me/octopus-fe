@@ -20,6 +20,7 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
     setRound,
     addStroke,
     joinRoom,
+    joinRandomRoom,
     leaveRoom,
   } = useRoomSocket()
 
@@ -69,6 +70,7 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
         nextPhase, // for dev
         addStroke,
         joinRoom,
+        joinRandomRoom,
         leaveRoom,
       }}
     >

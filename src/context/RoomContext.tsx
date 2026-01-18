@@ -17,7 +17,8 @@ type RoomContextType = {
   startGame: () => void
   nextPhase: () => void // for dev
   addStroke: (stroke: Stroke) => void // for dev
-  joinRoom: (roomCode: string, name: string) => void
+  joinRoom: (roomCode: string) => void
+  joinRandomRoom: () => void
   leaveRoom: () => void
 }
 
