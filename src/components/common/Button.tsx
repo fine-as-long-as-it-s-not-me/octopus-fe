@@ -1,7 +1,7 @@
 import type { MouseEvent, ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
 
-import { useEffects } from '@/context/EffectsContext'
+import { useSound } from '@/context/SoundContext'
 import Card from './Card'
 
 interface Props extends React.HTMLAttributes<HTMLButtonElement> {
@@ -27,7 +27,7 @@ export default function Button({
   cardClassName,
   ...rest
 }: Props) {
-  const { playSoundEffect } = useEffects()
+  const { playSoundEffect } = useSound()
   const sizeButtonClassName = {
     sm: '',
     md: '',

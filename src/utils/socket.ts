@@ -1,3 +1,25 @@
-export const getRoomSocketUrl = () => {
+export function getRoomSocketUrl() {
   return import.meta.env.VITE_WS_URL
+}
+
+export function sendMessage(
+  socket: WebSocket,
+  mainType: string,
+  subType: string,
+  data?: Record<string, unknown>,
+) {
+  if (!socket) return
+  console.log('WebSocket ready state:', socket.readyState)
+  if (socket.readyState !== WebSocket.OPEN) {
+    console.warn('WebSocket is not open. Ready state:', socket.readyState)
+    return
+  }
+  console.log('Sending message:', { mainType, subType, data })
+  socket.send(
+    JSON.stringify({
+      mainType,
+      subType,
+      data,
+    }),
+  )
 }

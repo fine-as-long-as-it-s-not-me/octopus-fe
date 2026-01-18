@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { useUser } from '@/context/UserContext'
 import { ROUTES } from '@/routes/ROUTES'
 import {
   type Message,
   type Phase,
   type Player,
+  type PlayersUpdatedData,
   type Score,
   type Setting,
   type Stroke,
+  type WelcomeData,
 } from '@/types'
-import { getRoomSocketUrl } from '@/utils/socket'
+import { getRoomSocketUrl, sendMessage } from '@/utils/socket'
 
 const mockPlayers: Player[] = [
   {
@@ -75,21 +78,22 @@ const mockStrokes: Stroke[] = [
   },
 ]
 
-export function useRoomSocket(code: string) {
+export function useRoomSocket() {
   const socketRef = useRef<WebSocket | null>(null)
   const [round, setRound] = useState<number>(0)
   const [phase, setPhase] = useState<Phase>('waiting')
-  const [roomCode, setRoomCode] = useState<string>(code)
+  const [roomCode, setRoomCode] = useState<string | null>(null)
   const [strokes, setStrokes] = useState<Stroke[]>(mockStrokes)
   const [setting] = useState<Setting>(mockSetting)
   const [timeLeft] = useState<number>(0)
-  const [players] = useState<Player[]>(mockPlayers)
+  const [players, setPlayers] = useState<Player[]>([])
   const [bgColor] = useState<string>('#ffffff')
   const [scores] = useState<Score[]>(mockScores)
   const [keyword] = useState<string>('Fish')
   const [paintingPlayerId] = useState<string>('1')
 
   const navigate = useNavigate()
+  const { setId: setUserId } = useUser()
 
   // for dev test
   const addStroke = (stroke: Stroke) => {
@@ -98,30 +102,51 @@ export function useRoomSocket(code: string) {
 
   const joinRoom = (roomCode: string, name: string) => {
     if (!socketRef.current) return
-    socketRef.current.send(
-      JSON.stringify({
-        mainType: 'room',
-        subType: 'join',
-        data: { roomCode, name },
-      }),
-    )
+    sendMessage(socketRef.current, 'room', 'join', { roomCode, name })
+  }
+
+  const leaveRoom = () => {
+    if (!socketRef.current) return
+    sendMessage(socketRef.current, 'room', 'leave', { roomCode })
+    setRoomCode(null)
+    navigate(ROUTES.HOME)
   }
 
   useEffect(() => {
-    const handlers = {
-      welcome: ({ roomCode }: { roomCode: string }) => {
-        setRoomCode(roomCode)
-        navigate(ROUTES.ROOM(roomCode))
-      },
-    }
-
-    if (!roomCode) return
     const socket = new WebSocket(getRoomSocketUrl())
     socketRef.current = socket
+
+    return () => {
+      socket.close()
+      socketRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    const socket = socketRef.current
+    if (!socket) return
+
+    const handlers = {
+      welcome: ({ roomCode, userId }: WelcomeData) => {
+        setUserId(userId)
+        setRoomCode(roomCode)
+        navigate(ROUTES.WAITING)
+      },
+      players_updated: ({ hostId, players }: PlayersUpdatedData) => {
+        // Update players state here
+        setPlayers(
+          players.map(player => ({
+            ...player,
+            host: player.id === hostId,
+          })),
+        )
+      },
+    }
 
     const messageHandler = (event: MessageEvent) => {
       try {
         const { type, data } = JSON.parse(event.data) as Message
+        console.log('Received message:', type, data)
         handlers[type](data)
       } catch (error) {
         console.error('Error parsing message:', error)
@@ -129,13 +154,18 @@ export function useRoomSocket(code: string) {
     }
 
     socket.addEventListener('message', messageHandler)
+    socket.addEventListener('disconnect', () => {
+      //retry connection
+      console.warn('Socket disconnected, retrying connection...')
+
+      const newSocket = new WebSocket(getRoomSocketUrl())
+      socketRef.current = newSocket
+    })
 
     return () => {
       socket.removeEventListener('message', messageHandler)
-      socket.close()
-      socketRef.current = null
     }
-  }, [roomCode])
+  }, [navigate, setUserId])
 
   return {
     keyword,
@@ -155,5 +185,6 @@ export function useRoomSocket(code: string) {
     setRound,
     addStroke,
     joinRoom,
+    leaveRoom,
   }
 }

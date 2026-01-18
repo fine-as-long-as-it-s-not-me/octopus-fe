@@ -29,6 +29,7 @@ export default function GameLayout() {
   }, [setBackgroundImage, setIsCompact])
 
   useEffect(() => {
+    if (!roomCode) return
     navigate(getPhasePath(phase, roomCode), { replace: true })
   }, [phase, roomCode, navigate])
 

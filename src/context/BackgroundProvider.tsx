@@ -8,58 +8,8 @@ type Props = { children: ReactNode }
 
 export const BackgroundProvider = ({ children }: Props) => {
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null)
-
-  const [playingMusicKey, setPlayingMusicKey] = useState<string | null>(null)
-  const [playingMusic, setPlayingMusic] = useState<HTMLAudioElement | null>(
-    null,
-  )
-  const [muteMusic, setMuteMusic] = useState(
-    Boolean(localStorage.getItem('muteMusic')),
-  )
   const [interacted, setInteracted] = useState(false)
-
-  const { backgrounds, sounds } = useAssets()
-
-  function playMusic(key: string) {
-    if (!interacted) return
-    if (muteMusic) return
-    if (key === playingMusicKey) return
-
-    if (playingMusic) {
-      playingMusic.pause()
-    }
-
-    const music = sounds[key]
-
-    if (music) {
-      const musicClone = music.cloneNode() as HTMLAudioElement
-      musicClone.loop = true
-      musicClone.play()
-      setPlayingMusic(musicClone)
-      setPlayingMusicKey(key)
-    }
-  }
-
-  function pauseMusic() {
-    if (playingMusic) {
-      playingMusic.pause()
-      setPlayingMusicKey(null)
-      setPlayingMusic(null)
-    }
-  }
-
-  function muteMusicToggle() {
-    setMuteMusic(prev => {
-      const newMuteState = !prev
-      localStorage.setItem('muteMusic', newMuteState ? 'true' : '')
-      if (newMuteState && playingMusic) {
-        playingMusic.pause()
-      } else if (!newMuteState && playingMusic) {
-        playingMusic.play()
-      }
-      return newMuteState
-    })
-  }
+  const { backgrounds } = useAssets()
 
   function setBackgroundImage(key: string) {
     const platform = window.innerWidth >= 768 ? 'desktop' : 'mobile'
@@ -91,11 +41,6 @@ export const BackgroundProvider = ({ children }: Props) => {
     <BackgroundContext.Provider
       value={{
         interacted,
-        isMuted: muteMusic,
-        setInteracted,
-        playMusic,
-        pauseMusic,
-        muteMusicToggle,
         setBackgroundImage,
       }}
     >

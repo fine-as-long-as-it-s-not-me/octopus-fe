@@ -1,15 +1,15 @@
 import { AssetProvider } from './context/AssetProvider'
 import { BackgroundProvider } from './context/BackgroundProvider'
-import EffectProvider from './context/EffectsProvider'
+import SoundProvider from './context/SoundProvider'
 import Routes from './routes'
 
 function App() {
   return (
     <AssetProvider>
       <BackgroundProvider>
-        <EffectProvider>
+        <SoundProvider>
           <Routes />
-        </EffectProvider>
+        </SoundProvider>
       </BackgroundProvider>
     </AssetProvider>
   )

@@ -33,7 +33,7 @@ export default function CreateRoomModal() {
       useCustomWords: !!e.currentTarget.useCustomWords.checked,
       roomType: e.currentTarget.roomType.value,
     })
-    navigate(ROUTES.ROOM('A234'))
+    navigate(ROUTES.WAITING)
   }
 
   return (

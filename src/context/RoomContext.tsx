@@ -5,7 +5,7 @@ import type { Phase, Player, Score, Setting, Stroke } from '@/types'
 type RoomContextType = {
   strokes: Stroke[]
   bgColor: string
-  roomCode: string
+  roomCode: string | null
   players: Player[]
   phase: Phase
   timeLeft: number
@@ -15,10 +15,10 @@ type RoomContextType = {
   painterId: string | null
   keyword: string
   startGame: () => void
-  setRoomCode: (code: string) => void
   nextPhase: () => void // for dev
   addStroke: (stroke: Stroke) => void // for dev
   joinRoom: (roomCode: string, name: string) => void
+  leaveRoom: () => void
 }
 
 export const RoomContext = createContext<RoomContextType | null>(null)

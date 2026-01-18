@@ -1,10 +1,9 @@
-import { useState, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 import { useRoomSocket } from '@/hooks/useRoomSocket'
 import { RoomContext } from './RoomContext'
 
 export default function RoomProvider({ children }: { children: ReactNode }) {
-  const [roomCode, setRoomCode] = useState<string>('A234')
   const {
     round,
     setting,
@@ -16,11 +15,13 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
     scores,
     keyword,
     paintingPlayerId,
+    roomCode,
     setPhase,
     setRound,
     addStroke,
     joinRoom,
-  } = useRoomSocket(roomCode)
+    leaveRoom,
+  } = useRoomSocket()
 
   const startGame = () => {
     setPhase('keyword')
@@ -64,11 +65,11 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
         round,
         painterId: paintingPlayerId,
         setting,
-        setRoomCode,
         startGame,
         nextPhase, // for dev
         addStroke,
         joinRoom,
+        leaveRoom,
       }}
     >
       {children}

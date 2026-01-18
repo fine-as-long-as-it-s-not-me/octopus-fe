@@ -53,10 +53,14 @@ export interface Score {
 }
 
 export interface Message {
-  type: MessageType
-  data: DataType
+  type: 'welcome' | 'players_updated'
+  data: WelcomeData & PlayersUpdatedData
 }
-
-export type MessageType = 'welcome'
-
-export type DataType = { roomCode: string }
+export type WelcomeData = {
+  roomCode: string
+  userId: string
+}
+export type PlayersUpdatedData = {
+  hostId: string
+  players: Player[]
+}

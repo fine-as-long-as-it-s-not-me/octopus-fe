@@ -1,7 +1,6 @@
 import { useModal } from 'sam-react-modal'
 
-import { useBackground } from '@/context/BackgroundContext'
-import { useEffects } from '@/context/EffectsContext'
+import { useSound } from '@/context/SoundContext'
 import LanguageSelectModal from '../modals/LanguageSelectModal'
 import Button from './Button'
 import Icon from './Icon'
@@ -26,8 +25,12 @@ function SettingButton({
 }
 
 export default function SettingButtons() {
-  const { isMuted, muteMusicToggle } = useBackground()
-  const { isMuted: isEffectMuted, muteSoundEffectToggle } = useEffects()
+  const {
+    isMusicMuted,
+    isEffectMuted,
+    muteSoundEffectToggle,
+    muteMusicToggle,
+  } = useSound()
   const { openModal } = useModal()
 
   const buttons = [
@@ -39,7 +42,7 @@ export default function SettingButtons() {
     },
     {
       onClick: () => muteMusicToggle(),
-      iconName: isMuted ? 'music_off' : 'music_note',
+      iconName: isMusicMuted ? 'music_off' : 'music_note',
     },
     {
       onClick: () => muteSoundEffectToggle(),

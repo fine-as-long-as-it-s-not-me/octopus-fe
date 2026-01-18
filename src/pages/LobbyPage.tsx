@@ -15,7 +15,7 @@ export default function LobbyPage() {
   const navigate = useNavigate()
 
   const randomRoomClickHandler = () => {
-    navigate(ROUTES.ROOM('random?'))
+    navigate(ROUTES.WAITING)
   }
   const useRoomCodeClickHandler = () => {
     openModal(<RoomCodeInputModal />)

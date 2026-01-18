@@ -1,12 +1,10 @@
 import { useEffect } from 'react'
 
 import Card from '@/components/common/Card'
-import { useBackground } from '@/context/BackgroundContext'
-import { useEffects } from '@/context/EffectsContext'
+import { useSound } from '@/context/SoundContext'
 
 export default function KeywordPage() {
-  const { pauseMusic } = useBackground()
-  const { playSoundEffect } = useEffects()
+  const { playSoundEffect, pauseMusic } = useSound()
   useEffect(() => {
     playSoundEffect('keyword-intro')
     pauseMusic()
