@@ -64,3 +64,8 @@ export type PlayersUpdatedData = {
   hostId: string
   players: Player[]
 }
+export type ErrorType = {
+  message: string
+  code?: string
+  error?: unknown
+}

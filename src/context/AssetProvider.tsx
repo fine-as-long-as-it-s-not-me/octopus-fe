@@ -7,7 +7,7 @@ import {
   musicAssets,
   soundEffectsAssets,
 } from '@/assets'
-import { loadAudio, loadImage } from '@/utils/loaders'
+import { loadAudio, loadImage } from '@/lib/loaders'
 import { AssetContext } from './AssetContext'
 
 type Props = { children: ReactNode }

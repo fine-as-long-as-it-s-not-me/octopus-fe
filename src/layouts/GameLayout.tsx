@@ -14,9 +14,9 @@ import PlayersCard from '@/components/player/PlayerListCard'
 import CloseButton from '@/components/room/CloseButton'
 import { useBackground } from '@/context/BackgroundContext'
 import { useWindow } from '@/context/WindowContext'
+import { getPhasePath } from '@/lib/getPhasePath'
 import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
-import { getPhasePath } from '@/utils/getPhasePath'
 
 export default function GameLayout() {
   const { setBackgroundImage } = useBackground()
