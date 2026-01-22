@@ -28,18 +28,33 @@ export function useRoomSocket() {
 
   const joinRoom = (roomCode: string) => {
     if (!socketRef.current) return
-    sendMessage(socketRef.current, 'room', 'join', { roomCode, name })
+    try {
+      sendMessage(socketRef.current, 'room', 'join', { roomCode, name })
+    } catch (error) {
+      console.error('Failed to join room:', error)
+      throw error
+    }
   }
 
   const joinRandomRoom = () => {
     if (!socketRef.current) return
-    sendMessage(socketRef.current, 'room', 'join_random', { name })
+    try {
+      sendMessage(socketRef.current, 'room', 'join_random', { name })
+    } catch (error) {
+      console.error('Failed to join random room:', error)
+      throw error
+    }
   }
 
   const leaveRoom = () => {
     if (!socketRef.current) return
-    sendMessage(socketRef.current, 'room', 'leave', { roomCode })
-    setRoomCode('')
+    try {
+      sendMessage(socketRef.current, 'room', 'leave', { roomCode })
+      setRoomCode('')
+    } catch (error) {
+      console.error('Failed to leave room:', error)
+      throw error
+    }
   }
 
   useEffect(() => {

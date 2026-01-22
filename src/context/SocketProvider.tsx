@@ -1,3 +1,6 @@
+import { useState } from 'react'
+
+import { SocketErrorBoundary } from '@/components/common/SocketErrorBoundary'
 import { useRoomSocket } from '@/hooks/useRoomSocket'
 import { useGameStore } from '@/store/gameStore'
 import { SocketContext } from './SocketContext'
@@ -8,8 +11,14 @@ interface Props {
 
 export default function SocketProvider({ children }: Props) {
   const { phase, round, setPhase, setRound } = useGameStore()
+  const [retryKey, setRetryKey] = useState(0)
 
   const { addStroke, joinRoom, joinRandomRoom, leaveRoom } = useRoomSocket()
+
+  const handleRetry = () => {
+    // Force re-mount of the component tree to retry socket connection
+    setRetryKey(prev => prev + 1)
+  }
 
   // for dev
   const startGame = () => {
@@ -40,17 +49,19 @@ export default function SocketProvider({ children }: Props) {
     }
   }
   return (
-    <SocketContext.Provider
-      value={{
-        startGame,
-        nextPhase,
-        addStroke,
-        joinRoom,
-        joinRandomRoom,
-        leaveRoom,
-      }}
-    >
-      {children}
-    </SocketContext.Provider>
+    <SocketErrorBoundary key={retryKey} onRetry={handleRetry}>
+      <SocketContext.Provider
+        value={{
+          startGame,
+          nextPhase,
+          addStroke,
+          joinRoom,
+          joinRandomRoom,
+          leaveRoom,
+        }}
+      >
+        {children}
+      </SocketContext.Provider>
+    </SocketErrorBoundary>
   )
 }
