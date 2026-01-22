@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import type { Phase, Score, Stroke } from '@/types'
-import { mockPlayers } from './roomStore'
+import { mockScores, mockStrokes } from './mocks'
 
 interface GameState {
   phase: Phase
@@ -62,35 +62,3 @@ export const useGameStore = create<GameState>()(
     },
   ),
 )
-
-const mockScores: Score[] = mockPlayers.map((player, index) => ({
-  player,
-  delta: (index + 1) * 10,
-  total: 1000 - (index + 1) * 30,
-}))
-const mockStrokes: Stroke[] = [
-  {
-    id: 1,
-    sequence: 0,
-    type: 'pen',
-    color: '#ff0000',
-    strokeWidth: 5,
-    points: [
-      { x: 100, y: 100 },
-      { x: 150, y: 150 },
-      { x: 200, y: 100 },
-    ],
-  },
-  {
-    id: 1,
-    sequence: 1,
-    type: 'pen',
-    color: '#00ff00',
-    strokeWidth: 10,
-    points: [
-      { x: 300, y: 300 },
-      { x: 350, y: 350 },
-      { x: 400, y: 300 },
-    ],
-  },
-]

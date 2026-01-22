@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import type { Player, Setting } from '@/types'
+import { mockPlayers, mockSetting } from './mocks'
 
 interface RoomState {
   roomCode: string
@@ -27,35 +28,3 @@ export const useRoomStore = create<RoomState>()(
     },
   ),
 )
-
-export const mockPlayers: Player[] = [
-  {
-    id: '1',
-    name: 'Player 1',
-    host: true,
-    drawing: true,
-    nextDrawer: false,
-  },
-  {
-    id: '2',
-    name: 'Player 2',
-    host: false,
-    drawing: false,
-    nextDrawer: false,
-  },
-  {
-    id: '3',
-    name: 'Player 3',
-    host: false,
-    drawing: false,
-    nextDrawer: true,
-  },
-]
-const mockSetting: Setting = {
-  customWords: true,
-  rounds: 3,
-  drawingTime: 60,
-  maxPlayers: 8,
-  liars: 2,
-  roomType: 'public',
-}
