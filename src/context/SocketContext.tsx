@@ -3,11 +3,12 @@ import { createContext, useContext } from 'react'
 import type { ErrorType, Stroke } from '@/types'
 
 type SocketContextType = {
+  registerPlayer: () => void
+  joinRandomRoom: () => void
   startGame: () => void
   DEV_nextPhase: () => void // for dev
   addStroke: (stroke: Stroke) => void
   joinRoom: (roomCode: string) => void
-  joinRandomRoom: () => void
   leaveRoom: () => void
   setError: (error: null | ErrorType) => void
 }

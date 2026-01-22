@@ -16,7 +16,7 @@ export default function SocketProvider({ children }: Props) {
   const { strokes, setStrokes, phase, round, setPhase, setRound } =
     useGameStore()
   const { roomCode, setRoomCode } = useRoomStore()
-  const { name } = useUserStore()
+  const { name, UUID } = useUserStore()
 
   const { reconnect, isConnecting, sendMessage } = useSocketConnection(setError)
 
@@ -73,6 +73,10 @@ export default function SocketProvider({ children }: Props) {
     setRoomCode('')
   }
 
+  const registerPlayer = () => {
+    sendMessage('player', 'register', { name, UUID })
+  }
+
   return (
     <SocketContext.Provider
       value={{
@@ -83,6 +87,7 @@ export default function SocketProvider({ children }: Props) {
         joinRandomRoom,
         leaveRoom,
         setError,
+        registerPlayer,
       }}
     >
       {children}

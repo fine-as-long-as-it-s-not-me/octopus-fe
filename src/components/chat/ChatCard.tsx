@@ -9,7 +9,7 @@ import Form from '../common/Form'
 import Input from '../common/Input'
 import Bubble from './Bubble'
 
-const mockAuthor = { name: 'Alice', id: '1' }
+const mockAuthor = { name: 'Alice', UUID: '1' }
 const mockMessage = 'Hello, this is a sample message!'
 
 export default function ChatCard() {
@@ -17,7 +17,7 @@ export default function ChatCard() {
   const [chatBubbles, setChatBubbles] = useState([
     { author: mockAuthor, message: mockMessage },
   ])
-  const { name, id } = useUserStore()
+  const { name, UUID } = useUserStore()
   const { direction } = useWindow()
 
   const chatListRef = useRef<HTMLDivElement>(null)
@@ -45,7 +45,7 @@ export default function ChatCard() {
           const message = formData.get('chatMessage') as string
           if (!message.trim()) return
           const newMessage = {
-            author: { name, id },
+            author: { name, UUID },
             message,
           }
           setChatBubbles(prevBubbles => [...prevBubbles, newMessage])

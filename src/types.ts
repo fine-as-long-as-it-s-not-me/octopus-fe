@@ -1,5 +1,5 @@
 export interface Player {
-  id: string
+  UUID: string
   name: string
   photoUrl?: string
   host?: boolean

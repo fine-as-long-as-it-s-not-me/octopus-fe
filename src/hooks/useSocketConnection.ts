@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import { SOCKET_MESSAGE_ERROR } from '@/consts'
 import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
-import { useUserStore } from '@/store/userStore'
 import {
   type ErrorType,
   type Message,
@@ -22,7 +21,6 @@ export function useSocketConnection(
   const { setRoomCode, setPlayers } = useRoomStore()
 
   const navigate = useNavigate()
-  const { setId: setUserId } = useUserStore()
 
   function getRoomSocketUrl() {
     return import.meta.env.VITE_WS_URL
@@ -81,8 +79,7 @@ export function useSocketConnection(
     if (!socket) return
 
     const handlers = {
-      welcome: ({ roomCode, userId }: WelcomeData) => {
-        setUserId(userId)
+      welcome: ({ roomCode }: WelcomeData) => {
         setRoomCode(roomCode)
         navigate(ROUTES.WAITING)
       },
@@ -91,7 +88,7 @@ export function useSocketConnection(
         setPlayers(
           players.map(player => ({
             ...player,
-            host: player.id === hostId,
+            host: player.UUID === hostId,
           })),
         )
       },
@@ -113,17 +110,17 @@ export function useSocketConnection(
 
     socket.addEventListener('message', messageHandler)
     socket.addEventListener('disconnect', () => {
-      //retry connection
       console.warn('Socket disconnected, retrying connection...')
-
-      const newSocket = new WebSocket(getRoomSocketUrl())
-      setWs(newSocket)
+      setError({
+        message: 'socket disconnected',
+        code: SOCKET_MESSAGE_ERROR,
+      })
     })
 
     return () => {
       socket.removeEventListener('message', messageHandler)
     }
-  }, [navigate, setUserId, setRoomCode, setPlayers, setError, ws])
+  }, [navigate, setRoomCode, setPlayers, setError, ws])
 
   return {
     reconnect,

@@ -13,7 +13,7 @@ const CANVAS_SIZE = 480
 export default function Canvas() {
   const { direction } = useWindow()
   const { strokes, canvasColor, painterId } = useGameStore()
-  const { id } = useUserStore()
+  const { UUID } = useUserStore()
   const { addStroke } = useSocket()
 
   const lastStrokeId = strokes.reduce(
@@ -104,7 +104,7 @@ export default function Canvas() {
     if (!canvas) return
 
     canvas.onpointerdown = e => {
-      if (id !== painterId) return
+      if (UUID !== painterId) return
       e.preventDefault()
       canvas.setPointerCapture(e.pointerId)
 
@@ -113,7 +113,7 @@ export default function Canvas() {
       sendCurrentStroke()
     }
     canvas.onpointermove = e => {
-      if (id !== painterId || strokeIdRef.current === null) return
+      if (UUID !== painterId || strokeIdRef.current === null) return
       if (!canvas.hasPointerCapture(e.pointerId)) return
       e.preventDefault()
       pointsRef.current.push(getNewPoint(e))
@@ -121,7 +121,7 @@ export default function Canvas() {
       if (pointsRef.current.length >= 4) sendCurrentStroke()
     }
     canvas.onpointerup = e => {
-      if (id !== painterId || strokeIdRef.current === null) return
+      if (UUID !== painterId || strokeIdRef.current === null) return
       e.preventDefault()
       canvas.releasePointerCapture(e.pointerId)
 
@@ -130,7 +130,7 @@ export default function Canvas() {
       strokeIdRef.current++
       sequenceRef.current = 0
     }
-  }, [id, painterId, brushType, color, strokeWidth, addStroke, lastStrokeId])
+  }, [UUID, painterId, brushType, color, strokeWidth, addStroke, lastStrokeId])
   return (
     <Card
       className={twMerge(

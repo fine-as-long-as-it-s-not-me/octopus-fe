@@ -26,7 +26,7 @@ export default function RoundResultPage() {
         </thead>
         <tbody>
           {scores.map((score, index) => (
-            <tr key={score.player.id}>
+            <tr key={score.player.UUID}>
               <td className='w-6'>{index + 1}</td>
               <td className='w-32'>{score.player.name}</td>
               <td className='w-10'>{score.delta}</td>

@@ -32,7 +32,6 @@ export default function GameLayout() {
 
   useEffect(() => {
     console.log('Phase changed:', phase, roomCode)
-    if (!roomCode) return
     navigate(getPhasePath(phase), { replace: true })
   }, [phase, roomCode, navigate])
 

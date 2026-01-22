@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Spacing, useModal } from 'sam-react-modal'
@@ -9,12 +10,21 @@ import CreateRoomModal from '@/components/modals/CreateRoomModal'
 import RoomCodeInputModal from '@/components/modals/RoomCodeInputModal'
 import { useSocket } from '@/context/SocketContext'
 import { ROUTES } from '@/routes/ROUTES'
+import { useUserStore } from '@/store/userStore'
 
 export default function LobbyPage() {
   const { t } = useTranslation()
   const { openModal } = useModal()
   const navigate = useNavigate()
-  const { joinRandomRoom } = useSocket()
+  const { joinRandomRoom, registerPlayer } = useSocket()
+  const { name } = useUserStore()
+
+  useEffect(() => {
+    if (!name) {
+      navigate(ROUTES.HOME)
+    }
+    registerPlayer()
+  }, [name, navigate, registerPlayer])
 
   const randomRoomClickHandler = () => {
     joinRandomRoom()

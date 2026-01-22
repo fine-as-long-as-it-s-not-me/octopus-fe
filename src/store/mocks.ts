@@ -2,21 +2,21 @@ import type { Player, Score, Setting, Stroke } from '@/types'
 
 export const mockPlayers: Player[] = [
   {
-    id: '1',
+    UUID: '1',
     name: 'Player 1',
     host: true,
     drawing: true,
     nextDrawer: false,
   },
   {
-    id: '2',
+    UUID: '2',
     name: 'Player 2',
     host: false,
     drawing: false,
     nextDrawer: false,
   },
   {
-    id: '3',
+    UUID: '3',
     name: 'Player 3',
     host: false,
     drawing: false,
