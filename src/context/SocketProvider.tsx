@@ -17,6 +17,7 @@ export default function SocketProvider({ children }: Props) {
 
   const handleRetry = () => {
     // Force re-mount of the component tree to retry socket connection
+    // This ensures a clean state by re-initializing the WebSocket from scratch
     setRetryKey(prev => prev + 1)
   }
 

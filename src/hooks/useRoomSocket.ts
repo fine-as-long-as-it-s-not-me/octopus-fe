@@ -50,10 +50,11 @@ export function useRoomSocket() {
     if (!socketRef.current) return
     try {
       sendMessage(socketRef.current, 'room', 'leave', { roomCode })
-      setRoomCode('')
     } catch (error) {
       console.error('Failed to leave room:', error)
       throw error
+    } finally {
+      setRoomCode('')
     }
   }
 
