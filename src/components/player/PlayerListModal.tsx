@@ -1,13 +1,13 @@
-import { useRoom } from '@/context/RoomContext'
+import { useRoomStore } from '@/store/roomStore'
 import Modal from '../common/Modal'
 import PlayerListItem from './PlayerListItem'
 
 export default function PlayerListModal() {
-  const { players } = useRoom()
+  const { players } = useRoomStore()
   return (
     <Modal>
       {players.map(player => (
-        <PlayerListItem {...player} />
+        <PlayerListItem key={player.id} {...player} />
       ))}
     </Modal>
   )

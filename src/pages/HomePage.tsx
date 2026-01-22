@@ -9,15 +9,15 @@ import Form from '@/components/common/Form'
 import Img from '@/components/common/Img'
 import Input from '@/components/common/Input'
 import Alert from '@/components/modals/Alert'
-import { useUser } from '@/context/UserContext'
 import useAvatar from '@/hooks/useAvatar'
 import { ROUTES } from '@/routes/ROUTES'
+import { useUserStore } from '@/store/userStore'
 
 export default function HomePage() {
   const navigate = useNavigate()
   const { t } = useTranslation()
 
-  const { name, setName } = useUser()
+  const { name, setName } = useUserStore()
   const { openModal } = useModal()
 
   const avatarUrl = useAvatar(name)

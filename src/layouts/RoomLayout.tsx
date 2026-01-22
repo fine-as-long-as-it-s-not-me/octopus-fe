@@ -12,16 +12,16 @@ import Alert from '@/components/modals/Alert'
 import PlayerListButton from '@/components/player/PlayerListButton'
 import CloseButton from '@/components/room/CloseButton'
 import { useBackground } from '@/context/BackgroundContext'
-import { useRoom } from '@/context/RoomContext'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
+import { useRoomStore } from '@/store/roomStore'
 
 export default function RoomLayout() {
   const { t } = useTranslation()
   const { setBackgroundImage } = useBackground()
   const { playMusic } = useSound()
 
-  const { roomCode } = useRoom()
+  const { roomCode } = useRoomStore()
   const { openModal } = useModal()
   const { size, setIsCompact, direction } = useWindow()
 

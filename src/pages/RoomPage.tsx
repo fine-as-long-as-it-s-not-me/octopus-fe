@@ -5,13 +5,15 @@ import ChatCard from '@/components/chat/ChatCard'
 import Button from '@/components/common/Button'
 import GameSettingListCard from '@/components/game/GameSettingListCard'
 import PlayerListCard from '@/components/player/PlayerListCard'
-import { useRoom } from '@/context/RoomContext'
+import { useSocket } from '@/context/SocketContext'
+import { useRoomStore } from '@/store/roomStore'
 
 export default function RoomPage() {
   const { t } = useTranslation()
 
   const navigate = useNavigate()
-  const { roomCode, startGame } = useRoom()
+  const { startGame } = useSocket()
+  const { roomCode } = useRoomStore()
 
   const startGameClickHandler = () => {
     startGame()

@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge'
 
-import { useUser } from '@/context/UserContext'
+import { useUserStore } from '@/store/userStore'
 import type { Player } from '@/types'
 import Card from '../common/Card'
 import Profile from '../player/Profile'
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function Bubble({ author, message }: Props) {
-  const { name } = useUser()
+  const { name } = useUserStore()
 
   const isMe = author.name === name
 

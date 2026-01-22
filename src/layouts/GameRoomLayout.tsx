@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 
-import { useRoom } from '@/context/RoomContext'
+import { useSocket } from '@/context/SocketContext'
 
 export default function GameRoomLayout() {
-  const { leaveRoom } = useRoom()
+  const { leaveRoom } = useSocket()
 
   useEffect(() => {
     return () => {

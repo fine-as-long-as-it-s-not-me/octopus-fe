@@ -1,8 +1,8 @@
-import { useRoom } from '@/context/RoomContext'
+import { useSocket } from '@/context/SocketContext'
 import Button from '../common/Button'
 
 export default function NextPhaseButton() {
-  const { nextPhase } = useRoom()
+  const { nextPhase } = useSocket()
   const handleClick = () => {
     nextPhase()
   }
