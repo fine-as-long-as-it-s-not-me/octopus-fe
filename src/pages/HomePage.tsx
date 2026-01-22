@@ -26,7 +26,6 @@ export default function HomePage() {
     if (!name.trim())
       return openModal(<Alert>{t('Please enter your name.')}</Alert>)
 
-    localStorage.setItem('name', name)
     navigate(ROUTES.LOBBY)
   }
 
