@@ -1,22 +1,23 @@
 import { useModal } from 'sam-react-modal'
+import { twMerge } from 'tailwind-merge'
 
 import { useSound } from '@/context/SoundContext'
 import LanguageSelectModal from '../modals/LanguageSelectModal'
 import Button from './Button'
 import Icon from './Icon'
 
-function SettingButton({
-  onClick,
-  iconName,
-}: {
+interface SettingButtonProps {
   onClick: () => void
   iconName: string
-}) {
+  className?: string
+}
+
+function SettingButton({ onClick, iconName, className }: SettingButtonProps) {
   return (
     <Button
       size='md'
       className='h-full grow-1 self-center sm:flex'
-      cardClassName='h-auto py-2 md:py-3 grow-1 h-full'
+      cardClassName={twMerge(`h-auto py-2 md:py-3 grow-1 h-full`, className)}
       onClick={onClick}
     >
       <Icon name={iconName} />
@@ -24,7 +25,11 @@ function SettingButton({
   )
 }
 
-export default function SettingButtons() {
+interface Props {
+  className?: string
+}
+
+export default function SettingButtons({ className }: Props) {
   const {
     isMusicMuted,
     isEffectMuted,
@@ -57,6 +62,7 @@ export default function SettingButtons() {
           key={index}
           onClick={button.onClick}
           iconName={button.iconName}
+          className={className}
         />
       ))}
     </>

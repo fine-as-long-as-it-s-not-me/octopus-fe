@@ -6,18 +6,16 @@ import Button from '@/components/common/Button'
 import GameSettingListCard from '@/components/game/GameSettingListCard'
 import PlayerListCard from '@/components/player/PlayerListCard'
 import { useSocket } from '@/context/SocketContext'
-import { useRoomStore } from '@/store/roomStore'
 
 export default function RoomPage() {
   const { t } = useTranslation()
 
   const navigate = useNavigate()
   const { startGame } = useSocket()
-  const { roomCode } = useRoomStore()
 
   const startGameClickHandler = () => {
     startGame()
-    navigate(`/room/${roomCode}/keyword`)
+    navigate(`/room/keyword`)
   }
 
   return (

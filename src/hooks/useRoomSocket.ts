@@ -8,7 +8,6 @@ import { useUserStore } from '@/store/userStore'
 import {
   type Message,
   type PlayersUpdatedData,
-  type Stroke,
   type WelcomeData,
 } from '@/types'
 import { getRoomSocketUrl, sendMessage } from '@/utils/socket'
@@ -16,15 +15,10 @@ import { getRoomSocketUrl, sendMessage } from '@/utils/socket'
 export function useRoomSocket() {
   const socketRef = useRef<WebSocket | null>(null)
   const { roomCode, setRoomCode, setPlayers } = useRoomStore()
-  const { strokes, setStrokes } = useGameStore()
+  const { addStroke } = useGameStore()
 
   const navigate = useNavigate()
   const { setId: setUserId, name } = useUserStore()
-
-  // for dev test
-  const addStroke = (stroke: Stroke) => {
-    setStrokes([...strokes, stroke])
-  }
 
   const joinRoom = (roomCode: string) => {
     if (!socketRef.current) return

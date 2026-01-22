@@ -25,6 +25,7 @@ interface GameState {
 
   strokes: Stroke[]
   setStrokes: (strokes: Stroke[]) => void
+  addStroke: (stroke: Stroke) => void
 
   canvasColor: string
   setCanvasColor: (canvasColor: string) => void
@@ -48,11 +49,13 @@ export const useGameStore = create<GameState>()(
       round: 0,
       setRound: round => set({ round }),
 
-      painterId: null,
+      painterId: '1',
       setPainterId: painterId => set({ painterId }),
 
       strokes: mockStrokes,
       setStrokes: strokes => set({ strokes }),
+      addStroke: stroke =>
+        set(state => ({ strokes: [...state.strokes, stroke] })),
 
       canvasColor: '#ffffff',
       setCanvasColor: canvasColor => set({ canvasColor }),

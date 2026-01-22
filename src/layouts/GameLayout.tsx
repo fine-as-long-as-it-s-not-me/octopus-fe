@@ -31,8 +31,9 @@ export default function GameLayout() {
   }, [setBackgroundImage, setIsCompact])
 
   useEffect(() => {
+    console.log('Phase changed:', phase, roomCode)
     if (!roomCode) return
-    navigate(getPhasePath(phase, roomCode), { replace: true })
+    navigate(getPhasePath(phase), { replace: true })
   }, [phase, roomCode, navigate])
 
   return (
