@@ -3,27 +3,26 @@ import { useNavigate } from 'react-router-dom'
 
 import { SOCKET_MESSAGE_ERROR } from '@/consts'
 import { ROUTES } from '@/routes/ROUTES'
-import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
 import { useUserStore } from '@/store/userStore'
 import {
   type ErrorType,
   type Message,
   type PlayersUpdatedData,
-  type Stroke,
   type WelcomeData,
 } from '@/types'
 
-export function useRoomSocket(setError: (error: null | ErrorType) => void) {
+export function useSocketConnection(
+  setError: (error: null | ErrorType) => void,
+) {
   const [ws, setWs] = useState<WebSocket | null>(
     new WebSocket(getRoomSocketUrl()),
   )
   const [isConnecting, setIsConnecting] = useState(false)
-  const { roomCode, setRoomCode, setPlayers } = useRoomStore()
-  const { strokes, setStrokes } = useGameStore()
+  const { setRoomCode, setPlayers } = useRoomStore()
 
   const navigate = useNavigate()
-  const { setId: setUserId, name } = useUserStore()
+  const { setId: setUserId } = useUserStore()
 
   function getRoomSocketUrl() {
     return import.meta.env.VITE_WS_URL
@@ -68,24 +67,6 @@ export function useRoomSocket(setError: (error: null | ErrorType) => void) {
         data,
       }),
     )
-  }
-
-  // for dev test
-  const addStroke = (stroke: Stroke) => {
-    setStrokes([...strokes, stroke])
-  }
-
-  const joinRoom = (roomCode: string) => {
-    sendMessage('room', 'join', { roomCode, name })
-  }
-
-  const joinRandomRoom = () => {
-    sendMessage('room', 'join_random', { name })
-  }
-
-  const leaveRoom = () => {
-    sendMessage('room', 'leave', { roomCode })
-    setRoomCode('')
   }
 
   useEffect(() => {
@@ -145,11 +126,8 @@ export function useRoomSocket(setError: (error: null | ErrorType) => void) {
   }, [navigate, setUserId, setRoomCode, setPlayers, setError, ws])
 
   return {
-    addStroke,
-    joinRoom,
-    joinRandomRoom,
-    leaveRoom,
     reconnect,
     isConnecting,
+    sendMessage,
   }
 }

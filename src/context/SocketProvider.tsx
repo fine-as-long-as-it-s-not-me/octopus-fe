@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 
-import { useRoomSocket } from '@/hooks/useRoomSocket'
+import { useSocketConnection } from '@/hooks/useSocketConnection'
 import { useGameStore } from '@/store/gameStore'
-import type { ErrorType } from '@/types'
+import { useRoomStore } from '@/store/roomStore'
+import { useUserStore } from '@/store/userStore'
+import type { ErrorType, Stroke } from '@/types'
 import { SocketContext } from './SocketContext'
 
 interface Props {
@@ -11,25 +13,23 @@ interface Props {
 
 export default function SocketProvider({ children }: Props) {
   const [error, setError] = useState<null | ErrorType>(null)
-  const { phase, round, setPhase, setRound } = useGameStore()
+  const { strokes, setStrokes, phase, round, setPhase, setRound } =
+    useGameStore()
+  const { roomCode, setRoomCode } = useRoomStore()
+  const { name } = useUserStore()
 
-  const {
-    addStroke,
-    joinRoom,
-    joinRandomRoom,
-    leaveRoom,
-    reconnect,
-    isConnecting,
-  } = useRoomSocket(setError)
+  const { reconnect, isConnecting, sendMessage } = useSocketConnection(setError)
 
-  // for dev
-  const startGame = () => {
-    setPhase('keyword')
-    setRound(1)
-  }
+  useEffect(() => {
+    if (error && !isConnecting) {
+      const interval = setInterval(reconnect, 1000)
 
-  // for dev
-  const nextPhase = () => {
+      return () => clearInterval(interval)
+    }
+  }, [error, isConnecting, reconnect, setError])
+
+  const DEV_nextPhase = () => {
+    // for dev
     const phases = [
       'waiting',
       'keyword',
@@ -51,19 +51,33 @@ export default function SocketProvider({ children }: Props) {
     }
   }
 
-  useEffect(() => {
-    if (error && !isConnecting) {
-      const interval = setInterval(reconnect, 1000)
+  const startGame = () => {
+    setPhase('keyword')
+    setRound(1)
+  }
 
-      return () => clearInterval(interval)
-    }
-  }, [error, isConnecting, reconnect, setError])
+  const addStroke = (stroke: Stroke) => {
+    setStrokes([...strokes, stroke])
+  }
+
+  const joinRoom = (roomCode: string) => {
+    sendMessage('room', 'join', { roomCode, name })
+  }
+
+  const joinRandomRoom = () => {
+    sendMessage('room', 'join_random', { name })
+  }
+
+  const leaveRoom = () => {
+    sendMessage('room', 'leave', { roomCode })
+    setRoomCode('')
+  }
 
   return (
     <SocketContext.Provider
       value={{
         startGame,
-        nextPhase,
+        DEV_nextPhase,
         addStroke,
         joinRoom,
         joinRandomRoom,

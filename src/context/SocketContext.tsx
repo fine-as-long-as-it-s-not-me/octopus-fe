@@ -4,8 +4,8 @@ import type { ErrorType, Stroke } from '@/types'
 
 type SocketContextType = {
   startGame: () => void
-  nextPhase: () => void // for dev
-  addStroke: (stroke: Stroke) => void // for dev
+  DEV_nextPhase: () => void // for dev
+  addStroke: (stroke: Stroke) => void
   joinRoom: (roomCode: string) => void
   joinRandomRoom: () => void
   leaveRoom: () => void
