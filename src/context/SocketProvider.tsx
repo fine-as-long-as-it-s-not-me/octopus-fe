@@ -18,15 +18,16 @@ export default function SocketProvider({ children }: Props) {
   const { roomCode, setRoomCode } = useRoomStore()
   const { name, UUID } = useUserStore()
 
-  const { reconnect, isConnecting, sendMessage } = useSocketConnection(setError)
+  const { connectSocket, isConnected, isConnecting, sendMessage } =
+    useSocketConnection(setError)
 
   useEffect(() => {
-    if (error && !isConnecting) {
-      const interval = setInterval(reconnect, 1000)
+    if ((error || !isConnected) && !isConnecting) {
+      const interval = setInterval(connectSocket, 1000)
 
       return () => clearInterval(interval)
     }
-  }, [error, isConnecting, reconnect, setError])
+  }, [error, isConnected, isConnecting, connectSocket, setError])
 
   const DEV_nextPhase = () => {
     // for dev
@@ -73,10 +74,6 @@ export default function SocketProvider({ children }: Props) {
     setRoomCode('')
   }
 
-  const registerPlayer = () => {
-    sendMessage('player', 'register', { name, UUID })
-  }
-
   return (
     <SocketContext.Provider
       value={{
@@ -87,16 +84,15 @@ export default function SocketProvider({ children }: Props) {
         joinRandomRoom,
         leaveRoom,
         setError,
-        registerPlayer,
       }}
     >
       {children}
 
       {error && (
         <div className='absolute inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-black/75 text-white'>
-          <p className='text-red-400'>ERROR</p>
+          {/* <p className='text-red-400'>ERROR</p> */}
           <p>[{error.message}]</p>
-          <p>Reconnecting to server...</p>
+          <p>Connecting to server...</p>
           <span className='loader' />
         </div>
       )}
