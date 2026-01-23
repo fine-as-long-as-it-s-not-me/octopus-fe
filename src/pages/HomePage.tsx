@@ -33,7 +33,7 @@ export default function HomePage() {
 
   return (
     <>
-      <Card className='justify-center'>
+      <Card className='shrink-0 justify-center'>
         <Form onSubmit={enterSubmitHandler} className='flex-col gap-3'>
           <p>{t('Guest')}</p>
           <div className='flex flex-col items-center gap-2 md:flex-row md:gap-4'>
