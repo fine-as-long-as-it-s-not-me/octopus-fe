@@ -16,15 +16,12 @@ export default function LobbyPage() {
   const { t } = useTranslation()
   const { openModal } = useModal()
   const navigate = useNavigate()
-  const { joinRandomRoom, registerPlayer } = useSocket()
+  const { joinRandomRoom } = useSocket()
   const { name } = useUserStore()
 
   useEffect(() => {
-    if (!name) {
-      navigate(ROUTES.HOME)
-    }
-    registerPlayer()
-  }, [name, navigate, registerPlayer])
+    if (!name) navigate(ROUTES.HOME)
+  }, [name, navigate])
 
   const randomRoomClickHandler = () => {
     joinRandomRoom()

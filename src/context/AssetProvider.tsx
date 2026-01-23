@@ -69,26 +69,22 @@ export const AssetProvider = ({ children }: Props) => {
       for (const item of imageEntries) {
         images[item.key] = await item.loader()
         loaded++
-        console.log(`Loaded ${item.key} (${loaded}/${total})`)
         setProgress(Math.round((loaded / total) * 100))
       }
       for (const item of desktopBgEntries) {
         backgrounds.desktop[item.key] = await item.loader()
         loaded++
-        console.log(`Loaded ${item.key} (${loaded}/${total})`)
         setProgress(Math.round((loaded / total) * 100))
       }
       for (const item of mobileBgEntries) {
         backgrounds.mobile[item.key] = await item.loader()
         loaded++
-        console.log(`Loaded ${item.key} (${loaded}/${total})`)
         setProgress(Math.round((loaded / total) * 100))
       }
 
       for (const item of soundEntries) {
         sounds[item.key] = await item.loader()
         loaded++
-        console.log(`Loaded ${item.key} (${loaded}/${total})`)
         setProgress(Math.round((loaded / total) * 100))
       }
 

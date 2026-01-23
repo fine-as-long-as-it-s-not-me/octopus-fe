@@ -1,104 +1,79 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useCallback, useRef, useState } from 'react'
 
 import { SOCKET_MESSAGE_ERROR } from '@/consts'
-import { ROUTES } from '@/routes/ROUTES'
-import { useRoomStore } from '@/store/roomStore'
-import {
-  type ErrorType,
-  type Message,
-  type PlayersUpdatedData,
-  type WelcomeData,
-} from '@/types'
+import { useSocketHandlers } from '@/hooks/useSocketHandlers'
+import { useUserStore } from '@/store/userStore'
+import { type ErrorType, type Message } from '@/types'
 
 export function useSocketConnection(
   setError: (error: null | ErrorType) => void,
 ) {
-  const [ws, setWs] = useState<WebSocket | null>(
-    new WebSocket(getRoomSocketUrl()),
-  )
+  const ws = useRef<WebSocket | null>(null)
   const [isConnecting, setIsConnecting] = useState(false)
-  const { setRoomCode, setPlayers } = useRoomStore()
+  const [isConnected, setIsConnected] = useState(false)
+  const handlers = useSocketHandlers()
+  const { name, UUID } = useUserStore()
 
-  const navigate = useNavigate()
+  const sendMessage = useCallback(
+    (mainType: string, subType: string, data?: Record<string, unknown>) => {
+      if (!ws.current) {
+        console.error('WebSocket not initialized')
+        setError({
+          message: 'socket not initialized',
+          code: SOCKET_MESSAGE_ERROR,
+        })
+        return
+      }
+      if (ws.current.readyState !== WebSocket.OPEN) {
+        console.error('WebSocket not ready yet')
+        setError({
+          message: 'socket not connected',
+          code: SOCKET_MESSAGE_ERROR,
+        })
+        return
+      }
+      console.log('Sending message:', mainType, subType, data)
+      ws.current.send(
+        JSON.stringify({
+          mainType,
+          subType,
+          data,
+        }),
+      )
+    },
+    [setError, ws],
+  )
 
-  function getRoomSocketUrl() {
-    return import.meta.env.VITE_WS_URL
-  }
-
-  function reconnect() {
+  const connectSocket = useCallback(() => {
     setIsConnecting(true)
-    console.log('Reconnecting WebSocket...')
-    if (ws) {
-      ws.close()
+    console.log('Connecting WebSocket...')
+    if (ws.current) {
+      ws.current.close()
     }
-    const newSocket = new WebSocket(getRoomSocketUrl())
-    setWs(newSocket)
-    newSocket.onerror = () => {
-      console.error('WebSocket reconnection error')
-      setIsConnecting(false)
-    }
-    newSocket.onopen = () => {
-      console.log('WebSocket reconnected')
-      setIsConnecting(false)
-      setError(null)
-    }
-  }
 
-  function sendMessage(
-    mainType: string,
-    subType: string,
-    data?: Record<string, unknown>,
-  ) {
-    if (!ws) return
-    if (ws.readyState !== WebSocket.OPEN) {
+    ws.current = new WebSocket(import.meta.env.VITE_WS_URL)
+    ws.current.onerror = () => {
+      console.error('WebSocket error')
+      setIsConnecting(false)
       setError({
-        message: 'socket not connected',
+        message: 'socket error',
         code: SOCKET_MESSAGE_ERROR,
       })
-      return
     }
-    ws.send(
-      JSON.stringify({
-        mainType,
-        subType,
-        data,
-      }),
-    )
-  }
+    ws.current.onopen = () => {
+      console.log('WebSocket connected')
+      setIsConnected(true)
+      setIsConnecting(false)
+      setError(null)
 
-  useEffect(() => {
-    console.log(ws)
-    return () => {
-      if (ws) ws.close()
+      console.log('Registering player:', name, UUID)
+      sendMessage('player', 'register', { name, UUID })
     }
-  }, [ws])
-
-  useEffect(() => {
-    const socket = ws
-    if (!socket) return
-
-    const handlers = {
-      welcome: ({ roomCode }: WelcomeData) => {
-        setRoomCode(roomCode)
-        navigate(ROUTES.WAITING)
-      },
-      players_updated: ({ hostId, players }: PlayersUpdatedData) => {
-        // Update players state here
-        setPlayers(
-          players.map(player => ({
-            ...player,
-            host: player.UUID === hostId,
-          })),
-        )
-      },
-    }
-
-    const messageHandler = (event: MessageEvent) => {
+    ws.current.addEventListener('message', (event: MessageEvent) => {
       try {
         const { type, data } = JSON.parse(event.data) as Message
         console.log('Received message:', type, data)
-        handlers[type](data)
+        handlers[type]?.(data)
       } catch (error) {
         setError({
           message: 'socket message error',
@@ -106,25 +81,22 @@ export function useSocketConnection(
           error,
         })
       }
-    }
-
-    socket.addEventListener('message', messageHandler)
-    socket.addEventListener('disconnect', () => {
-      console.warn('Socket disconnected, retrying connection...')
-      setError({
-        message: 'socket disconnected',
-        code: SOCKET_MESSAGE_ERROR,
-      })
     })
-
-    return () => {
-      socket.removeEventListener('message', messageHandler)
-    }
-  }, [navigate, setRoomCode, setPlayers, setError, ws])
+  }, [
+    handlers,
+    name,
+    UUID,
+    setError,
+    setIsConnecting,
+    setIsConnected,
+    sendMessage,
+    ws,
+  ])
 
   return {
-    reconnect,
+    connectSocket,
     isConnecting,
+    isConnected,
     sendMessage,
   }
 }
