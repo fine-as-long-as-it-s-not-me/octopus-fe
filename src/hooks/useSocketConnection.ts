@@ -11,7 +11,6 @@ export function useSocketConnection(
   const ws = useRef<WebSocket | null>(null)
   const [isConnecting, setIsConnecting] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
-  const handlers = useSocketHandlers()
   const { name, UUID } = useUserStore()
 
   const sendMessage = useCallback(
@@ -44,6 +43,8 @@ export function useSocketConnection(
     [setError, ws],
   )
 
+  const handlers = useSocketHandlers(sendMessage)
+
   const connectSocket = useCallback(() => {
     setIsConnecting(true)
     console.log('Connecting WebSocket...')
@@ -67,9 +68,9 @@ export function useSocketConnection(
       setError(null)
 
       console.log('Registering player:', name, UUID)
-      sendMessage('player', 'register', { name, UUID })
+      sendMessage('player', 'login', { name, UUID })
     }
-    ws.current.addEventListener('message', (event: MessageEvent) => {
+    ws.current.onmessage = (event: MessageEvent) => {
       try {
         const { type, data } = JSON.parse(event.data) as Message
         console.log('Received message:', type, data)
@@ -81,7 +82,7 @@ export function useSocketConnection(
           error,
         })
       }
-    })
+    }
   }, [
     handlers,
     name,
@@ -93,10 +94,21 @@ export function useSocketConnection(
     ws,
   ])
 
+  const closeSocket = useCallback(() => {
+    if (ws.current) {
+      ws.current.close()
+      ws.current = null
+      setIsConnected(false)
+      setIsConnecting(false)
+      console.log('WebSocket closed')
+    }
+  }, [ws])
+
   return {
     connectSocket,
     isConnecting,
     isConnected,
     sendMessage,
+    closeSocket,
   }
 }

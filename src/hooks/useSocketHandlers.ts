@@ -3,10 +3,22 @@ import { useNavigate } from 'react-router-dom'
 
 import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
-import type { PlayersUpdatedData, WelcomeData } from '@/types'
+import { useUserStore } from '@/store/userStore'
+import type {
+  PlayerLoggedInData,
+  PlayersUpdatedData,
+  WelcomeData,
+} from '@/types'
 
-export function useSocketHandlers() {
+export function useSocketHandlers(
+  sendMessage: (
+    mainType: string,
+    subType: string,
+    data?: Record<string, unknown>,
+  ) => void,
+) {
   const { setRoomCode, setPlayers } = useRoomStore()
+  const { name, UUID } = useUserStore()
   const navigate = useNavigate()
 
   const handlers = useMemo(
@@ -24,8 +36,13 @@ export function useSocketHandlers() {
           })),
         )
       },
+      hello: ({ roomCode }: PlayerLoggedInData) => {
+        if (roomCode) {
+          sendMessage('room', 'join', { roomCode, name, UUID })
+        }
+      },
     }),
-    [setRoomCode, setPlayers, navigate],
+    [setRoomCode, setPlayers, navigate, sendMessage, name, UUID],
   )
 
   return handlers

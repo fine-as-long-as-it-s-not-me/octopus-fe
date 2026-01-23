@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
 
@@ -14,22 +14,28 @@ import CloseButton from '@/components/room/CloseButton'
 import { useBackground } from '@/context/BackgroundContext'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
+import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
 
 export default function RoomLayout() {
   const { t } = useTranslation()
   const { setBackgroundImage } = useBackground()
   const { playMusic } = useSound()
-
   const { roomCode } = useRoomStore()
   const { openModal } = useModal()
   const { size, setIsCompact, direction } = useWindow()
+  const navigate = useNavigate()
 
   useEffect(() => {
     playMusic('waiting')
     setBackgroundImage('room')
     setIsCompact(true)
-  })
+  }, [playMusic, setBackgroundImage, setIsCompact])
+
+  useEffect(() => {
+    if (!roomCode) navigate(ROUTES.LOBBY)
+    else navigate(ROUTES.WAITING)
+  }, [roomCode, navigate])
 
   const copyLinkHandler = () => {
     navigator.clipboard.writeText(

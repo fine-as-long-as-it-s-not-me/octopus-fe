@@ -34,7 +34,7 @@ export default function PlayerListCard() {
         )}
       >
         {players.map(player => (
-          <PlayerListItem key={player.name} {...player} />
+          <PlayerListItem key={player.UUID} {...player} />
         ))}
       </div>
     </Card>

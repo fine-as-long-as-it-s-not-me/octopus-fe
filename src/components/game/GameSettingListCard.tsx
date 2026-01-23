@@ -11,7 +11,11 @@ import Icon from '../common/Icon'
 import CreateRoomModal from '../modals/CreateRoomModal'
 import SettingItem from '../room/SettingItem'
 
-export default function GameSettingListCard() {
+interface Props {
+  isHost?: boolean
+}
+
+export default function GameSettingListCard({ isHost }: Props) {
   const { openModal } = useModal()
   const { t } = useTranslation()
   const { setting } = useRoomStore()
@@ -23,9 +27,10 @@ export default function GameSettingListCard() {
       <button
         className='flex flex-row items-center justify-center gap-2 p-2 pt-0'
         onClick={() => openModal(<CreateRoomModal />)}
+        disabled={!isHost}
       >
         <p>{t('Game Settings')}</p>
-        <Icon name='arrow_forward' />
+        {isHost && <Icon name='arrow_forward' />}
       </button>
       <Spacing />
       <div

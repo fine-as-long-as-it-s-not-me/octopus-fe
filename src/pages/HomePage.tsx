@@ -9,6 +9,7 @@ import Form from '@/components/common/Form'
 import Img from '@/components/common/Img'
 import Input from '@/components/common/Input'
 import Alert from '@/components/modals/Alert'
+import { useSocket } from '@/context/SocketContext'
 import useAvatar from '@/hooks/useAvatar'
 import { ROUTES } from '@/routes/ROUTES'
 import { useUserStore } from '@/store/userStore'
@@ -16,16 +17,17 @@ import { useUserStore } from '@/store/userStore'
 export default function HomePage() {
   const navigate = useNavigate()
   const { t } = useTranslation()
-
   const { name, setName } = useUserStore()
   const { openModal } = useModal()
+  const { login } = useSocket()
 
   const avatarUrl = useAvatar(name)
+
   const enterSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim())
       return openModal(<Alert>{t('Please enter your name.')}</Alert>)
-
+    login()
     navigate(ROUTES.LOBBY)
   }
 
