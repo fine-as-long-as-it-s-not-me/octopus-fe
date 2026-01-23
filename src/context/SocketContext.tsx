@@ -10,6 +10,7 @@ type SocketContextType = {
   joinRoom: (roomCode: string) => void
   leaveRoom: () => void
   setError: (error: null | ErrorType) => void
+  login: () => void
 }
 
 export const SocketContext = createContext<SocketContextType | null>(null)

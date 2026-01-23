@@ -74,6 +74,10 @@ export default function SocketProvider({ children }: Props) {
     setRoomCode('')
   }
 
+  const login = () => {
+    sendMessage('player', 'login', { name, UUID })
+  }
+
   return (
     <SocketContext.Provider
       value={{
@@ -84,6 +88,7 @@ export default function SocketProvider({ children }: Props) {
         joinRandomRoom,
         leaveRoom,
         setError,
+        login,
       }}
     >
       {children}

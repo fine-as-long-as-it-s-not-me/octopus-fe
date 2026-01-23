@@ -68,3 +68,7 @@ export type ErrorType = {
   code?: string
   error?: unknown
 }
+
+export type PlayerLoggedInData = {
+  roomCode?: string
+}
