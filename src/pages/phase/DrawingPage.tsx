@@ -3,15 +3,15 @@ import { twMerge } from 'tailwind-merge'
 
 import Card from '@/components/common/Card'
 import Canvas from '@/components/game/Canvas'
-import { useRoom } from '@/context/RoomContext'
 import { useSound } from '@/context/SoundContext'
-import { useUser } from '@/context/UserContext'
 import { useWindow } from '@/context/WindowContext'
+import { useRoomStore } from '@/store/roomStore'
+import { useUserStore } from '@/store/userStore'
 
 export default function DrawingPage() {
   const { direction } = useWindow()
-  const { players } = useRoom()
-  const { id } = useUser()
+  const { players } = useRoomStore()
+  const { id } = useUserStore()
   const { playMusic } = useSound()
 
   useEffect(() => {

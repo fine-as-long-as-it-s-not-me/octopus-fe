@@ -1,4 +1,4 @@
-export function getPhasePath(phase: string, roomCode: string): string {
+export function getPhasePath(phase: string): string {
   /**
    * 
       'waiting',
@@ -12,22 +12,22 @@ export function getPhasePath(phase: string, roomCode: string): string {
    */
   switch (phase) {
     case 'waiting':
-      return `/room/${roomCode}`
+      return `/room`
     case 'keyword':
-      return `/room/${roomCode}/keyword`
+      return `/room/keyword`
     case 'drawing':
-      return `/room/${roomCode}/drawing`
+      return `/room/drawing`
     case 'discussion':
-      return `/room/${roomCode}/discussion`
+      return `/room/discussion`
     case 'voting':
-      return `/room/${roomCode}/voting`
+      return `/room/voting`
     case 'vote-result':
-      return `/room/${roomCode}/vote-result`
+      return `/room/vote-result`
     case 'guessing':
-      return `/room/${roomCode}/guessing`
+      return `/room/guessing`
     case 'result':
-      return `/room/${roomCode}/result`
+      return `/room/result`
     default:
-      return `/room/${roomCode}`
+      return `/room`
   }
 }

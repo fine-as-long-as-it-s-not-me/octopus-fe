@@ -13,14 +13,16 @@ import PlayerListButton from '@/components/player/PlayerListButton'
 import PlayersCard from '@/components/player/PlayerListCard'
 import CloseButton from '@/components/room/CloseButton'
 import { useBackground } from '@/context/BackgroundContext'
-import { useRoom } from '@/context/RoomContext'
 import { useWindow } from '@/context/WindowContext'
+import { useGameStore } from '@/store/gameStore'
+import { useRoomStore } from '@/store/roomStore'
 import { getPhasePath } from '@/utils/getPhasePath'
 
 export default function GameLayout() {
   const { setBackgroundImage } = useBackground()
   const { setIsCompact, direction } = useWindow()
-  const { phase, roomCode, keyword, setting, round } = useRoom()
+  const { roomCode, setting } = useRoomStore()
+  const { phase, keyword, round } = useGameStore()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -29,8 +31,9 @@ export default function GameLayout() {
   }, [setBackgroundImage, setIsCompact])
 
   useEffect(() => {
+    console.log('Phase changed:', phase, roomCode)
     if (!roomCode) return
-    navigate(getPhasePath(phase, roomCode), { replace: true })
+    navigate(getPhasePath(phase), { replace: true })
   }, [phase, roomCode, navigate])
 
   return (

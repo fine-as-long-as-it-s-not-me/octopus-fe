@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
-import { useRoom } from '@/context/RoomContext'
-import { useUser } from '@/context/UserContext'
+import { useSocket } from '@/context/SocketContext'
 import { useWindow } from '@/context/WindowContext'
+import { useGameStore } from '@/store/gameStore'
+import { useUserStore } from '@/store/userStore'
 import type { Point } from '@/types'
 import Card from '../common/Card'
 
@@ -11,8 +12,10 @@ const CANVAS_SIZE = 480
 
 export default function Canvas() {
   const { direction } = useWindow()
-  const { strokes, bgColor, painterId, addStroke } = useRoom()
-  const { id } = useUser()
+  const { strokes, canvasColor, painterId } = useGameStore()
+  const { id } = useUserStore()
+  const { addStroke } = useSocket()
+
   const lastStrokeId = strokes.reduce(
     (max, stroke) => Math.max(max, stroke.id),
     -1,
@@ -135,7 +138,7 @@ export default function Canvas() {
         direction === 'vertical' ? '' : '',
       )}
       style={{
-        backgroundColor: bgColor,
+        backgroundColor: canvasColor,
         padding: '0px',
       }}
     >

@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { Spacing, useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
 
-import { useRoom } from '@/context/RoomContext'
 import { useWindow } from '@/context/WindowContext'
 import { ROUTES } from '@/routes/ROUTES'
+import { useRoomStore } from '@/store/roomStore'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
 import CreateRoomModal from '../modals/CreateRoomModal'
@@ -14,7 +14,7 @@ import SettingItem from '../room/SettingItem'
 export default function GameSettingListCard() {
   const { openModal } = useModal()
   const { t } = useTranslation()
-  const { setting } = useRoom()
+  const { setting } = useRoomStore()
   const navigate = useNavigate()
   const { direction } = useWindow()
 

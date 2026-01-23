@@ -11,8 +11,7 @@ export function sendMessage(
   if (!socket) return
   console.log('WebSocket ready state:', socket.readyState)
   if (socket.readyState !== WebSocket.OPEN) {
-    console.warn('WebSocket is not open. Ready state:', socket.readyState)
-    return
+    throw Error('WebSocket is not open')
   }
   console.log('Sending message:', { mainType, subType, data })
   socket.send(

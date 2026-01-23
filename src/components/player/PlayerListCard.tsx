@@ -1,15 +1,15 @@
 import { useTranslation } from 'react-i18next'
 import { twMerge } from 'tailwind-merge'
 
-import { useRoom } from '@/context/RoomContext'
 import { useWindow } from '@/context/WindowContext'
+import { useRoomStore } from '@/store/roomStore'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
 import PlayerListItem from './PlayerListItem'
 
 export default function PlayerListCard() {
   const { t } = useTranslation()
-  const { players } = useRoom()
+  const { players } = useRoomStore()
   const { direction } = useWindow()
 
   return (

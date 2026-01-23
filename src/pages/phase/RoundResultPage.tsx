@@ -1,11 +1,11 @@
 import { twMerge } from 'tailwind-merge'
 
 import Card from '@/components/common/Card'
-import { useRoom } from '@/context/RoomContext'
 import { useWindow } from '@/context/WindowContext'
+import { useGameStore } from '@/store/gameStore'
 
 export default function RoundResultPage() {
-  const { scores } = useRoom()
+  const { scores } = useGameStore()
   const { direction } = useWindow()
   return (
     <Card

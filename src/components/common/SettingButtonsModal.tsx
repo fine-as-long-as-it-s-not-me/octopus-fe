@@ -4,7 +4,7 @@ import SettingButtons from './SettingButtons'
 export default function SettingButtonsModal() {
   return (
     <Modal className='flex-row'>
-      <SettingButtons />
+      <SettingButtons className='rounded-xl' />
     </Modal>
   )
 }

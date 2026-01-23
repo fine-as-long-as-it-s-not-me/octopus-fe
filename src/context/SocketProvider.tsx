@@ -1,29 +1,17 @@
-import { type ReactNode } from 'react'
-
 import { useRoomSocket } from '@/hooks/useRoomSocket'
-import { RoomContext } from './RoomContext'
+import { useGameStore } from '@/store/gameStore'
+import { SocketContext } from './SocketContext'
 
-export default function RoomProvider({ children }: { children: ReactNode }) {
-  const {
-    round,
-    setting,
-    timeLeft,
-    phase,
-    players,
-    bgColor,
-    strokes,
-    scores,
-    keyword,
-    paintingPlayerId,
-    roomCode,
-    setPhase,
-    setRound,
-    addStroke,
-    joinRoom,
-    joinRandomRoom,
-    leaveRoom,
-  } = useRoomSocket()
+interface Props {
+  children: React.ReactNode
+}
 
+export default function SocketProvider({ children }: Props) {
+  const { phase, round, setPhase, setRound } = useGameStore()
+
+  const { addStroke, joinRoom, joinRandomRoom, leaveRoom } = useRoomSocket()
+
+  // for dev
   const startGame = () => {
     setPhase('keyword')
     setRound(1)
@@ -45,7 +33,7 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
     const nextIndex = (currentIndex + 1) % phases.length
     setPhase(phases[nextIndex] as typeof phase)
     if (phases[nextIndex] === 'keyword') {
-      setRound(prev => prev + 1)
+      setRound(round + 1)
     }
     if (phases[nextIndex] === 'waiting') {
       setRound(0)
@@ -53,21 +41,10 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <RoomContext.Provider
+    <SocketContext.Provider
       value={{
-        keyword,
-        scores,
-        bgColor,
-        strokes,
-        roomCode,
-        players,
-        phase,
-        timeLeft,
-        round,
-        painterId: paintingPlayerId,
-        setting,
         startGame,
-        nextPhase, // for dev
+        nextPhase,
         addStroke,
         joinRoom,
         joinRandomRoom,
@@ -75,6 +52,6 @@ export default function RoomProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-    </RoomContext.Provider>
+    </SocketContext.Provider>
   )
 }

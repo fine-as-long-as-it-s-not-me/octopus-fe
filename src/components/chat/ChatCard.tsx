@@ -2,8 +2,8 @@ import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { twMerge } from 'tailwind-merge'
 
-import { useUser } from '@/context/UserContext'
 import { useWindow } from '@/context/WindowContext'
+import { useUserStore } from '@/store/userStore'
 import Card from '../common/Card'
 import Form from '../common/Form'
 import Input from '../common/Input'
@@ -17,7 +17,7 @@ export default function ChatCard() {
   const [chatBubbles, setChatBubbles] = useState([
     { author: mockAuthor, message: mockMessage },
   ])
-  const { name, id } = useUser()
+  const { name, id } = useUserStore()
   const { direction } = useWindow()
 
   const chatListRef = useRef<HTMLDivElement>(null)
