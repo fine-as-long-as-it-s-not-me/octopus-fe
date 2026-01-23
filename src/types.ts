@@ -1,5 +1,5 @@
 export interface Player {
-  id: string
+  UUID: string
   name: string
   photoUrl?: string
   host?: boolean
@@ -63,4 +63,9 @@ export type WelcomeData = {
 export type PlayersUpdatedData = {
   hostId: string
   players: Player[]
+}
+export type ErrorType = {
+  message: string
+  code?: string
+  error?: unknown
 }

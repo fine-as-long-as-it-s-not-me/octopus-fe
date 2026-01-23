@@ -12,7 +12,7 @@ export function getPhasePath(phase: string): string {
    */
   switch (phase) {
     case 'waiting':
-      return `/room`
+      return `/room/waiting`
     case 'keyword':
       return `/room/keyword`
     case 'drawing':
@@ -28,6 +28,6 @@ export function getPhasePath(phase: string): string {
     case 'result':
       return `/room/result`
     default:
-      return `/room`
+      return `/room/waiting`
   }
 }

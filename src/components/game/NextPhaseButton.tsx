@@ -2,9 +2,9 @@ import { useSocket } from '@/context/SocketContext'
 import Button from '../common/Button'
 
 export default function NextPhaseButton() {
-  const { nextPhase } = useSocket()
+  const { DEV_nextPhase } = useSocket()
   const handleClick = () => {
-    nextPhase()
+    DEV_nextPhase()
   }
 
   return (

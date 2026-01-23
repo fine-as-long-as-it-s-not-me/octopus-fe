@@ -1,5 +1,10 @@
-import { useRoomSocket } from '@/hooks/useRoomSocket'
+import { useEffect, useState } from 'react'
+
+import { useSocketConnection } from '@/hooks/useSocketConnection'
 import { useGameStore } from '@/store/gameStore'
+import { useRoomStore } from '@/store/roomStore'
+import { useUserStore } from '@/store/userStore'
+import type { ErrorType, Stroke } from '@/types'
 import { SocketContext } from './SocketContext'
 
 interface Props {
@@ -7,18 +12,24 @@ interface Props {
 }
 
 export default function SocketProvider({ children }: Props) {
-  const { phase, round, setPhase, setRound } = useGameStore()
+  const [error, setError] = useState<null | ErrorType>(null)
+  const { strokes, setStrokes, phase, round, setPhase, setRound } =
+    useGameStore()
+  const { roomCode, setRoomCode } = useRoomStore()
+  const { name, UUID } = useUserStore()
 
-  const { addStroke, joinRoom, joinRandomRoom, leaveRoom } = useRoomSocket()
+  const { reconnect, isConnecting, sendMessage } = useSocketConnection(setError)
 
-  // for dev
-  const startGame = () => {
-    setPhase('keyword')
-    setRound(1)
-  }
+  useEffect(() => {
+    if (error && !isConnecting) {
+      const interval = setInterval(reconnect, 1000)
 
-  // for dev
-  const nextPhase = () => {
+      return () => clearInterval(interval)
+    }
+  }, [error, isConnecting, reconnect, setError])
+
+  const DEV_nextPhase = () => {
+    // for dev
     const phases = [
       'waiting',
       'keyword',
@@ -40,18 +51,55 @@ export default function SocketProvider({ children }: Props) {
     }
   }
 
+  const startGame = () => {
+    setPhase('keyword')
+    setRound(1)
+  }
+
+  const addStroke = (stroke: Stroke) => {
+    setStrokes([...strokes, stroke])
+  }
+
+  const joinRoom = (roomCode: string) => {
+    sendMessage('room', 'join', { roomCode, name })
+  }
+
+  const joinRandomRoom = () => {
+    sendMessage('room', 'join_random', { name })
+  }
+
+  const leaveRoom = () => {
+    sendMessage('room', 'leave', { roomCode })
+    setRoomCode('')
+  }
+
+  const registerPlayer = () => {
+    sendMessage('player', 'register', { name, UUID })
+  }
+
   return (
     <SocketContext.Provider
       value={{
         startGame,
-        nextPhase,
+        DEV_nextPhase,
         addStroke,
         joinRoom,
         joinRandomRoom,
         leaveRoom,
+        setError,
+        registerPlayer,
       }}
     >
       {children}
+
+      {error && (
+        <div className='absolute inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-black/75 text-white'>
+          <p className='text-red-400'>ERROR</p>
+          <p>[{error.message}]</p>
+          <p>Reconnecting to server...</p>
+          <span className='loader' />
+        </div>
+      )}
     </SocketContext.Provider>
   )
 }

@@ -7,7 +7,7 @@ export default function PlayerListModal() {
   return (
     <Modal>
       {players.map(player => (
-        <PlayerListItem key={player.id} {...player} />
+        <PlayerListItem key={player.UUID} {...player} />
       ))}
     </Modal>
   )

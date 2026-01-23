@@ -11,14 +11,14 @@ import { useUserStore } from '@/store/userStore'
 export default function DrawingPage() {
   const { direction } = useWindow()
   const { players } = useRoomStore()
-  const { id } = useUserStore()
+  const { UUID } = useUserStore()
   const { playMusic } = useSound()
 
   useEffect(() => {
-    const me = players.find(p => p.id === id)
+    const me = players.find(p => p.UUID === UUID)
     if (me && me.drawing) playMusic('drawing')
     else playMusic('kidsgame')
-  }, [players, id, playMusic])
+  }, [players, UUID, playMusic])
 
   return (
     <div
