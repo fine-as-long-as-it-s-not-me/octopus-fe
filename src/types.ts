@@ -52,10 +52,6 @@ export interface Score {
   total: number
 }
 
-export interface Message {
-  type: 'welcome' | 'players_updated'
-  data: WelcomeData & PlayersUpdatedData
-}
 export type WelcomeData = {
   roomCode: string
 }
@@ -63,6 +59,16 @@ export type PlayersUpdatedData = {
   hostUUID: string
   players: Player[]
 }
+
+export type Message =
+  | {
+      type: 'welcome'
+      data: WelcomeData
+    }
+  | {
+      type: 'players_updated'
+      data: PlayersUpdatedData
+    }
 export type ErrorType = {
   message: string
   code?: string
