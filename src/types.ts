@@ -70,5 +70,5 @@ export type ErrorType = {
 }
 
 export type PlayerLoggedInData = {
-  roomCode: string
+  roomCode?: string
 }
