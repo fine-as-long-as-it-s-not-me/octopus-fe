@@ -98,7 +98,13 @@ export function useSocketConnection(
       try {
         const { type, data } = JSON.parse(event.data) as Message
         console.log('Received message:', type, data)
-        handlers[type](data)
+        
+        const handler = handlers[type]
+        if (handler) {
+          handler(data)
+        } else {
+          console.warn(`No handler found for message type: ${type}`)
+        }
       } catch (error) {
         setError({
           message: 'socket message error',
