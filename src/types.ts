@@ -53,8 +53,8 @@ export interface Score {
 }
 
 export interface Message {
-  type: 'welcome' | 'players_updated'
-  data: WelcomeData & PlayersUpdatedData
+  type: 'welcome' | 'players_updated' | 'hello'
+  data: WelcomeData & PlayersUpdatedData & PlayerLoggedInData
 }
 export type WelcomeData = {
   roomCode: string
