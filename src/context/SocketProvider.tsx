@@ -93,7 +93,7 @@ export default function SocketProvider({ children }: Props) {
       {children}
 
       {error && (
-        <div className='absolute inset-0 z-1000 flex flex-col items-center justify-center gap-4 bg-black/75 text-white'>
+        <div className='absolute inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-black/75 text-white'>
           <p className='text-red-400'>ERROR</p>
           <p>[{error.message}]</p>
           <p>Reconnecting to server...</p>
