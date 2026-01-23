@@ -61,11 +61,11 @@ export default function SocketProvider({ children }: Props) {
   }
 
   const joinRoom = (roomCode: string) => {
-    sendMessage('room', 'join', { roomCode, name })
+    sendMessage('room', 'join', { roomCode, name, UUID })
   }
 
   const joinRandomRoom = () => {
-    sendMessage('room', 'join_random', { name })
+    sendMessage('room', 'join_random', { name, UUID })
   }
 
   const leaveRoom = () => {

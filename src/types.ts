@@ -58,10 +58,9 @@ export interface Message {
 }
 export type WelcomeData = {
   roomCode: string
-  userId: string
 }
 export type PlayersUpdatedData = {
-  hostId: string
+  hostUUID: string
   players: Player[]
 }
 export type ErrorType = {

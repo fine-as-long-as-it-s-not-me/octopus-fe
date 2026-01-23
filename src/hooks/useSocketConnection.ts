@@ -2,14 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { SOCKET_MESSAGE_ERROR } from '@/consts'
-import { ROUTES } from '@/routes/ROUTES'
-import { useRoomStore } from '@/store/roomStore'
-import {
-  type ErrorType,
-  type Message,
-  type PlayersUpdatedData,
-  type WelcomeData,
-} from '@/types'
+import { useSocketHandlers } from '@/hooks/useSocketHandlers'
+import { type ErrorType, type Message } from '@/types'
 
 export function useSocketConnection(
   setError: (error: null | ErrorType) => void,
@@ -18,7 +12,7 @@ export function useSocketConnection(
     new WebSocket(getRoomSocketUrl()),
   )
   const [isConnecting, setIsConnecting] = useState(false)
-  const { setRoomCode, setPlayers } = useRoomStore()
+  const handlers = useSocketHandlers()
 
   const navigate = useNavigate()
 
@@ -75,24 +69,8 @@ export function useSocketConnection(
   }, [ws])
 
   useEffect(() => {
-    const socket = ws
-    if (!socket) return
-
-    const handlers = {
-      welcome: ({ roomCode }: WelcomeData) => {
-        setRoomCode(roomCode)
-        navigate(ROUTES.WAITING)
-      },
-      players_updated: ({ hostId, players }: PlayersUpdatedData) => {
-        // Update players state here
-        setPlayers(
-          players.map(player => ({
-            ...player,
-            host: player.UUID === hostId,
-          })),
-        )
-      },
-    }
+    if (!ws) return
+    console.log('Setting up WebSocket event listeners')
 
     const messageHandler = (event: MessageEvent) => {
       try {
@@ -108,8 +86,8 @@ export function useSocketConnection(
       }
     }
 
-    socket.addEventListener('message', messageHandler)
-    socket.addEventListener('disconnect', () => {
+    ws.addEventListener('message', messageHandler)
+    ws.addEventListener('disconnect', () => {
       console.warn('Socket disconnected, retrying connection...')
       setError({
         message: 'socket disconnected',
@@ -118,9 +96,9 @@ export function useSocketConnection(
     })
 
     return () => {
-      socket.removeEventListener('message', messageHandler)
+      ws.removeEventListener('message', messageHandler)
     }
-  }, [navigate, setRoomCode, setPlayers, setError, ws])
+  }, [navigate, setError, ws, handlers])
 
   return {
     reconnect,
