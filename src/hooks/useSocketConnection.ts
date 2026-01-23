@@ -91,7 +91,6 @@ export function useSocketConnection(
     setIsConnecting,
     setIsConnected,
     sendMessage,
-    ws,
   ])
 
   const closeSocket = useCallback(() => {
@@ -102,7 +101,7 @@ export function useSocketConnection(
       setIsConnecting(false)
       console.log('WebSocket closed')
     }
-  }, [ws])
+  }, [])
 
   return {
     connectSocket,
