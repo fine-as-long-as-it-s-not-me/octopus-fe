@@ -52,10 +52,11 @@ export interface Score {
   total: number
 }
 
-export interface Message {
-  type: 'welcome' | 'players_updated' | 'hello'
-  data: WelcomeData & PlayersUpdatedData & PlayerLoggedInData
-}
+export type Message =
+  | { type: 'welcome'; data: WelcomeData }
+  | { type: 'players_updated'; data: PlayersUpdatedData }
+  | { type: 'hello'; data: PlayerLoggedInData }
+
 export type WelcomeData = {
   roomCode: string
 }
