@@ -82,14 +82,6 @@ export function useSocketConnection(
         })
       }
     })
-    ws.current.addEventListener('disconnect', () => {
-      console.warn('Socket disconnected, retrying connection...')
-      setError({
-        message: 'socket disconnected',
-        code: SOCKET_MESSAGE_ERROR,
-      })
-      setIsConnected(false)
-    })
   }, [
     handlers,
     name,
