@@ -18,15 +18,17 @@ interface Props {
 export default function GameSettingListCard({ isHost }: Props) {
   const { openModal } = useModal()
   const { t } = useTranslation()
-  const { setting } = useRoomStore()
+  const { settings } = useRoomStore()
   const navigate = useNavigate()
   const { direction } = useWindow()
+
+  console.log(settings)
 
   return (
     <Card className='flex w-full grow-2 flex-col sm:min-w-[240px]'>
       <button
         className='flex flex-row items-center justify-center gap-2 p-2 pt-0'
-        onClick={() => openModal(<CreateRoomModal />)}
+        onClick={() => openModal(<CreateRoomModal action='change' />)}
         disabled={!isHost}
       >
         <p>{t('Game Settings')}</p>
@@ -42,29 +44,29 @@ export default function GameSettingListCard({ isHost }: Props) {
         <SettingItem
           icon={<Icon name='change_circle' />}
           label={t('Rounds')}
-          value={setting.rounds.toString()}
+          value={settings.rounds.toString()}
         />
         <SettingItem
           icon={<Icon name='group' />}
           label={t('Max Players')}
-          value={setting.maxPlayers.toString()}
+          value={settings.maxPlayers.toString()}
         />
         <SettingItem
           icon={<Icon name='help_outline' />}
           label={t('Liars')}
-          value={setting.liars.toString()}
+          value={settings.liars.toString()}
         />
         <SettingItem
           icon={<Icon name='timer' />}
           label={t('Drawing Time')}
-          value={`${setting.drawingTime}${t('s')}`}
+          value={`${settings.drawingTime}${t('s')}`}
         />
         <SettingItem
           icon={<Icon name='edit' />}
           label={t('Custom Words')}
-          value={t(setting.customWords ? 'On' : 'Off')}
+          value={t(settings.useCustomWord ? 'On' : 'Off')}
           onClick={
-            setting.customWords
+            settings.useCustomWord
               ? () => {
                   navigate(ROUTES.CUSTOM_WORD)
                 }
@@ -74,7 +76,7 @@ export default function GameSettingListCard({ isHost }: Props) {
         <SettingItem
           icon={<Icon name='lock_open' />}
           label={t('Room Type')}
-          value={setting.roomType === 'public' ? t('Public') : t('Private')}
+          value={settings.isPublic ? t('Public') : t('Private')}
         />
       </div>
     </Card>

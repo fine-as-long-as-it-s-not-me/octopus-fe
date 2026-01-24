@@ -4,7 +4,7 @@ import { useSocketConnection } from '@/hooks/useSocketConnection'
 import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
 import { useUserStore } from '@/store/userStore'
-import type { ErrorType, Stroke } from '@/types'
+import type { ChangableSettings, ErrorType, Stroke } from '@/types'
 import { SocketContext } from './SocketContext'
 
 interface Props {
@@ -61,6 +61,14 @@ export default function SocketProvider({ children }: Props) {
     setStrokes([...strokes, stroke])
   }
 
+  const createRoom = (settings: ChangableSettings) => {
+    sendMessage('room', 'create', { settings })
+  }
+
+  const changeSettings = (settings: ChangableSettings) => {
+    sendMessage('room', 'change_settings', { roomCode, settings })
+  }
+
   const joinRoom = (roomCode: string) => {
     sendMessage('room', 'join', { roomCode, name, UUID })
   }
@@ -84,17 +92,19 @@ export default function SocketProvider({ children }: Props) {
         startGame,
         DEV_nextPhase,
         addStroke,
+        createRoom,
         joinRoom,
         joinRandomRoom,
         leaveRoom,
         setError,
+        changeSettings,
         login,
       }}
     >
       {children}
 
       {error && (
-        <div className='absolute inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-black/75 text-white'>
+        <div className='absolute inset-0 z-1002 flex flex-col items-center justify-center gap-4 bg-black/75 text-white'>
           {/* <p className='text-red-400'>ERROR</p> */}
           <p>[{error.message}]</p>
           <p>Connecting to server...</p>

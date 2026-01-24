@@ -1,9 +1,9 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { Spacing } from 'sam-react-modal'
+import { Spacing, useModal } from 'sam-react-modal'
 
-import { ROUTES } from '@/routes/ROUTES'
+import { useSocket } from '@/context/SocketContext'
+import type { ChangableSettings } from '@/types'
 import Button from '../common/Button'
 import Checkbox from '../common/Checkbox'
 import Form from '../common/Form'
@@ -17,29 +17,37 @@ const settingOptions = {
   drawingTimes: [3, 5, 10, 15],
 }
 
-export default function CreateRoomModal() {
+interface Props {
+  action: 'create' | 'change'
+}
+
+export default function CreateRoomModal({ action }: Props) {
+  // ! TODO: action에 따른 초기값 설정
+  const { t } = useTranslation()
   const [rounds, setRounds] = useState(3)
   const [drawingTime, setDrawingTime] = useState(10)
-
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+  const { createRoom, changeSettings } = useSocket()
+  const { closeModal } = useModal()
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('Create Room with settings:', {
+    const settings: ChangableSettings = {
       rounds,
       maxPlayers: Number(e.currentTarget.maxPlayers.value) || 8,
       drawingTime,
-      useCustomWords: !!e.currentTarget.useCustomWords.checked,
-      roomType: e.currentTarget.roomType.value,
-    })
-    navigate(ROUTES.WAITING)
+      useCustomWord: !!e.currentTarget.useCustomWord.checked,
+      isPublic: e.currentTarget.roomType.value === 'public',
+    }
+    console.log(`${action} Room with settings:`, settings)
+    if (action === 'create') createRoom(settings)
+    else if (action === 'change') changeSettings(settings)
+    closeModal()
   }
 
   return (
     <Modal>
       <Form onSubmit={submitHandler} className='flex flex-col gap-4 p-4 md:p-8'>
-        <p>{t('Create Room')}</p>
+        <p>{t(`${action === 'create' ? 'Create' : 'Change'} Room`)}</p>
         <Spacing />
         <SettingInputWrapper
           icon={<Icon name='change_circle' />}
@@ -102,7 +110,7 @@ export default function CreateRoomModal() {
           icon={<Icon name='abc' />}
           label={t('Use Custom Words')}
         >
-          <Checkbox type='checkbox' name='useCustomWords' />
+          <Checkbox type='checkbox' name='useCustomWord' />
         </SettingInputWrapper>
         <SettingInputWrapper icon={<Icon name='lock' />} label={t('Room Type')}>
           <select name='roomType'>
@@ -111,7 +119,7 @@ export default function CreateRoomModal() {
           </select>
         </SettingInputWrapper>
         <Button size='lg' type='submit'>
-          {t('Create')}
+          {t(action === 'create' ? 'Create' : 'Change')}
         </Button>
       </Form>
     </Modal>

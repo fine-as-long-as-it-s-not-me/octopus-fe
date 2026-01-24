@@ -65,7 +65,7 @@ export default function CustomWordPage() {
           </p>
           <p>
             {t(
-              `Anyone with the link can vote words to register. This feature is recommended to use with setting ‘Minimum votes to get registered’ to more than 0 to prevent trolls.`,
+              `Anyone with the link can vote words to register. This feature is recommended to use with settings ‘Minimum votes to get registered’ to more than 0 to prevent trolls.`,
             )}
           </p>
           <Button

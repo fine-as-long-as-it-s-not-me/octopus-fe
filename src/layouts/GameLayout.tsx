@@ -21,7 +21,7 @@ import { useRoomStore } from '@/store/roomStore'
 export default function GameLayout() {
   const { setBackgroundImage } = useBackground()
   const { setIsCompact, direction } = useWindow()
-  const { roomCode, setting } = useRoomStore()
+  const { roomCode, settings } = useRoomStore()
   const { phase, keyword, round } = useGameStore()
   const navigate = useNavigate()
 
@@ -40,7 +40,7 @@ export default function GameLayout() {
       <div className='flex h-fit w-full flex-row flex-wrap sm:gap-2'>
         <div className='flex min-w-[400px] grow flex-row sm:gap-2'>
           <Card size='md' className='order-0 w-auto shrink-0 items-center'>
-            Round {round}/{setting.rounds}
+            Round {round}/{settings.rounds}
           </Card>
           <Card
             size='md'
