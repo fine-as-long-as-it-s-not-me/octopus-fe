@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Spacing, useModal } from 'sam-react-modal'
 
 import { useSocket } from '@/context/SocketContext'
-import type { ChangableSettings } from '@/types'
+import type { ChangeableSettings } from '@/types'
 import Button from '../common/Button'
 import Checkbox from '../common/Checkbox'
 import Form from '../common/Form'
@@ -31,14 +31,13 @@ export default function CreateRoomModal({ action }: Props) {
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const settings: ChangableSettings = {
+    const settings: ChangeableSettings = {
       rounds,
       maxPlayers: Number(e.currentTarget.maxPlayers.value) || 8,
       drawingTime,
       useCustomWord: !!e.currentTarget.useCustomWord.checked,
       isPublic: e.currentTarget.roomType.value === 'public',
     }
-    console.log(`${action} Room with settings:`, settings)
     if (action === 'create') createRoom(settings)
     else if (action === 'change') changeSettings(settings)
     closeModal()

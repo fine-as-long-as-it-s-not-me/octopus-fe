@@ -22,8 +22,6 @@ export default function GameSettingListCard({ isHost }: Props) {
   const navigate = useNavigate()
   const { direction } = useWindow()
 
-  console.log(settings)
-
   return (
     <Card className='flex w-full grow-2 flex-col sm:min-w-[240px]'>
       <button

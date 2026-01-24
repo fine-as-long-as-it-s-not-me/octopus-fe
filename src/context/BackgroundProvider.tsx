@@ -21,7 +21,7 @@ export const BackgroundProvider = ({ children }: Props) => {
     const { progress } = useAssets()
     const { t } = useTranslation()
     return (
-      <div
+      <button
         className={twMerge(
           `absolute inset-0 flex flex-col items-center justify-center gap-4 text-white`,
           interacted && progress === 100 ? 'hidden' : 'flex',
@@ -31,6 +31,7 @@ export const BackgroundProvider = ({ children }: Props) => {
         }}
         onClick={() => setInteracted(true)}
         onKeyDown={() => setInteracted(true)}
+        tabIndex={0}
       >
         <h2>{t('Loading')}...</h2>
         <div className='flex flex-col items-center'>
@@ -38,7 +39,7 @@ export const BackgroundProvider = ({ children }: Props) => {
           <p>{progress}%</p>
         </div>
         {progress === 100 && <p>{t('press anywhere to continue')}</p>}
-      </div>
+      </button>
     )
   }
 

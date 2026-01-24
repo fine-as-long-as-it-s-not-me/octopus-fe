@@ -4,7 +4,7 @@ import { useSocketConnection } from '@/hooks/useSocketConnection'
 import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
 import { useUserStore } from '@/store/userStore'
-import type { ChangableSettings, ErrorType, Stroke } from '@/types'
+import type { ChangeableSettings, ErrorType, Stroke } from '@/types'
 import { SocketContext } from './SocketContext'
 
 interface Props {
@@ -61,11 +61,11 @@ export default function SocketProvider({ children }: Props) {
     setStrokes([...strokes, stroke])
   }
 
-  const createRoom = (settings: ChangableSettings) => {
+  const createRoom = (settings: ChangeableSettings) => {
     sendMessage('room', 'create', { settings })
   }
 
-  const changeSettings = (settings: ChangableSettings) => {
+  const changeSettings = (settings: ChangeableSettings) => {
     sendMessage('room', 'change_settings', { roomCode, settings })
   }
 

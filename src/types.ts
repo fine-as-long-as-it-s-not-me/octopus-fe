@@ -37,7 +37,7 @@ export interface Settings {
   lang: Language
 }
 
-export type ChangableSettings = Omit<
+export type ChangeableSettings = Omit<
   Settings,
   'lang' | 'isCustomWordVoteOpen' | 'customWordMinVotes' | 'liars'
 >
@@ -63,8 +63,11 @@ export interface Score {
 }
 
 export interface Message {
-  type: 'welcome' | 'players_updated'
-  data: WelcomeResponse & PlayersUpdatedResponse
+  type: 'welcome' | 'players_updated' | 'settings_updated' | 'hello'
+  data: WelcomeResponse &
+    PlayersUpdatedResponse &
+    SettingsUpdatedResponse &
+    PlayerLoggedInResponse
 }
 export type WelcomeResponse = {
   roomCode: string

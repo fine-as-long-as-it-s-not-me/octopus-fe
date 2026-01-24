@@ -16,10 +16,7 @@ export const useRoomStore = create<RoomState>()(set => ({
   roomCode: '',
   setRoomCode: (roomCode: string) => set({ roomCode }),
   settings: mockSetting,
-  setSettings: (settings: Settings) => {
-    console.log('Setting new settings in store:', settings)
-    set({ settings })
-  },
+  setSettings: (settings: Settings) => set({ settings }),
   players: mockPlayers,
   setPlayers: (players: Player[]) => set({ players }),
 }))

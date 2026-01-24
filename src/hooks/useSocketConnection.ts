@@ -62,12 +62,9 @@ export function useSocketConnection(
       })
     }
     ws.current.onopen = () => {
-      console.log('WebSocket connected')
       setIsConnected(true)
       setIsConnecting(false)
       setError(null)
-
-      console.log('Registering player:', name, UUID)
       sendMessage('player', 'login', { name, UUID })
     }
     ws.current.onmessage = (event: MessageEvent) => {
