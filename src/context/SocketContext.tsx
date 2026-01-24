@@ -1,12 +1,14 @@
 import { createContext, useContext } from 'react'
 
-import type { ErrorType, Stroke } from '@/types'
+import type { ChangableSettings, ErrorType, Stroke } from '@/types'
 
 type SocketContextType = {
   joinRandomRoom: () => void
   startGame: () => void
   DEV_nextPhase: () => void // for dev
   addStroke: (stroke: Stroke) => void
+  createRoom: (settings: ChangableSettings) => void
+  changeSettings: (settings: ChangableSettings) => void
   joinRoom: (roomCode: string) => void
   leaveRoom: () => void
   setError: (error: null | ErrorType) => void

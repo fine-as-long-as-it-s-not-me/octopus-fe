@@ -6,7 +6,7 @@ import tranKo from './locales/ko.json'
 
 export const languages = ['en', 'ko'] as const
 
-export type Languages = (typeof languages)[number] // 'en' | 'ko'
+export type Language = (typeof languages)[number] // 'en' | 'ko'
 
 const resources = {
   en: { translation: tranEn },

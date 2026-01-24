@@ -1,4 +1,4 @@
-import type { Player, Score, Setting, Stroke } from '@/types'
+import type { Player, Score, Settings, Stroke } from '@/types'
 
 export const mockPlayers: Player[] = [
   {
@@ -23,13 +23,16 @@ export const mockPlayers: Player[] = [
     nextDrawer: true,
   },
 ]
-export const mockSetting: Setting = {
-  customWords: true,
+export const mockSetting: Settings = {
+  useCustomWord: true,
   rounds: 3,
   drawingTime: 60,
   maxPlayers: 8,
   liars: 2,
-  roomType: 'public',
+  isPublic: true,
+  isCustomWordVoteOpen: true,
+  customWordMinVotes: 2,
+  lang: 'en',
 }
 
 export const mockScores: Score[] = mockPlayers.map((player, index) => ({

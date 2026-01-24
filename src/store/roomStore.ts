@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 
-import type { Player, Setting } from '@/types'
+import type { Player, Settings } from '@/types'
 import { mockPlayers, mockSetting } from './mocks'
 
 interface RoomState {
   roomCode: string
   setRoomCode: (roomCode: string) => void
-  setting: Setting
-  setSetting: (setting: Setting) => void
+  settings: Settings
+  setSettings: (settings: Settings) => void
   players: Player[]
   setPlayers: (players: Player[]) => void
 }
@@ -15,8 +15,11 @@ interface RoomState {
 export const useRoomStore = create<RoomState>()(set => ({
   roomCode: '',
   setRoomCode: (roomCode: string) => set({ roomCode }),
-  setting: mockSetting,
-  setSetting: (setting: Setting) => set({ setting }),
+  settings: mockSetting,
+  setSettings: (settings: Settings) => {
+    console.log('Setting new settings in store:', settings)
+    set({ settings })
+  },
   players: mockPlayers,
   setPlayers: (players: Player[]) => set({ players }),
 }))

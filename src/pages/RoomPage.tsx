@@ -7,6 +7,7 @@ import Card from '@/components/common/Card'
 import GameSettingListCard from '@/components/game/GameSettingListCard'
 import PlayerListCard from '@/components/player/PlayerListCard'
 import { useSocket } from '@/context/SocketContext'
+import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
 import { useUserStore } from '@/store/userStore'
 
@@ -22,7 +23,7 @@ export default function RoomPage() {
 
   const startGameClickHandler = () => {
     startGame()
-    navigate(`/room/keyword`)
+    navigate(ROUTES.KEYWORD)
   }
 
   return (

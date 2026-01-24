@@ -1,3 +1,5 @@
+import type { Language } from './i18n'
+
 export interface Player {
   UUID: string
   name: string
@@ -23,14 +25,22 @@ export type Phase =
   | 'result'
   | 'guessing'
 
-export interface Setting {
+export interface Settings {
   rounds: number
   maxPlayers: number
   liars: number
   drawingTime: number
-  customWords: boolean
-  roomType: 'public' | 'private'
+  useCustomWord: boolean
+  isCustomWordVoteOpen: boolean
+  customWordMinVotes: number
+  isPublic: boolean
+  lang: Language
 }
+
+export type ChangableSettings = Omit<
+  Settings,
+  'lang' | 'isCustomWordVoteOpen' | 'customWordMinVotes' | 'liars'
+>
 
 export interface Stroke {
   id: number
@@ -54,12 +64,12 @@ export interface Score {
 
 export interface Message {
   type: 'welcome' | 'players_updated'
-  data: WelcomeData & PlayersUpdatedData
+  data: WelcomeResponse & PlayersUpdatedResponse
 }
-export type WelcomeData = {
+export type WelcomeResponse = {
   roomCode: string
 }
-export type PlayersUpdatedData = {
+export type PlayersUpdatedResponse = {
   hostUUID: string
   players: Player[]
 }
@@ -69,6 +79,10 @@ export type ErrorType = {
   error?: unknown
 }
 
-export type PlayerLoggedInData = {
+export type PlayerLoggedInResponse = {
   roomCode?: string
+}
+
+export type SettingsUpdatedResponse = {
+  settings: Settings
 }
