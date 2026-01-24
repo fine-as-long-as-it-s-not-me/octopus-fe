@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useModal } from 'sam-react-modal'
+import { twMerge } from 'tailwind-merge'
 
+import { useWindow } from '@/context/WindowContext'
 import Button from './Button'
 import Icon from './Icon'
 import SettingButtons from './SettingButtons'
@@ -10,6 +12,7 @@ export default function Settings() {
   const { openModal } = useModal()
   const ref = useRef(null)
   const [isLong, setIsLong] = useState(true)
+  const { isCompact } = useWindow()
 
   useEffect(() => {
     if (!ref.current) return
@@ -25,7 +28,10 @@ export default function Settings() {
     }
   }, [])
   return (
-    <div className='flex w-fit grow sm:gap-2' ref={ref}>
+    <div
+      className={twMerge('flex w-fit grow', isCompact ? 'sm:gap-2' : 'gap-2')}
+      ref={ref}
+    >
       {isLong ? (
         <SettingButtons />
       ) : (

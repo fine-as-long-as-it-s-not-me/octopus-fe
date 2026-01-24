@@ -1,3 +1,5 @@
+import type { Languages } from './i18n'
+
 export interface Player {
   UUID: string
   name: string
@@ -29,7 +31,9 @@ export interface Setting {
   liars: number
   drawingTime: number
   customWords: boolean
-  roomType: 'public' | 'private'
+  isVoteOpen: boolean
+  isPublic: boolean
+  language: Languages
 }
 
 export interface Stroke {

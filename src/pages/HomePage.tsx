@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Spacing, useModal } from 'sam-react-modal'
 
-import chzzkIcon from '@/assets/images/icons/chzzk.png'
+// import chzzkIcon from '@/assets/images/icons/chzzk.png'
 import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
 import Form from '@/components/common/Form'
@@ -56,9 +56,9 @@ export default function HomePage() {
           </Button>
         </Form>
       </Card>
-      <Button icon={<Img width={32} src={chzzkIcon} alt='Chzzk Icon' />}>
+      {/* <Button icon={<Img width={32} src={chzzkIcon} alt='Chzzk Icon' />}>
         {t('Live Streamer')}
-      </Button>
+      </Button> */}
       <Spacing />
     </>
   )
