@@ -134,12 +134,13 @@ export default function Canvas() {
   return (
     <Card
       className={twMerge(
-        'flex min-w-[480px] grow items-center justify-center',
+        'flex items-center justify-center',
         direction === 'vertical' ? '' : '',
       )}
       style={{
         backgroundColor: canvasColor,
         padding: '0px',
+        minWidth: 'min(100vw, 440px)',
       }}
     >
       <canvas className='block aspect-square w-full' ref={canvasRef} />

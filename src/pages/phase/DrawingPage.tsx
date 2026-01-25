@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { twMerge } from 'tailwind-merge'
 
-import Card from '@/components/common/Card'
 import Canvas from '@/components/game/Canvas'
+import Pallette from '@/components/game/Pallette'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
 import { useRoomStore } from '@/store/roomStore'
@@ -23,12 +23,12 @@ export default function DrawingPage() {
   return (
     <div
       className={twMerge(
-        'flex shrink-0 grow-12 flex-col sm:gap-2',
+        'flex shrink-0 grow-12 flex-col overflow-hidden sm:gap-2',
         direction === 'vertical' ? '' : '',
       )}
     >
       <Canvas />
-      <Card className='flex shrink-0'>palette</Card>
+      <Pallette />
     </div>
   )
 }
