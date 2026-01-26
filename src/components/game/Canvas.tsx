@@ -5,14 +5,15 @@ import { useAddStroke } from '@/apis/canvas'
 import { useWindow } from '@/context/WindowContext'
 import { useGameStore } from '@/store/gameStore'
 import { useUserStore } from '@/store/userStore'
-import type { Point } from '@/types'
+import { Phase, type Point } from '@/types'
 import Card from '../common/Card'
 
 const CANVAS_SIZE = 480
 
 export default function Canvas() {
   const { direction } = useWindow()
-  const { strokes, canvasColor, painterUUID, strokeColor } = useGameStore()
+  const { strokes, canvasColor, painterUUID, strokeColor, phase } =
+    useGameStore()
   const { UUID } = useUserStore()
   const { mutate: addStroke } = useAddStroke()
 
@@ -101,33 +102,39 @@ export default function Canvas() {
 
     const canvas = canvasRef.current
     if (!canvas) return
+    if (UUID == painterUUID && phase === Phase.DRAWING) {
+      canvas.onpointerdown = e => {
+        e.preventDefault()
+        canvas.setPointerCapture(e.pointerId)
 
-    canvas.onpointerdown = e => {
-      if (UUID !== painterUUID) return
-      e.preventDefault()
-      canvas.setPointerCapture(e.pointerId)
+        startNewStroke()
+        pointsRef.current = [getNewPoint(e)]
+        sendCurrentStroke()
+      }
+      canvas.onpointermove = e => {
+        if (!strokeIdRef.current) return
+        if (!canvas.hasPointerCapture(e.pointerId)) return
+        e.preventDefault()
+        pointsRef.current.push(getNewPoint(e))
 
-      startNewStroke()
-      pointsRef.current = [getNewPoint(e)]
-      sendCurrentStroke()
+        if (pointsRef.current.length >= 4) sendCurrentStroke()
+      }
+      canvas.onpointerup = e => {
+        if (!strokeIdRef.current) return
+        e.preventDefault()
+        canvas.releasePointerCapture(e.pointerId)
+
+        sendCurrentStroke({ flush: true })
+
+        strokeIdRef.current++
+        sequenceRef.current = 0
+      }
     }
-    canvas.onpointermove = e => {
-      if (strokeIdRef.current === null) return
-      if (!canvas.hasPointerCapture(e.pointerId)) return
-      e.preventDefault()
-      pointsRef.current.push(getNewPoint(e))
 
-      if (pointsRef.current.length >= 4) sendCurrentStroke()
-    }
-    canvas.onpointerup = e => {
-      if (strokeIdRef.current === null) return
-      e.preventDefault()
-      canvas.releasePointerCapture(e.pointerId)
-
-      sendCurrentStroke({ flush: true })
-
-      strokeIdRef.current++
-      sequenceRef.current = 0
+    return () => {
+      canvas.onpointerdown = null
+      canvas.onpointermove = null
+      canvas.onpointerup = null
     }
   }, [
     UUID,
@@ -135,8 +142,9 @@ export default function Canvas() {
     brushType,
     strokeColor,
     strokeWidth,
-    addStroke,
     lastStrokeId,
+    phase,
+    addStroke,
   ])
   return (
     <Card

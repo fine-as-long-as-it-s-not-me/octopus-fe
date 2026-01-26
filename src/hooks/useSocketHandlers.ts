@@ -32,6 +32,7 @@ export function useSocketHandlers(
     setTimeLeft,
     setPainterUUID,
     setKeyword,
+    setNextPainterUUID,
   } = useGameStore()
 
   const handlers = useMemo(
@@ -46,8 +47,9 @@ export function useSocketHandlers(
       round_updated: ({ round }: RoundResponse) => {
         setRound(round)
       },
-      painter: ({ UUID }: PainterResponse) => {
+      painter: ({ UUID, nextUUID }: PainterResponse) => {
         setPainterUUID(UUID)
+        setNextPainterUUID(nextUUID)
       },
       tick: ({ round, phase, timeLeft }: TickResponse) => {
         setPhase(phase)
@@ -88,6 +90,7 @@ export function useSocketHandlers(
       setTimeLeft,
       sendMessage,
       setPainterUUID,
+      setNextPainterUUID,
       setStrokes,
       setCanvasColor,
       setId,

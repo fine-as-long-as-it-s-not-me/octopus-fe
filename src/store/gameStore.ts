@@ -22,6 +22,9 @@ interface GameState {
   painterUUID: string | null
   setPainterUUID: (painterUUID: string | null) => void
 
+  nextPainterUUID: string | null
+  setNextPainterUUID: (nextPainterUUID: string | null) => void
+
   strokes: Stroke[]
   strokeColor: string
   setStrokeColor: (strokeColor: string) => void
@@ -59,6 +62,9 @@ export const useGameStore = create<GameState>()(
       painterUUID: null,
       setPainterUUID: painterUUID => set({ painterUUID }),
 
+      nextPainterUUID: null,
+      setNextPainterUUID: nextPainterUUID => set({ nextPainterUUID }),
+
       strokes: [],
       strokeColor: '#000000',
       setStrokeColor: strokeColor => set({ strokeColor }),
@@ -77,13 +83,19 @@ export const useGameStore = create<GameState>()(
           keyword: '',
           round: 0,
           painterUUID: null,
-          strokes: [],
+          nextPainterUUID: null,
           strokeColor: '#000000',
           canvasColor: '#ffffff',
         })),
     }),
     {
       name: 'game-storage',
+      partialize: state =>
+        Object.fromEntries(
+          Object.entries(state).filter(
+            ([key]) => !['painterUUID', 'nextPainterUUID'].includes(key),
+          ),
+        ),
     },
   ),
 )

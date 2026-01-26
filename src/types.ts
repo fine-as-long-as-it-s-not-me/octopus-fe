@@ -5,8 +5,6 @@ export interface Player {
   name: string
   photoUrl?: string
   host?: boolean
-  drawing?: boolean
-  nextDrawer?: boolean
 }
 
 export interface Keyword {
@@ -105,6 +103,9 @@ export type CanvasUpdatedResponse = {
   bgColor: string
 }
 
-export type PainterResponse = { UUID: string }
+export type PainterResponse = {
+  UUID: string
+  nextUUID: string
+}
 
 export type RoundResponse = { round: number }
