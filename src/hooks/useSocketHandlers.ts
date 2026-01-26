@@ -76,7 +76,7 @@ export function useSocketHandlers(
       },
       hello: ({ roomCode, id }: PlayerLoggedInResponse) => {
         setId(id)
-        setRoomCode(roomCode ?? '')
+        setRoomCode(roomCode)
 
         if (roomCode) sendMessage('room', 'join', { roomCode, name, UUID })
         else setPhase(Phase.OUT)
