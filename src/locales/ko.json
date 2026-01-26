@@ -47,5 +47,9 @@
   "s": "초",
   "On": "사용",
   "Off": "사용 안 함",
-  "No custom words added yet.": "아직 추가된 사용자 지정 단어가 없습니다."
+  "No custom words added yet.": "아직 추가된 사용자 지정 단어가 없습니다.",
+  "Language": "언어",
+  "language": "언어",
+  "Korean": "한국어",
+  "English": "영어"
 }

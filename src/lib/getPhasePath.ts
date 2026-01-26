@@ -1,33 +1,25 @@
-export function getPhasePath(phase: string): string {
-  /**
-   * 
-      'waiting',
-      'keyword',
-      'drawing',
-      'discussion',
-      'voting',
-      'vote-result',
-      'guessing',
-      'result',
-   */
+import { ROUTES } from '@/routes/ROUTES'
+import { Phase } from '@/types'
+
+export function getPhasePath(phase: Phase): string {
   switch (phase) {
-    case 'waiting':
-      return `/room/waiting`
-    case 'keyword':
-      return `/room/keyword`
-    case 'drawing':
-      return `/room/drawing`
-    case 'discussion':
-      return `/room/discussion`
-    case 'voting':
-      return `/room/voting`
-    case 'vote-result':
-      return `/room/vote-result`
-    case 'guessing':
-      return `/room/guessing`
-    case 'result':
-      return `/room/result`
+    case Phase.OUT:
+      return ROUTES.WAITING
+    case Phase.KEYWORD:
+      return ROUTES.KEYWORD
+    case Phase.DRAWING:
+      return ROUTES.DRAWING
+    case Phase.DISCUSSION:
+      return ROUTES.DISCUSSION
+    case Phase.VOTING:
+      return ROUTES.VOTING
+    case Phase.VOTE_RESULT:
+      return ROUTES.VOTE_RESULT
+    case Phase.GUESSING:
+      return ROUTES.GUESSING
+    case Phase.RESULT:
+      return ROUTES.RESULT
     default:
-      return `/room/waiting`
+      return ROUTES.WAITING
   }
 }

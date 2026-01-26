@@ -1,34 +1,33 @@
 import { useEffect } from 'react'
 import { twMerge } from 'tailwind-merge'
 
-import Card from '@/components/common/Card'
 import Canvas from '@/components/game/Canvas'
+import Palette from '@/components/game/Palette'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
-import { useRoomStore } from '@/store/roomStore'
+import { useGameStore } from '@/store/gameStore'
 import { useUserStore } from '@/store/userStore'
 
 export default function DrawingPage() {
   const { direction } = useWindow()
-  const { players } = useRoomStore()
+  const { painterUUID } = useGameStore()
   const { UUID } = useUserStore()
   const { playMusic } = useSound()
 
   useEffect(() => {
-    const me = players.find(p => p.UUID === UUID)
-    if (me && me.drawing) playMusic('drawing')
+    if (UUID === painterUUID) playMusic('drawing')
     else playMusic('kidsgame')
-  }, [players, UUID, playMusic])
+  }, [painterUUID, UUID, playMusic])
 
   return (
     <div
       className={twMerge(
-        'flex shrink-0 grow-12 flex-col sm:gap-2',
+        'flex shrink-0 grow-12 flex-col overflow-hidden sm:gap-2',
         direction === 'vertical' ? '' : '',
       )}
     >
       <Canvas />
-      <Card className='flex shrink-0'>palette</Card>
+      <Palette />
     </div>
   )
 }

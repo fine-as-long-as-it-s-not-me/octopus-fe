@@ -3,7 +3,7 @@ import { useCallback, useRef, useState } from 'react'
 import { SOCKET_MESSAGE_ERROR } from '@/consts'
 import { useSocketHandlers } from '@/hooks/useSocketHandlers'
 import { useUserStore } from '@/store/userStore'
-import { type ErrorType, type Message } from '@/types'
+import { type ErrorType, type Message, type MessageHandlers } from '@/types'
 
 export function useSocketConnection(
   setError: (error: null | ErrorType) => void,
@@ -11,7 +11,7 @@ export function useSocketConnection(
   const ws = useRef<WebSocket | null>(null)
   const [isConnecting, setIsConnecting] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
-  const { name, UUID } = useUserStore()
+  const { name, UUID, lang } = useUserStore()
 
   const sendMessage = useCallback(
     (mainType: string, subType: string, data?: Record<string, unknown>) => {
@@ -62,19 +62,27 @@ export function useSocketConnection(
       })
     }
     ws.current.onopen = () => {
-      console.log('WebSocket connected')
       setIsConnected(true)
       setIsConnecting(false)
       setError(null)
-
-      console.log('Registering player:', name, UUID)
-      sendMessage('player', 'login', { name, UUID })
+      sendMessage('player', 'login', { name, UUID, lang })
     }
     ws.current.onmessage = (event: MessageEvent) => {
       try {
-        const { type, data } = JSON.parse(event.data) as Message
-        console.log('Received message:', type, data)
-        handlers[type]?.(data)
+        const message = JSON.parse(event.data) as Message
+        console.log('Received message:', message.type, message.data)
+
+        const handler = handlers[message.type]
+        if (handler) {
+          handler(
+            message.data as Extract<
+              MessageHandlers,
+              { type: typeof message.type }
+            >,
+          )
+        } else {
+          console.warn('No handler for message type:', message.type)
+        }
       } catch (error) {
         setError({
           message: 'socket message error',
@@ -87,6 +95,7 @@ export function useSocketConnection(
     handlers,
     name,
     UUID,
+    lang,
     setError,
     setIsConnecting,
     setIsConnected,

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useModal } from 'sam-react-modal'
 
-import { useSocket } from '@/context/SocketContext'
+import { useJoinRoom } from '@/apis/room'
 import Button from '../common/Button'
 import Form from '../common/Form'
 import Input from '../common/Input'
@@ -12,7 +12,7 @@ export default function RoomCodeInputModal() {
   const { t } = useTranslation()
 
   const { openModal } = useModal()
-  const { joinRoom } = useSocket()
+  const { mutate: joinRoom } = useJoinRoom()
 
   const roomCodeSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

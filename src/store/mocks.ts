@@ -5,22 +5,16 @@ export const mockPlayers: Player[] = [
     UUID: '1',
     name: 'Player 1',
     host: true,
-    drawing: true,
-    nextDrawer: false,
   },
   {
     UUID: '2',
     name: 'Player 2',
     host: false,
-    drawing: false,
-    nextDrawer: false,
   },
   {
     UUID: '3',
     name: 'Player 3',
     host: false,
-    drawing: false,
-    nextDrawer: true,
   },
 ]
 export const mockSetting: Settings = {
@@ -44,7 +38,7 @@ export const mockStrokes: Stroke[] = [
   {
     id: 1,
     sequence: 0,
-    type: 'pen',
+    tool: 'pen',
     color: '#ff0000',
     strokeWidth: 5,
     points: [
@@ -56,7 +50,7 @@ export const mockStrokes: Stroke[] = [
   {
     id: 1,
     sequence: 1,
-    type: 'pen',
+    tool: 'pen',
     color: '#00ff00',
     strokeWidth: 10,
     points: [

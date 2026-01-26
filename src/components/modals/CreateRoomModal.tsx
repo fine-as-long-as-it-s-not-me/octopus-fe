@@ -1,9 +1,9 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Spacing, useModal } from 'sam-react-modal'
+import { Spacing } from 'sam-react-modal'
 
-import { useSocket } from '@/context/SocketContext'
-import type { ChangableSettings } from '@/types'
+import { useChangeRoomSettings, useCreateRoom } from '@/apis/room'
+import type { ChangeableSettings } from '@/types'
 import Button from '../common/Button'
 import Checkbox from '../common/Checkbox'
 import Form from '../common/Form'
@@ -14,7 +14,7 @@ import SettingInputWrapper from '../room/SettingInputWrapper'
 
 const settingOptions = {
   rounds: [1, 3, 5, 7],
-  drawingTimes: [3, 5, 10, 15],
+  drawingTimes: [5, 10, 15, 30],
 }
 
 interface Props {
@@ -26,22 +26,20 @@ export default function CreateRoomModal({ action }: Props) {
   const { t } = useTranslation()
   const [rounds, setRounds] = useState(3)
   const [drawingTime, setDrawingTime] = useState(10)
-  const { createRoom, changeSettings } = useSocket()
-  const { closeModal } = useModal()
+  const { mutate: changeSettings } = useChangeRoomSettings()
+  const { mutate: createRoom } = useCreateRoom()
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const settings: ChangableSettings = {
+    const settings: ChangeableSettings = {
       rounds,
       maxPlayers: Number(e.currentTarget.maxPlayers.value) || 8,
       drawingTime,
       useCustomWord: !!e.currentTarget.useCustomWord.checked,
       isPublic: e.currentTarget.roomType.value === 'public',
     }
-    console.log(`${action} Room with settings:`, settings)
     if (action === 'create') createRoom(settings)
     else if (action === 'change') changeSettings(settings)
-    closeModal()
   }
 
   return (

@@ -1,33 +1,37 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 
-import { useSocket } from '@/context/SocketContext'
+import { useAddStroke } from '@/apis/canvas'
 import { useWindow } from '@/context/WindowContext'
 import { useGameStore } from '@/store/gameStore'
 import { useUserStore } from '@/store/userStore'
-import type { Point } from '@/types'
+import { Phase, type Point } from '@/types'
 import Card from '../common/Card'
 
 const CANVAS_SIZE = 480
 
 export default function Canvas() {
   const { direction } = useWindow()
-  const { strokes, canvasColor, painterId } = useGameStore()
   const { UUID } = useUserStore()
-  const { addStroke } = useSocket()
+  const { mutate: addStroke } = useAddStroke()
+  const {
+    strokes,
+    canvasColor,
+    painterUUID,
+    strokeColor,
+    strokeWidth,
+    phase,
+    tool,
+  } = useGameStore()
 
   const lastStrokeId = strokes.reduce(
     (max, stroke) => Math.max(max, stroke.id),
-    -1,
+    1,
   )
   const strokeIdRef = useRef<number>(lastStrokeId + 1)
   const sequenceRef = useRef(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const pointsRef = useRef<Point[]>([])
-
-  const [brushType] = useState<'pen' | 'eraser'>('pen')
-  const [color] = useState('#000000')
-  const [strokeWidth] = useState(4)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -75,9 +79,9 @@ export default function Canvas() {
       addStroke({
         id: strokeIdRef.current,
         sequence: sequenceRef.current++,
-        type: brushType,
-        color: color,
-        strokeWidth: strokeWidth,
+        color: strokeColor,
+        tool,
+        strokeWidth,
         points: [...pointsRef.current],
       })
       pointsRef.current = flush
@@ -102,44 +106,61 @@ export default function Canvas() {
 
     const canvas = canvasRef.current
     if (!canvas) return
+    if (UUID == painterUUID && phase === Phase.DRAWING) {
+      canvas.onpointerdown = e => {
+        e.preventDefault()
+        canvas.setPointerCapture(e.pointerId)
 
-    canvas.onpointerdown = e => {
-      if (UUID !== painterId) return
-      e.preventDefault()
-      canvas.setPointerCapture(e.pointerId)
+        startNewStroke()
+        pointsRef.current = [getNewPoint(e)]
+        sendCurrentStroke()
+      }
+      canvas.onpointermove = e => {
+        if (!strokeIdRef.current) return
+        if (!canvas.hasPointerCapture(e.pointerId)) return
+        e.preventDefault()
+        pointsRef.current.push(getNewPoint(e))
 
-      startNewStroke()
-      pointsRef.current = [getNewPoint(e)]
-      sendCurrentStroke()
+        if (pointsRef.current.length >= 4) sendCurrentStroke()
+      }
+      canvas.onpointerup = e => {
+        if (!strokeIdRef.current) return
+        e.preventDefault()
+        canvas.releasePointerCapture(e.pointerId)
+
+        sendCurrentStroke({ flush: true })
+
+        strokeIdRef.current++
+        sequenceRef.current = 0
+      }
     }
-    canvas.onpointermove = e => {
-      if (UUID !== painterId || strokeIdRef.current === null) return
-      if (!canvas.hasPointerCapture(e.pointerId)) return
-      e.preventDefault()
-      pointsRef.current.push(getNewPoint(e))
 
-      if (pointsRef.current.length >= 4) sendCurrentStroke()
+    return () => {
+      canvas.onpointerdown = null
+      canvas.onpointermove = null
+      canvas.onpointerup = null
     }
-    canvas.onpointerup = e => {
-      if (UUID !== painterId || strokeIdRef.current === null) return
-      e.preventDefault()
-      canvas.releasePointerCapture(e.pointerId)
+  }, [
+    UUID,
+    painterUUID,
+    strokeColor,
+    strokeWidth,
+    lastStrokeId,
+    phase,
+    tool,
+    addStroke,
+  ])
 
-      sendCurrentStroke({ flush: true })
-
-      strokeIdRef.current++
-      sequenceRef.current = 0
-    }
-  }, [UUID, painterId, brushType, color, strokeWidth, addStroke, lastStrokeId])
   return (
     <Card
       className={twMerge(
-        'flex min-w-[480px] grow items-center justify-center',
+        'flex items-center justify-center',
         direction === 'vertical' ? '' : '',
       )}
       style={{
         backgroundColor: canvasColor,
         padding: '0px',
+        minWidth: 'min(100vw, 440px)',
       }}
     >
       <canvas className='block aspect-square w-full' ref={canvasRef} />

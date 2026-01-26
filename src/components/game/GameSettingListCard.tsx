@@ -4,6 +4,7 @@ import { Spacing, useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
 
 import { useWindow } from '@/context/WindowContext'
+import { parseCountryCodeToLang } from '@/lib/language'
 import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
 import Card from '../common/Card'
@@ -21,8 +22,6 @@ export default function GameSettingListCard({ isHost }: Props) {
   const { settings } = useRoomStore()
   const navigate = useNavigate()
   const { direction } = useWindow()
-
-  console.log(settings)
 
   return (
     <Card className='flex w-full grow-2 flex-col sm:min-w-[240px]'>
@@ -77,6 +76,11 @@ export default function GameSettingListCard({ isHost }: Props) {
           icon={<Icon name='lock_open' />}
           label={t('Room Type')}
           value={settings.isPublic ? t('Public') : t('Private')}
+        />
+        <SettingItem
+          icon={<Icon name='translate' />}
+          label={t('Language')}
+          value={t(parseCountryCodeToLang(settings.lang))}
         />
       </div>
     </Card>

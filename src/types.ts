@@ -5,8 +5,6 @@ export interface Player {
   name: string
   photoUrl?: string
   host?: boolean
-  drawing?: boolean
-  nextDrawer?: boolean
 }
 
 export interface Keyword {
@@ -15,15 +13,18 @@ export interface Keyword {
   votes: number
 }
 
-export type Phase =
-  | 'waiting'
-  | 'keyword'
-  | 'drawing'
-  | 'discussion'
-  | 'voting'
-  | 'vote-result'
-  | 'result'
-  | 'guessing'
+export const Phase = {
+  OUT: 'out',
+  KEYWORD: 'keyword',
+  DRAWING: 'drawing',
+  DISCUSSION: 'discussion',
+  VOTING: 'voting',
+  VOTE_RESULT: 'vote-result',
+  RESULT: 'result',
+  GUESSING: 'guessing',
+} as const
+
+export type Phase = (typeof Phase)[keyof typeof Phase]
 
 export interface Settings {
   rounds: number
@@ -37,7 +38,7 @@ export interface Settings {
   lang: Language
 }
 
-export type ChangableSettings = Omit<
+export type ChangeableSettings = Omit<
   Settings,
   'lang' | 'isCustomWordVoteOpen' | 'customWordMinVotes' | 'liars'
 >
@@ -45,7 +46,7 @@ export type ChangableSettings = Omit<
 export interface Stroke {
   id: number
   sequence: number
-  type: 'pen' | 'eraser'
+  tool: ToolType
   color: string
   strokeWidth: number
   points: Point[]
@@ -62,10 +63,22 @@ export interface Score {
   total: number
 }
 
-export interface Message {
-  type: 'welcome' | 'players_updated'
-  data: WelcomeResponse & PlayersUpdatedResponse
+export type MessageHandlers = {
+  [K in Message['type']]: (data: Extract<Message, { type: K }>['data']) => void
 }
+
+export type Message =
+  | { type: 'welcome'; data: WelcomeResponse }
+  | { type: 'players_updated'; data: PlayersUpdatedResponse }
+  | { type: 'settings_updated'; data: SettingsUpdatedResponse }
+  | { type: 'hello'; data: PlayerLoggedInResponse }
+  | { type: 'tick'; data: TickResponse }
+  | { type: 'painter'; data: PainterResponse }
+  | { type: 'canvas_updated'; data: CanvasUpdatedResponse }
+  | { type: 'round_updated'; data: RoundResponse }
+  | { type: 'keyword'; data: KeywordResponse }
+  | { type: 'chat_added'; data: ChatResponse }
+
 export type WelcomeResponse = {
   roomCode: string
 }
@@ -80,9 +93,44 @@ export type ErrorType = {
 }
 
 export type PlayerLoggedInResponse = {
-  roomCode?: string
+  roomCode: string
+  id: number
 }
 
 export type SettingsUpdatedResponse = {
   settings: Settings
 }
+
+export type TickResponse = {
+  round: number
+  phase: Phase
+  timeLeft: number
+}
+
+export type CanvasUpdatedResponse = {
+  strokes: Stroke[]
+  bgColor: string
+}
+
+export type PainterResponse = {
+  UUID: string
+  nextUUID: string
+}
+
+export type RoundResponse = { round: number }
+
+export type KeywordResponse = {
+  keyword: string
+}
+
+export type ChatResponse = {
+  player: Player
+  text: string
+}
+
+export type Chat = {
+  player: Player
+  text: string
+}
+
+export type ToolType = 'pen' | 'eraser'

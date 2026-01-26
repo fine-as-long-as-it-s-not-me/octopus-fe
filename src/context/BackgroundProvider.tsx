@@ -21,9 +21,9 @@ export const BackgroundProvider = ({ children }: Props) => {
     const { progress } = useAssets()
     const { t } = useTranslation()
     return (
-      <div
+      <button
         className={twMerge(
-          `absolute inset-0 flex flex-col items-center justify-center gap-4 text-white`,
+          `absolute inset-0 flex flex-col items-center justify-center gap-6 text-white`,
           interacted && progress === 100 ? 'hidden' : 'flex',
         )}
         style={{
@@ -31,14 +31,36 @@ export const BackgroundProvider = ({ children }: Props) => {
         }}
         onClick={() => setInteracted(true)}
         onKeyDown={() => setInteracted(true)}
+        tabIndex={0}
+        type='button'
       >
-        <h2>{t('Loading')}...</h2>
-        <div className='flex flex-col items-center'>
-          <progress value={progress} max={100} />
-          <p>{progress}%</p>
+        {progress === 100 ? (
+          <p>{t('press anywhere to continue')}</p>
+        ) : (
+          <h2>{t('Loading')}...</h2>
+        )}
+
+        <div className='relative flex flex-col items-center'>
+          <div className='water-round-container'>
+            <div
+              className='water-wave1'
+              style={{ top: `${100 - progress}%` }}
+            ></div>
+            <div
+              className='water-wave2'
+              style={{ top: `${105 - progress}%` }}
+            ></div>
+            <div
+              className='water-wave3'
+              style={{ top: `${110 - progress}%` }}
+            ></div>
+            <p className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-lg font-bold'>
+              {progress}%
+            </p>
+          </div>
+          {/* <progress value={progress} max={100} /> */}
         </div>
-        {progress === 100 && <p>{t('press anywhere to continue')}</p>}
-      </div>
+      </button>
     )
   }
 
