@@ -146,6 +146,7 @@ export default function Canvas() {
     phase,
     addStroke,
   ])
+
   return (
     <Card
       className={twMerge(

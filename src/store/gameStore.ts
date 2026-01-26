@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { Phase, type Score, type Stroke } from '@/types'
+import { Phase, type Score, type Stroke, type ToolType } from '@/types'
 
 interface GameState {
   phase: Phase
@@ -30,6 +30,9 @@ interface GameState {
   setStrokeColor: (strokeColor: string) => void
   setStrokes: (strokes: Stroke[]) => void
   addStroke: (stroke: Stroke) => void
+
+  tool: ToolType
+  setTool: (tool: ToolType) => void
 
   canvasColor: string
   setCanvasColor: (canvasColor: string) => void
@@ -72,6 +75,9 @@ export const useGameStore = create<GameState>()(
       addStroke: stroke =>
         set(state => ({ strokes: [...state.strokes, stroke] })),
 
+      tool: 'pen',
+      setTool: tool => set({ tool }),
+
       canvasColor: '#ffffff',
       setCanvasColor: canvasColor => set({ canvasColor }),
 
@@ -86,6 +92,7 @@ export const useGameStore = create<GameState>()(
           nextPainterUUID: null,
           strokeColor: '#000000',
           canvasColor: '#ffffff',
+          tool: 'pen',
         })),
     }),
     {

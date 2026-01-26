@@ -46,11 +46,13 @@ export type ChangeableSettings = Omit<
 export interface Stroke {
   id: number
   sequence: number
-  tool: 'pen' | 'eraser'
+  tool: Tool
   color: string
   strokeWidth: number
   points: Point[]
 }
+
+export type Tool = 'pen' | 'eraser'
 
 export interface Point {
   x: number
@@ -114,3 +116,5 @@ export type Chat = {
   player: Player
   text: string
 }
+
+export type ToolType = 'pen' | 'eraser'

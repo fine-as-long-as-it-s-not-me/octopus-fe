@@ -14,7 +14,7 @@ import SettingInputWrapper from '../room/SettingInputWrapper'
 
 const settingOptions = {
   rounds: [1, 3, 5, 7],
-  drawingTimes: [3, 5, 10, 15],
+  drawingTimes: [5, 10, 15, 30],
 }
 
 interface Props {
