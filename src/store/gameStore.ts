@@ -99,11 +99,11 @@ export const useGameStore = create<GameState>()(
           round: 0,
           painterUUID: null,
           nextPainterUUID: null,
+          tool: 'pen',
           strokes: [],
+          strokeWidth: DEFAULT_STROKE_WIDTH,
           strokeColor: '#000000',
           canvasColor: '#ffffff',
-          tool: 'pen',
-          strokeWidth: DEFAULT_STROKE_WIDTH,
         })),
     }),
     {
