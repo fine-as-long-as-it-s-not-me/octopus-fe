@@ -99,6 +99,7 @@ export const useGameStore = create<GameState>()(
           round: 0,
           painterUUID: null,
           nextPainterUUID: null,
+          strokes: [],
           strokeColor: '#000000',
           canvasColor: '#ffffff',
           tool: 'pen',

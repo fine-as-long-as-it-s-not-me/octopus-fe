@@ -33,7 +33,6 @@ export default function SocketProvider({ children }: Props) {
   }, [error, isConnected, isConnecting, connectSocket, setError])
 
   useEffect(() => {
-    console.log(phase, roomCode, userId)
     if (userId == -1 || !userName) navigate(ROUTES.HOME)
     else {
       if (roomCode) navigate(getPhasePath(phase))

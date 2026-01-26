@@ -37,7 +37,7 @@ export default function LobbyPage() {
       <Button onClick={randomRoomClickHandler}>{t('Join Random Room')}</Button>
       <Button onClick={useRoomCodeClickHandler}>{t('Use Room Code')}</Button>
       <Button onClick={createRoomClickHandler}>{t('Create Room')}</Button>
-      <Button onClick={logoutClickHandler}>{t('Log out')}</Button>
+      <Button onClick={logoutClickHandler}>{t('Logout')}</Button>
       {/* <Button
         icon={<Img width={32} src={chzzkIcon} alt='Chzzk Icon' />}
         onClick={leaderboardClickHandler}
