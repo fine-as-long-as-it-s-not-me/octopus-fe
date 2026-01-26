@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import type { Language } from '@/i18n'
+import { languages, type Language } from '@/i18n'
 
 interface UserState {
   id: number
@@ -24,7 +24,12 @@ export const useUserStore = create<UserState>()(
       name: '',
       setName: (name: string) => set({ name }),
 
-      lang: (window.navigator.language.split('-')[0] as Language) ?? 'en',
+      lang: (() => {
+        const browserLang = window.navigator.language.split('-')[0]
+        return languages.includes(browserLang as Language)
+          ? (browserLang as Language)
+          : 'en'
+      })(),
       setLang: (lang: Language) => set({ lang }),
     }),
     {
