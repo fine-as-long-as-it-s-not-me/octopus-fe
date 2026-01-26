@@ -27,13 +27,13 @@ export default function HomePage() {
     e.preventDefault()
 
     const formData = new FormData(e.target as HTMLFormElement)
-    const name = (formData.get('name') as string) || ''
+    const enteredName = (formData.get('name') as string) || ''
 
-    if (!name.trim())
+    if (!enteredName.trim())
       return openModal(<Alert>{t('Please enter your name.')}</Alert>)
 
-    setName(name)
-    login(name)
+    setName(enteredName)
+    login(enteredName)
     navigate(ROUTES.LOBBY)
   }
 
