@@ -65,6 +65,10 @@ export interface Score {
   total: number
 }
 
+export type MessageHandlers = {
+  [K in Message['type']]: (data: Extract<Message, { type: K }>['data']) => void
+}
+
 export type Message =
   | { type: 'welcome'; data: WelcomeResponse }
   | { type: 'players_updated'; data: PlayersUpdatedResponse }
@@ -76,6 +80,7 @@ export type Message =
   | { type: 'round_updated'; data: RoundResponse }
   | { type: 'keyword'; data: KeywordResponse }
   | { type: 'chat_added'; data: ChatResponse }
+
 export type WelcomeResponse = {
   roomCode: string
 }

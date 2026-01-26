@@ -14,7 +14,7 @@ export default function Ink({ color, onClick, size = 48 }: Props) {
   return (
     <button
       className={twMerge(
-        `rounded-full`,
+        `aspect-square rounded-full`,
         strokeColor === color && 'ring-4 ring-gray-400',
       )}
       style={{ backgroundColor: color, width: size, height: size }}

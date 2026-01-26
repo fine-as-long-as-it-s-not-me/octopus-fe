@@ -3,7 +3,7 @@ import { useCallback, useRef, useState } from 'react'
 import { SOCKET_MESSAGE_ERROR } from '@/consts'
 import { useSocketHandlers } from '@/hooks/useSocketHandlers'
 import { useUserStore } from '@/store/userStore'
-import { type ErrorType, type Message } from '@/types'
+import { type ErrorType, type Message, type MessageHandlers } from '@/types'
 
 export function useSocketConnection(
   setError: (error: null | ErrorType) => void,
@@ -71,39 +71,17 @@ export function useSocketConnection(
       try {
         const message = JSON.parse(event.data) as Message
         console.log('Received message:', message.type, message.data)
-        
-        // Type-safe message handling using discriminated union
-        switch (message.type) {
-          case 'welcome':
-            handlers.welcome(message.data)
-            break
-          case 'players_updated':
-            handlers.players_updated(message.data)
-            break
-          case 'settings_updated':
-            handlers.settings_updated(message.data)
-            break
-          case 'hello':
-            handlers.hello(message.data)
-            break
-          case 'tick':
-            handlers.tick(message.data)
-            break
-          case 'painter':
-            handlers.painter(message.data)
-            break
-          case 'canvas_updated':
-            handlers.canvas_updated(message.data)
-            break
-          case 'round_updated':
-            handlers.round_updated(message.data)
-            break
-          case 'keyword':
-            handlers.keyword(message.data)
-            break
-          case 'chat_added':
-            handlers.chat_added(message.data)
-            break
+
+        const handler = handlers[message.type]
+        if (handler) {
+          handler(
+            message.data as Extract<
+              MessageHandlers,
+              { type: typeof message.type }
+            >,
+          )
+        } else {
+          console.warn('No handler for message type:', message.type)
         }
       } catch (error) {
         setError({

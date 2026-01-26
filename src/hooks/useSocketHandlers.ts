@@ -8,7 +8,7 @@ import {
   type CanvasUpdatedResponse,
   type ChatResponse,
   type KeywordResponse,
-  type Message,
+  type MessageHandlers,
   type PainterResponse,
   type PlayerLoggedInResponse,
   type PlayersUpdatedResponse,
@@ -17,12 +17,6 @@ import {
   type TickResponse,
   type WelcomeResponse,
 } from '@/types'
-
-type MessageHandlers = {
-  [K in Message['type']]: (
-    data: Extract<Message, { type: K }>['data'],
-  ) => void
-}
 
 export function useSocketHandlers(
   sendMessage: (
