@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { useAddStroke } from '@/apis/canvas'
@@ -12,10 +12,17 @@ const CANVAS_SIZE = 480
 
 export default function Canvas() {
   const { direction } = useWindow()
-  const { strokes, canvasColor, painterUUID, strokeColor, phase } =
-    useGameStore()
   const { UUID } = useUserStore()
   const { mutate: addStroke } = useAddStroke()
+  const {
+    strokes,
+    canvasColor,
+    painterUUID,
+    strokeColor,
+    strokeWidth,
+    phase,
+    tool,
+  } = useGameStore()
 
   const lastStrokeId = strokes.reduce(
     (max, stroke) => Math.max(max, stroke.id),
@@ -25,9 +32,6 @@ export default function Canvas() {
   const sequenceRef = useRef(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const pointsRef = useRef<Point[]>([])
-
-  const [brushType] = useState<'pen' | 'eraser'>('pen')
-  const [strokeWidth] = useState(4)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -76,8 +80,8 @@ export default function Canvas() {
         id: strokeIdRef.current,
         sequence: sequenceRef.current++,
         color: strokeColor,
-        tool: brushType,
-        strokeWidth: strokeWidth,
+        tool,
+        strokeWidth,
         points: [...pointsRef.current],
       })
       pointsRef.current = flush
@@ -139,11 +143,11 @@ export default function Canvas() {
   }, [
     UUID,
     painterUUID,
-    brushType,
     strokeColor,
     strokeWidth,
     lastStrokeId,
     phase,
+    tool,
     addStroke,
   ])
 

@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+import { DEFAULT_STROKE_WIDTH } from '@/consts'
 import { Phase, type Score, type Stroke, type ToolType } from '@/types'
 
 interface GameState {
@@ -26,10 +27,14 @@ interface GameState {
   setNextPainterUUID: (nextPainterUUID: string | null) => void
 
   strokes: Stroke[]
-  strokeColor: string
-  setStrokeColor: (strokeColor: string) => void
   setStrokes: (strokes: Stroke[]) => void
   addStroke: (stroke: Stroke) => void
+
+  strokeColor: string
+  setStrokeColor: (strokeColor: string) => void
+
+  strokeWidth: number
+  setStrokeWidth: (strokeWidth: number) => void
 
   tool: ToolType
   setTool: (tool: ToolType) => void
@@ -68,12 +73,16 @@ export const useGameStore = create<GameState>()(
       nextPainterUUID: null,
       setNextPainterUUID: nextPainterUUID => set({ nextPainterUUID }),
 
-      strokes: [],
       strokeColor: '#000000',
       setStrokeColor: strokeColor => set({ strokeColor }),
+
+      strokes: [],
       setStrokes: strokes => set({ strokes }),
       addStroke: stroke =>
         set(state => ({ strokes: [...state.strokes, stroke] })),
+
+      strokeWidth: DEFAULT_STROKE_WIDTH,
+      setStrokeWidth: strokeWidth => set({ strokeWidth }),
 
       tool: 'pen',
       setTool: tool => set({ tool }),

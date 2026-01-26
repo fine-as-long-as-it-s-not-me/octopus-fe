@@ -7,6 +7,7 @@ import Button from '../common/Button'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
 import CanvasColorModal from '../modals/CanvasColorModal'
+import StrokeWidthModal from '../modals/StrokeWidthModal'
 import Ink from './Ink'
 
 export default function Pallette() {
@@ -32,7 +33,10 @@ export default function Pallette() {
         <Button
           size='sm'
           cardClassName='h-16 w-16'
-          onClick={() => setTool('pen')}
+          onClick={() => {
+            setTool('pen')
+            openModal(<StrokeWidthModal />)
+          }}
         >
           <Icon name='pen_size_4' size={32} />
         </Button>

@@ -4,19 +4,20 @@ import { useGameStore } from '@/store/gameStore'
 
 interface Props {
   color: string
-  onClick: () => void
+  onClick?: () => void
+  size?: number
 }
 
-export default function Ink({ color, onClick }: Props) {
+export default function Ink({ color, onClick, size = 48 }: Props) {
   const { strokeColor } = useGameStore()
 
   return (
     <button
       className={twMerge(
-        `h-12 w-12 rounded-full`,
+        `rounded-full`,
         strokeColor === color && 'ring-4 ring-gray-400',
       )}
-      style={{ backgroundColor: color }}
+      style={{ backgroundColor: color, width: size, height: size }}
       onClick={onClick}
     ></button>
   )

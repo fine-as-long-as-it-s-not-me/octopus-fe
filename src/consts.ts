@@ -14,3 +14,7 @@ export const COLORS = [
   '#808080',
   '#800000',
 ]
+
+export const DEFAULT_STROKE_WIDTH = 5
+export const MAX_STROKE_WIDTH = 50
+export const MIN_STROKE_WIDTH = 1
