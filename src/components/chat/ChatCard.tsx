@@ -1,26 +1,28 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { twMerge } from 'tailwind-merge'
 
+import { useSendChat } from '@/apis/room'
 import { useWindow } from '@/context/WindowContext'
-import { useUserStore } from '@/store/userStore'
+import { useRoomStore } from '@/store/roomStore'
 import Card from '../common/Card'
 import Form from '../common/Form'
 import Input from '../common/Input'
 import Bubble from './Bubble'
 
-const mockAuthor = { name: 'Alice', UUID: '1' }
-const mockMessage = 'Hello, this is a sample message!'
-
 export default function ChatCard() {
   const { t } = useTranslation()
-  const [chatBubbles, setChatBubbles] = useState([
-    { author: mockAuthor, message: mockMessage },
-  ])
-  const { name, UUID } = useUserStore()
+  const { chats } = useRoomStore()
   const { direction } = useWindow()
+  const { mutate: sendChat } = useSendChat()
 
   const chatListRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (chatListRef.current) {
+      chatListRef.current.scrollTop = chatListRef.current.scrollHeight
+    }
+  }, [chats])
 
   return (
     <Card
@@ -33,8 +35,8 @@ export default function ChatCard() {
         className='no-scrollbar flex h-[calc(100%-56px)] flex-col overflow-scroll'
         ref={chatListRef}
       >
-        {chatBubbles.map(({ author, message }, index) => (
-          <Bubble key={index} author={author} message={message} />
+        {chats.map((chat, index) => (
+          <Bubble key={index} {...chat} />
         ))}
       </div>
       <Form
@@ -44,17 +46,10 @@ export default function ChatCard() {
           const formData = new FormData(e.currentTarget)
           const message = formData.get('chatMessage') as string
           if (!message.trim()) return
-          const newMessage = {
-            author: { name, UUID },
-            message,
-          }
-          setChatBubbles(prevBubbles => [...prevBubbles, newMessage])
+
+          sendChat(message)
 
           e.currentTarget.reset()
-
-          if (chatListRef.current) {
-            chatListRef.current.scrollTop = chatListRef.current.scrollHeight
-          }
         }}
       >
         <Input

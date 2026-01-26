@@ -11,7 +11,7 @@ export function useSocketConnection(
   const ws = useRef<WebSocket | null>(null)
   const [isConnecting, setIsConnecting] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
-  const { name, UUID } = useUserStore()
+  const { name, UUID, lang } = useUserStore()
 
   const sendMessage = useCallback(
     (mainType: string, subType: string, data?: Record<string, unknown>) => {
@@ -65,7 +65,7 @@ export function useSocketConnection(
       setIsConnected(true)
       setIsConnecting(false)
       setError(null)
-      sendMessage('player', 'login', { name, UUID })
+      sendMessage('player', 'login', { name, UUID, lang })
     }
     ws.current.onmessage = (event: MessageEvent) => {
       try {
@@ -84,6 +84,7 @@ export function useSocketConnection(
     handlers,
     name,
     UUID,
+    lang,
     setError,
     setIsConnecting,
     setIsConnected,

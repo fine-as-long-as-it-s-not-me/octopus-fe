@@ -6,14 +6,14 @@ import Card from '../common/Card'
 import Profile from '../player/Profile'
 
 interface Props {
-  author: Player
-  message: string
+  player: Player
+  text: string
 }
 
-export default function Bubble({ author, message }: Props) {
+export default function Bubble({ player, text }: Props) {
   const { name } = useUserStore()
 
-  const isMe = author.name === name
+  const isMe = player.name === name
 
   return (
     <div
@@ -22,9 +22,9 @@ export default function Bubble({ author, message }: Props) {
         isMe ? 'flex flex-col items-end self-end' : '',
       )}
     >
-      <Profile name={author.name} size='sm' />
+      <Profile name={player.name} size='sm' />
       <Card size='sm' className='rounded-full px-4 py-2 md:py-2'>
-        <p>{message}</p>
+        <p>{text}</p>
       </Card>
     </div>
   )

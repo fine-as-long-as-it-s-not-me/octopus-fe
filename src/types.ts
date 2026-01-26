@@ -109,3 +109,8 @@ export type PainterResponse = {
 }
 
 export type RoundResponse = { round: number }
+
+export type Chat = {
+  player: Player
+  text: string
+}

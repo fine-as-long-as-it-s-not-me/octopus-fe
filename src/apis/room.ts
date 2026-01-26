@@ -5,11 +5,11 @@ import type { ChangeableSettings } from '@/types'
 
 export function useJoinRoom() {
   const { sendMessage } = useSocket()
-  const { name, UUID } = useUserStore()
+  const { UUID } = useUserStore()
 
   return {
     mutate: (roomCode: string) =>
-      sendMessage('room', 'join', { roomCode, name, UUID }),
+      sendMessage('room', 'join', { roomCode, UUID }),
   }
 }
 export function useCreateRoom() {
@@ -45,19 +45,26 @@ export function useLeaveRoom() {
 
 export function useLogin() {
   const { sendMessage } = useSocket()
-  const { name, UUID } = useUserStore()
+  const { name, UUID, lang } = useUserStore()
 
   return {
     mutate: (_name?: string) =>
-      sendMessage('player', 'login', { name: _name ?? name, UUID }),
+      sendMessage('player', 'login', { name: _name ?? name, UUID, lang }),
   }
 }
 
 export function useJoinRandomRoom() {
   const { sendMessage } = useSocket()
-  const { name, UUID } = useUserStore()
+  const { UUID } = useUserStore()
 
   return {
-    mutate: () => sendMessage('room', 'join_random', { name, UUID }),
+    mutate: () => sendMessage('room', 'join_random', { UUID }),
+  }
+}
+
+export function useSendChat() {
+  const { sendMessage } = useSocket()
+  return {
+    mutate: (text: string) => sendMessage('chat', 'send', { text }),
   }
 }

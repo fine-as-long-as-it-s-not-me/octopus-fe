@@ -7,6 +7,7 @@ import {
   Phase,
   type CanvasUpdatedResponse,
   type PainterResponse,
+  type Player,
   type PlayerLoggedInResponse,
   type PlayersUpdatedResponse,
   type RoundResponse,
@@ -22,8 +23,8 @@ export function useSocketHandlers(
     data?: Record<string, unknown>,
   ) => void,
 ) {
-  const { setRoomCode, setPlayers, setSettings } = useRoomStore()
   const { name, UUID, setId } = useUserStore()
+  const { setRoomCode, setPlayers, setSettings, addChat } = useRoomStore()
   const {
     setStrokes,
     setCanvasColor,
@@ -78,6 +79,11 @@ export function useSocketHandlers(
         if (roomCode) sendMessage('room', 'join', { roomCode, name, UUID })
         else setPhase(Phase.OUT)
       },
+      chat_added: ({ player, text }: { player: Player; text: string }) => {
+        // Handled in Chat component
+        const chat = { player, text }
+        addChat(chat)
+      },
     }),
     [
       name,
@@ -95,6 +101,7 @@ export function useSocketHandlers(
       setCanvasColor,
       setId,
       setKeyword,
+      addChat,
     ],
   )
 
