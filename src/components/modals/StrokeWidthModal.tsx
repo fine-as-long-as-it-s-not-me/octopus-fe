@@ -7,7 +7,7 @@ export default function StrokeWidthModal() {
   const { strokeWidth, setStrokeWidth, strokeColor } = useGameStore()
   return (
     <Modal>
-      <div className='flex flex-row justify-between gap-4'>
+      <div className='flex flex-row items-center justify-between gap-4'>
         <input
           type='range'
           min={MIN_STROKE_WIDTH}
@@ -16,7 +16,7 @@ export default function StrokeWidthModal() {
           className='w-full'
           onChange={e => setStrokeWidth(Number(e.target.value))}
         />
-        <Ink color={strokeColor} size={strokeWidth} />
+        <Ink color={strokeColor} size={strokeWidth + 2} />
       </div>
     </Modal>
   )

@@ -63,13 +63,22 @@ export interface Score {
   total: number
 }
 
-export interface Message {
-  type: 'welcome' | 'players_updated' | 'settings_updated' | 'hello'
-  data: WelcomeResponse &
-    PlayersUpdatedResponse &
-    SettingsUpdatedResponse &
-    PlayerLoggedInResponse
+export type MessageHandlers = {
+  [K in Message['type']]: (data: Extract<Message, { type: K }>['data']) => void
 }
+
+export type Message =
+  | { type: 'welcome'; data: WelcomeResponse }
+  | { type: 'players_updated'; data: PlayersUpdatedResponse }
+  | { type: 'settings_updated'; data: SettingsUpdatedResponse }
+  | { type: 'hello'; data: PlayerLoggedInResponse }
+  | { type: 'tick'; data: TickResponse }
+  | { type: 'painter'; data: PainterResponse }
+  | { type: 'canvas_updated'; data: CanvasUpdatedResponse }
+  | { type: 'round_updated'; data: RoundResponse }
+  | { type: 'keyword'; data: KeywordResponse }
+  | { type: 'chat_added'; data: ChatResponse }
+
 export type WelcomeResponse = {
   roomCode: string
 }
@@ -109,6 +118,15 @@ export type PainterResponse = {
 }
 
 export type RoundResponse = { round: number }
+
+export type KeywordResponse = {
+  keyword: string
+}
+
+export type ChatResponse = {
+  player: Player
+  text: string
+}
 
 export type Chat = {
   player: Player
