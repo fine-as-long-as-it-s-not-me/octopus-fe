@@ -104,7 +104,6 @@ export const useGameStore = create<GameState>()(
           canvasColor: '#ffffff',
           tool: 'pen',
           strokeWidth: DEFAULT_STROKE_WIDTH,
-          strokes: [],
         })),
     }),
     {
