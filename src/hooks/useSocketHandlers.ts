@@ -6,8 +6,10 @@ import { useUserStore } from '@/store/userStore'
 import {
   Phase,
   type CanvasUpdatedResponse,
+  type ChatResponse,
+  type KeywordResponse,
+  type Message,
   type PainterResponse,
-  type Player,
   type PlayerLoggedInResponse,
   type PlayersUpdatedResponse,
   type RoundResponse,
@@ -15,6 +17,12 @@ import {
   type TickResponse,
   type WelcomeResponse,
 } from '@/types'
+
+type MessageHandlers = {
+  [K in Message['type']]: (
+    data: Extract<Message, { type: K }>['data'],
+  ) => void
+}
 
 export function useSocketHandlers(
   sendMessage: (
@@ -36,9 +44,9 @@ export function useSocketHandlers(
     setNextPainterUUID,
   } = useGameStore()
 
-  const handlers = useMemo(
+  const handlers: MessageHandlers = useMemo(
     () => ({
-      keyword: ({ keyword }: { keyword: string }) => {
+      keyword: ({ keyword }: KeywordResponse) => {
         setKeyword(keyword)
       },
       canvas_updated: ({ strokes, bgColor }: CanvasUpdatedResponse) => {
@@ -79,7 +87,7 @@ export function useSocketHandlers(
         if (roomCode) sendMessage('room', 'join', { roomCode, name, UUID })
         else setPhase(Phase.OUT)
       },
-      chat_added: ({ player, text }: { player: Player; text: string }) => {
+      chat_added: ({ player, text }: ChatResponse) => {
         // Handled in Chat component
         const chat = { player, text }
         addChat(chat)

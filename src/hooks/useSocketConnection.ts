@@ -69,9 +69,42 @@ export function useSocketConnection(
     }
     ws.current.onmessage = (event: MessageEvent) => {
       try {
-        const { type, data } = JSON.parse(event.data) as Message
-        console.log('Received message:', type, data)
-        handlers[type]?.(data)
+        const message = JSON.parse(event.data) as Message
+        console.log('Received message:', message.type, message.data)
+        
+        // Type-safe message handling using discriminated union
+        switch (message.type) {
+          case 'welcome':
+            handlers.welcome(message.data)
+            break
+          case 'players_updated':
+            handlers.players_updated(message.data)
+            break
+          case 'settings_updated':
+            handlers.settings_updated(message.data)
+            break
+          case 'hello':
+            handlers.hello(message.data)
+            break
+          case 'tick':
+            handlers.tick(message.data)
+            break
+          case 'painter':
+            handlers.painter(message.data)
+            break
+          case 'canvas_updated':
+            handlers.canvas_updated(message.data)
+            break
+          case 'round_updated':
+            handlers.round_updated(message.data)
+            break
+          case 'keyword':
+            handlers.keyword(message.data)
+            break
+          case 'chat_added':
+            handlers.chat_added(message.data)
+            break
+        }
       } catch (error) {
         setError({
           message: 'socket message error',
