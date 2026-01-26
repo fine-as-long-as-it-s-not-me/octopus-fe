@@ -26,7 +26,7 @@ export default function Canvas() {
 
   const lastStrokeId = strokes.reduce(
     (max, stroke) => Math.max(max, stroke.id),
-    -1,
+    1,
   )
   const strokeIdRef = useRef<number>(lastStrokeId + 1)
   const sequenceRef = useRef(0)
