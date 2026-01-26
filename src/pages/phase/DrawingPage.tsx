@@ -5,20 +5,19 @@ import Canvas from '@/components/game/Canvas'
 import Pallette from '@/components/game/Pallette'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
-import { useRoomStore } from '@/store/roomStore'
+import { useGameStore } from '@/store/gameStore'
 import { useUserStore } from '@/store/userStore'
 
 export default function DrawingPage() {
   const { direction } = useWindow()
-  const { players } = useRoomStore()
+  const { painterUUID } = useGameStore()
   const { UUID } = useUserStore()
   const { playMusic } = useSound()
 
   useEffect(() => {
-    const me = players.find(p => p.UUID === UUID)
-    if (me && me.drawing) playMusic('drawing')
+    if (UUID === painterUUID) playMusic('drawing')
     else playMusic('kidsgame')
-  }, [players, UUID, playMusic])
+  }, [painterUUID, UUID, playMusic])
 
   return (
     <div
