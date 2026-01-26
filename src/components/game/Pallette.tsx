@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
+import { useGameStore } from '@/store/gameStore'
 import Button from '../common/Button'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
@@ -18,7 +19,7 @@ const COLORS = [
 export default function Pallette() {
   const { t } = useTranslation()
   return (
-    <Card className='flex flex-row items-center justify-between gap-4'>
+    <Card className='flex flex-row items-center justify-between gap-4 p-4'>
       <div className='grid grid-cols-4 gap-2'>
         {COLORS.map(color => (
           <Ink key={color} color={color} />
@@ -44,10 +45,13 @@ interface InkProps {
 }
 
 function Ink({ color }: InkProps) {
+  const { setStrokeColor } = useGameStore()
+
   return (
     <button
       className={`h-12 w-12 rounded-full`}
       style={{ backgroundColor: color }}
+      onClick={() => setStrokeColor(color)}
     ></button>
   )
 }

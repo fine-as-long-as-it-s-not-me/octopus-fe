@@ -1,21 +1,18 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 
+import { useStartGame } from '@/apis/game'
 import ChatCard from '@/components/chat/ChatCard'
 import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
 import GameSettingListCard from '@/components/game/GameSettingListCard'
 import PlayerListCard from '@/components/player/PlayerListCard'
-import { useSocket } from '@/context/SocketContext'
-import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
 import { useUserStore } from '@/store/userStore'
 
 export default function RoomPage() {
   const { t } = useTranslation()
 
-  const navigate = useNavigate()
-  const { startGame } = useSocket()
+  const { mutate: startGame } = useStartGame()
   const { players } = useRoomStore()
   const { UUID } = useUserStore()
 
@@ -23,7 +20,6 @@ export default function RoomPage() {
 
   const startGameClickHandler = () => {
     startGame()
-    navigate(ROUTES.KEYWORD)
   }
 
   return (

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
-import { useSocket } from '@/context/SocketContext'
+import { useAddStroke } from '@/apis/canvas'
 import { useWindow } from '@/context/WindowContext'
 import { useGameStore } from '@/store/gameStore'
 import { useUserStore } from '@/store/userStore'
@@ -12,9 +12,9 @@ const CANVAS_SIZE = 480
 
 export default function Canvas() {
   const { direction } = useWindow()
-  const { strokes, canvasColor, painterId } = useGameStore()
+  const { strokes, canvasColor, painterUUID, strokeColor } = useGameStore()
   const { UUID } = useUserStore()
-  const { addStroke } = useSocket()
+  const { mutate: addStroke } = useAddStroke()
 
   const lastStrokeId = strokes.reduce(
     (max, stroke) => Math.max(max, stroke.id),
@@ -26,7 +26,6 @@ export default function Canvas() {
   const pointsRef = useRef<Point[]>([])
 
   const [brushType] = useState<'pen' | 'eraser'>('pen')
-  const [color] = useState('#000000')
   const [strokeWidth] = useState(4)
 
   useEffect(() => {
@@ -75,8 +74,8 @@ export default function Canvas() {
       addStroke({
         id: strokeIdRef.current,
         sequence: sequenceRef.current++,
-        type: brushType,
-        color: color,
+        color: strokeColor,
+        tool: brushType,
         strokeWidth: strokeWidth,
         points: [...pointsRef.current],
       })
@@ -104,7 +103,7 @@ export default function Canvas() {
     if (!canvas) return
 
     canvas.onpointerdown = e => {
-      if (UUID !== painterId) return
+      if (UUID !== painterUUID) return
       e.preventDefault()
       canvas.setPointerCapture(e.pointerId)
 
@@ -113,7 +112,7 @@ export default function Canvas() {
       sendCurrentStroke()
     }
     canvas.onpointermove = e => {
-      if (UUID !== painterId || strokeIdRef.current === null) return
+      if (strokeIdRef.current === null) return
       if (!canvas.hasPointerCapture(e.pointerId)) return
       e.preventDefault()
       pointsRef.current.push(getNewPoint(e))
@@ -121,7 +120,7 @@ export default function Canvas() {
       if (pointsRef.current.length >= 4) sendCurrentStroke()
     }
     canvas.onpointerup = e => {
-      if (UUID !== painterId || strokeIdRef.current === null) return
+      if (strokeIdRef.current === null) return
       e.preventDefault()
       canvas.releasePointerCapture(e.pointerId)
 
@@ -130,7 +129,15 @@ export default function Canvas() {
       strokeIdRef.current++
       sequenceRef.current = 0
     }
-  }, [UUID, painterId, brushType, color, strokeWidth, addStroke, lastStrokeId])
+  }, [
+    UUID,
+    painterUUID,
+    brushType,
+    strokeColor,
+    strokeWidth,
+    addStroke,
+    lastStrokeId,
+  ])
   return (
     <Card
       className={twMerge(

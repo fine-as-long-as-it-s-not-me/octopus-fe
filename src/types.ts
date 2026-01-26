@@ -15,15 +15,18 @@ export interface Keyword {
   votes: number
 }
 
-export type Phase =
-  | 'waiting'
-  | 'keyword'
-  | 'drawing'
-  | 'discussion'
-  | 'voting'
-  | 'vote-result'
-  | 'result'
-  | 'guessing'
+export const Phase = {
+  OUT: 'out',
+  KEYWORD: 'keyword',
+  DRAWING: 'drawing',
+  DISCUSSION: 'discussion',
+  VOTING: 'voting',
+  VOTE_RESULT: 'vote-result',
+  RESULT: 'result',
+  GUESSING: 'guessing',
+}
+
+export type Phase = (typeof Phase)[keyof typeof Phase]
 
 export interface Settings {
   rounds: number
@@ -45,7 +48,7 @@ export type ChangeableSettings = Omit<
 export interface Stroke {
   id: number
   sequence: number
-  type: 'pen' | 'eraser'
+  tool: 'pen' | 'eraser'
   color: string
   strokeWidth: number
   points: Point[]
@@ -83,9 +86,25 @@ export type ErrorType = {
 }
 
 export type PlayerLoggedInResponse = {
-  roomCode?: string
+  roomCode: string
+  id: number
 }
 
 export type SettingsUpdatedResponse = {
   settings: Settings
 }
+
+export type TickResponse = {
+  round: number
+  phase: Phase
+  timeLeft: number
+}
+
+export type CanvasUpdatedResponse = {
+  strokes: Stroke[]
+  bgColor: string
+}
+
+export type PainterResponse = { UUID: string }
+
+export type RoundResponse = { round: number }

@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Spacing, useModal } from 'sam-react-modal'
 
+import { useLogin } from '@/apis/room'
 // import chzzkIcon from '@/assets/images/icons/chzzk.png'
 import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
@@ -9,7 +10,6 @@ import Form from '@/components/common/Form'
 import Img from '@/components/common/Img'
 import Input from '@/components/common/Input'
 import Alert from '@/components/modals/Alert'
-import { useSocket } from '@/context/SocketContext'
 import useAvatar from '@/hooks/useAvatar'
 import { ROUTES } from '@/routes/ROUTES'
 import { useUserStore } from '@/store/userStore'
@@ -19,15 +19,21 @@ export default function HomePage() {
   const { t } = useTranslation()
   const { name, setName } = useUserStore()
   const { openModal } = useModal()
-  const { login } = useSocket()
+  const { mutate: login } = useLogin()
 
   const avatarUrl = useAvatar(name)
 
   const enterSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault()
+
+    const formData = new FormData(e.target as HTMLFormElement)
+    const name = (formData.get('name') as string) || ''
+
     if (!name.trim())
       return openModal(<Alert>{t('Please enter your name.')}</Alert>)
-    login()
+
+    setName(name)
+    login(name)
     navigate(ROUTES.LOBBY)
   }
 
@@ -44,12 +50,7 @@ export default function HomePage() {
               src={avatarUrl}
               alt='Avatar'
             />
-            <Input
-              placeholder={t('Your name?')}
-              value={name}
-              onChange={e => setName(e.target.value)}
-              maxLength={12}
-            />
+            <Input placeholder={t('Your name?')} name='name' maxLength={12} />
           </div>
           <Button size='md' type='submit'>
             {t('Enter')}

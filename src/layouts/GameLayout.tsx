@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
 
 import ChatCard from '@/components/chat/ChatCard'
@@ -14,26 +14,18 @@ import PlayersCard from '@/components/player/PlayerListCard'
 import CloseButton from '@/components/room/CloseButton'
 import { useBackground } from '@/context/BackgroundContext'
 import { useWindow } from '@/context/WindowContext'
-import { getPhasePath } from '@/lib/getPhasePath'
 import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
 
 export default function GameLayout() {
   const { setBackgroundImage } = useBackground()
   const { setIsCompact, direction } = useWindow()
-  const { roomCode, settings } = useRoomStore()
-  const { phase, keyword, round } = useGameStore()
-  const navigate = useNavigate()
-
+  const { settings } = useRoomStore()
+  const { keyword, round } = useGameStore()
   useEffect(() => {
     setBackgroundImage('room')
     setIsCompact(true)
   }, [setBackgroundImage, setIsCompact])
-
-  useEffect(() => {
-    console.log('Phase changed:', phase, roomCode)
-    navigate(getPhasePath(phase), { replace: true })
-  }, [phase, roomCode, navigate])
 
   return (
     <div className='no-scrollbar flex h-dvh max-h-[1080px] w-full max-w-[1440px] flex-col overflow-scroll sm:gap-4 sm:p-8 md:gap-6 lg:p-16'>

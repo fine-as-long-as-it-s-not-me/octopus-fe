@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { useSocketConnection } from '@/hooks/useSocketConnection'
+import { getPhasePath } from '@/lib/getPhasePath'
+import { ROUTES } from '@/routes/ROUTES'
 import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
 import { useUserStore } from '@/store/userStore'
-import type { ChangeableSettings, ErrorType, Stroke } from '@/types'
+import type { ErrorType } from '@/types'
 import { SocketContext } from './SocketContext'
 
 interface Props {
@@ -13,10 +16,10 @@ interface Props {
 
 export default function SocketProvider({ children }: Props) {
   const [error, setError] = useState<null | ErrorType>(null)
-  const { strokes, setStrokes, phase, round, setPhase, setRound } =
-    useGameStore()
-  const { roomCode, setRoomCode } = useRoomStore()
-  const { name, UUID } = useUserStore()
+  const { phase, round, setPhase, setRound } = useGameStore()
+  const { roomCode } = useRoomStore()
+  const { id: userId, name: userName } = useUserStore()
+  const navigate = useNavigate()
 
   const { connectSocket, isConnected, isConnecting, sendMessage } =
     useSocketConnection(setError)
@@ -28,6 +31,15 @@ export default function SocketProvider({ children }: Props) {
       return () => clearInterval(interval)
     }
   }, [error, isConnected, isConnecting, connectSocket, setError])
+
+  useEffect(() => {
+    console.log(phase, roomCode, userId)
+    if (userId == -1 || !userName) navigate(ROUTES.HOME)
+    else {
+      if (roomCode) navigate(getPhasePath(phase))
+      else navigate(ROUTES.LOBBY)
+    }
+  }, [phase, roomCode, navigate, userId, userName])
 
   const DEV_nextPhase = () => {
     // for dev
@@ -52,53 +64,12 @@ export default function SocketProvider({ children }: Props) {
     }
   }
 
-  const startGame = () => {
-    setPhase('keyword')
-    setRound(1)
-  }
-
-  const addStroke = (stroke: Stroke) => {
-    setStrokes([...strokes, stroke])
-  }
-
-  const createRoom = (settings: ChangeableSettings) => {
-    sendMessage('room', 'create', { settings })
-  }
-
-  const changeSettings = (settings: ChangeableSettings) => {
-    sendMessage('room', 'change_settings', { roomCode, settings })
-  }
-
-  const joinRoom = (roomCode: string) => {
-    sendMessage('room', 'join', { roomCode, name, UUID })
-  }
-
-  const joinRandomRoom = () => {
-    sendMessage('room', 'join_random', { name, UUID })
-  }
-
-  const leaveRoom = () => {
-    sendMessage('room', 'leave', { roomCode })
-    setRoomCode('')
-  }
-
-  const login = () => {
-    sendMessage('player', 'login', { name, UUID })
-  }
-
   return (
     <SocketContext.Provider
       value={{
-        startGame,
         DEV_nextPhase,
-        addStroke,
-        createRoom,
-        joinRoom,
-        joinRandomRoom,
-        leaveRoom,
         setError,
-        changeSettings,
-        login,
+        sendMessage,
       }}
     >
       {children}

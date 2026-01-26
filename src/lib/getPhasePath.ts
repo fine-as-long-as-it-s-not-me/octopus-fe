@@ -1,3 +1,5 @@
+import { ROUTES } from '@/routes/ROUTES'
+
 export function getPhasePath(phase: string): string {
   /**
    * 
@@ -11,23 +13,23 @@ export function getPhasePath(phase: string): string {
       'result',
    */
   switch (phase) {
-    case 'waiting':
-      return `/room/waiting`
+    case 'OUT':
+      return ROUTES.WAITING
     case 'keyword':
-      return `/room/keyword`
+      return ROUTES.KEYWORD
     case 'drawing':
-      return `/room/drawing`
+      return ROUTES.DRAWING
     case 'discussion':
-      return `/room/discussion`
+      return ROUTES.DISCUSSION
     case 'voting':
-      return `/room/voting`
+      return ROUTES.VOTING
     case 'vote-result':
-      return `/room/vote-result`
+      return ROUTES.VOTE_RESULT
     case 'guessing':
-      return `/room/guessing`
+      return ROUTES.GUESSING
     case 'result':
-      return `/room/result`
+      return ROUTES.RESULT
     default:
-      return `/room/waiting`
+      return ROUTES.WAITING
   }
 }
