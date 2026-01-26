@@ -26,7 +26,7 @@ export const useUserStore = create<UserState>()(
 
       lang: (() => {
         const browserLang = window.navigator.language.split('-')[0]
-        return languages.includes(browserLang as Language)
+        return (languages as readonly string[]).includes(browserLang)
           ? (browserLang as Language)
           : 'en'
       })(),
