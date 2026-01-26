@@ -32,6 +32,7 @@ export const BackgroundProvider = ({ children }: Props) => {
         onClick={() => setInteracted(true)}
         onKeyDown={() => setInteracted(true)}
         tabIndex={0}
+        type='button'
       >
         {progress === 100 ? (
           <p>{t('press anywhere to continue')}</p>

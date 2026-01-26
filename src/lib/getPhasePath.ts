@@ -1,33 +1,23 @@
 import { ROUTES } from '@/routes/ROUTES'
+import { Phase } from '@/types'
 
-export function getPhasePath(phase: string): string {
-  /**
-   * 
-      'waiting',
-      'keyword',
-      'drawing',
-      'discussion',
-      'voting',
-      'vote-result',
-      'guessing',
-      'result',
-   */
+export function getPhasePath(phase: Phase): string {
   switch (phase) {
-    case 'OUT':
+    case Phase.OUT:
       return ROUTES.WAITING
-    case 'keyword':
+    case Phase.KEYWORD:
       return ROUTES.KEYWORD
-    case 'drawing':
+    case Phase.DRAWING:
       return ROUTES.DRAWING
-    case 'discussion':
+    case Phase.DISCUSSION:
       return ROUTES.DISCUSSION
-    case 'voting':
+    case Phase.VOTING:
       return ROUTES.VOTING
-    case 'vote-result':
+    case Phase.VOTE_RESULT:
       return ROUTES.VOTE_RESULT
-    case 'guessing':
+    case Phase.GUESSING:
       return ROUTES.GUESSING
-    case 'result':
+    case Phase.RESULT:
       return ROUTES.RESULT
     default:
       return ROUTES.WAITING

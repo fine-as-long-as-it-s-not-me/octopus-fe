@@ -10,7 +10,7 @@ import CanvasColorModal from '../modals/CanvasColorModal'
 import StrokeWidthModal from '../modals/StrokeWidthModal'
 import Ink from './Ink'
 
-export default function Pallette() {
+export default function Palette() {
   const { t } = useTranslation()
   const { setTool, setStrokeColor } = useGameStore()
   const { openModal } = useModal()

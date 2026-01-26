@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import Canvas from '@/components/game/Canvas'
-import Pallette from '@/components/game/Pallette'
+import Palette from '@/components/game/Pallette'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
 import { useGameStore } from '@/store/gameStore'
@@ -27,7 +27,7 @@ export default function DrawingPage() {
       )}
     >
       <Canvas />
-      <Pallette />
+      <Palette />
     </div>
   )
 }

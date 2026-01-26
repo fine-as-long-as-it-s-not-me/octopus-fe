@@ -19,6 +19,7 @@ export default function Ink({ color, onClick, size = 48 }: Props) {
       )}
       style={{ backgroundColor: color, width: size, height: size }}
       onClick={onClick}
+      aria-label={color}
     ></button>
   )
 }

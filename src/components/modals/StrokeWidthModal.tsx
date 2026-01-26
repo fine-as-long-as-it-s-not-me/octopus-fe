@@ -12,7 +12,7 @@ export default function StrokeWidthModal() {
           type='range'
           min={MIN_STROKE_WIDTH}
           max={MAX_STROKE_WIDTH}
-          defaultValue={strokeWidth}
+          value={strokeWidth}
           className='w-full'
           onChange={e => setStrokeWidth(Number(e.target.value))}
         />

@@ -22,7 +22,7 @@ export const Phase = {
   VOTE_RESULT: 'vote-result',
   RESULT: 'result',
   GUESSING: 'guessing',
-}
+} as const
 
 export type Phase = (typeof Phase)[keyof typeof Phase]
 
@@ -46,13 +46,11 @@ export type ChangeableSettings = Omit<
 export interface Stroke {
   id: number
   sequence: number
-  tool: Tool
+  tool: ToolType
   color: string
   strokeWidth: number
   points: Point[]
 }
-
-export type Tool = 'pen' | 'eraser'
 
 export interface Point {
   x: number
