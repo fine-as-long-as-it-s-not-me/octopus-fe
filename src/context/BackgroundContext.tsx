@@ -2,6 +2,7 @@ import { createContext, useContext } from 'react'
 
 type BackgroundContextType = {
   interacted: boolean
+  setInteracted: (value: boolean) => void
   setBackgroundImage: (key: string) => void
 }
 
