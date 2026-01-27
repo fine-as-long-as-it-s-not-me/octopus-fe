@@ -6,7 +6,6 @@ import ChatCard from '@/components/chat/ChatCard'
 import Card from '@/components/common/Card'
 import Icon from '@/components/common/Icon'
 import SettingModalButton from '@/components/common/Settings'
-import NextPhaseButton from '@/components/game/NextPhaseButton'
 import PhaseDescCard from '@/components/game/PhaseDescCard'
 import TimerCard from '@/components/game/TimerCard'
 import PlayerListButton from '@/components/player/PlayerListButton'
@@ -46,7 +45,6 @@ export default function GameLayout() {
         <div className='flex grow sm:gap-2'>
           <TimerCard />
           <PlayerListButton />
-          <NextPhaseButton />
           <SettingModalButton />
           <CloseButton />
         </div>
