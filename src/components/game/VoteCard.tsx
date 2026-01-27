@@ -24,7 +24,7 @@ export default function VoteCard({ onSubmit }: Props) {
 
   return (
     <div className='flex flex-col items-center gap-2'>
-      <h2>{t("Who's Octopus?")}</h2>
+      <h2>{t("Who's the Octopus?")}</h2>
       <div className='grid grid-cols-6 gap-2'>
         {players.map(player => (
           <Button

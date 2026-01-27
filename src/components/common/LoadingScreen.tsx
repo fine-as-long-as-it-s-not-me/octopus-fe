@@ -38,6 +38,11 @@ export default function LoadingScreen() {
           </p>
         </div>
       </div>
+      <p className='max-w-[720px] p-4 text-center leading-relaxed whitespace-pre-wrap'>
+        {t(
+          `Deep beneath the sea lies a peaceful squid village.\nOne day, a disguised octopus sneaks in, very insidious.\nThe squids draw secret words with their ink\nto uncover the octopus who doesn’t know the code!`,
+        )}
+      </p>
     </button>
   )
 }
