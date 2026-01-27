@@ -19,7 +19,7 @@ export default function DiscussionPage() {
     >
       <Card
         className={twMerge(
-          'flex min-w-[480px] grow items-center justify-center',
+          'flex grow items-center justify-center',
           direction === 'vertical' ? '' : '',
         )}
       >

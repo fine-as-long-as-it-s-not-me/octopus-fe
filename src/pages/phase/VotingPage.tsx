@@ -14,7 +14,7 @@ export default function VotingPage() {
     <div className={twMerge('flex shrink-0 grow-12 flex-col sm:gap-2')}>
       <Card
         className={twMerge(
-          'min-w-[480px] grow flex-col items-center justify-center gap-4',
+          'grow flex-col items-center justify-center gap-4',
           direction === 'vertical' ? '' : '',
         )}
       >

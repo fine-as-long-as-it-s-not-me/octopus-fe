@@ -2,18 +2,21 @@ import { Outlet, useBlocker } from 'react-router-dom'
 import { ModalProvider, useModal } from 'sam-react-modal'
 
 import SocketProvider from '@/context/SocketProvider'
+import { ToastProvider } from '@/context/ToastProvider'
 import WindowProvider from '@/context/WindowProvider'
 
 export default function RootLayout() {
   return (
     <WindowProvider>
-      <SocketProvider>
-        <ModalProviderWrapper>
-          <div className='no-scrollbar flex h-dvh w-dvw flex-col items-center overflow-hidden'>
-            <Outlet />
-          </div>
-        </ModalProviderWrapper>
-      </SocketProvider>
+      <ToastProvider>
+        <SocketProvider>
+          <ModalProviderWrapper>
+            <div className='no-scrollbar flex h-dvh w-dvw flex-col items-center overflow-hidden'>
+              <Outlet />
+            </div>
+          </ModalProviderWrapper>
+        </SocketProvider>
+      </ToastProvider>
     </WindowProvider>
   )
 }

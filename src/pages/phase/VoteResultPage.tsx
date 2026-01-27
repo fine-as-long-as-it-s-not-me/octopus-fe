@@ -20,14 +20,14 @@ export default function VoteResultPage() {
   }, [])
 
   return (
-    <Card className='flex h-fit shrink-0 grow-4 flex-col items-center justify-center'>
+    <Card className='flex h-fit w-auto shrink-0 grow-4 flex-col items-center justify-center'>
       <Img
         src={avatar}
         ref={imageRef}
         style={{
           transition: 'filter 0.5s ease-in-out',
         }}
-        className='grayscale filter-[brightness(0)]'
+        className='mb-4 max-w-[160px] grayscale filter-[brightness(0)]'
       />
 
       <Realistic

@@ -160,10 +160,14 @@ export default function Canvas() {
       style={{
         backgroundColor: canvasColor,
         padding: '0px',
-        minWidth: 'min(100vw, 440px)',
+        minWidth: 'min(100vw, 420px)',
       }}
     >
-      <canvas className='block aspect-square w-full' ref={canvasRef} />
+      <canvas
+        className='block aspect-square w-full touch-none'
+        ref={canvasRef}
+        style={{ touchAction: 'none' }}
+      />
     </Card>
   )
 }

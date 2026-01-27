@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useToast } from '@/context/ToastContext'
 import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
 import { useUserStore } from '@/store/userStore'
@@ -42,6 +43,7 @@ export function useSocketHandlers(
     setNextPainterUUID,
     setVoteResult,
   } = useGameStore()
+  const { notify } = useToast()
 
   const handlers: MessageHandlers = useMemo(
     () => ({
@@ -133,11 +135,15 @@ export function useSocketHandlers(
       vote_result: ({ voteResult }: VoteResultResponse) => {
         setVoteResult(voteResult)
       },
+      error: ({ message }: { message: string }) => {
+        notify(message)
+      },
     }),
     [
       t,
       name,
       UUID,
+      notify,
       setId,
       addChat,
       setRound,
