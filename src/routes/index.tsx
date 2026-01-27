@@ -82,6 +82,10 @@ const router = createBrowserRouter([
                 element: <RoundResultPage />,
                 path: ROUTES.RESULT,
               },
+              {
+                element: <VoteResultPage />,
+                path: ROUTES.TEST,
+              },
             ],
           },
         ],

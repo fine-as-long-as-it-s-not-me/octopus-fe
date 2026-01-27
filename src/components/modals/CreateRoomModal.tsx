@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Spacing } from 'sam-react-modal'
+import { Spacing, useModal } from 'sam-react-modal'
 
 import { useChangeRoomSettings, useCreateRoom } from '@/apis/room'
 import type { ChangeableSettings } from '@/types'
@@ -24,10 +24,11 @@ interface Props {
 export default function CreateRoomModal({ action }: Props) {
   // ! TODO: action에 따른 초기값 설정
   const { t } = useTranslation()
+  const { closeModal } = useModal()
   const [rounds, setRounds] = useState(3)
+  const { mutate: createRoom } = useCreateRoom()
   const [drawingTime, setDrawingTime] = useState(10)
   const { mutate: changeSettings } = useChangeRoomSettings()
-  const { mutate: createRoom } = useCreateRoom()
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -40,6 +41,7 @@ export default function CreateRoomModal({ action }: Props) {
     }
     if (action === 'create') createRoom(settings)
     else if (action === 'change') changeSettings(settings)
+    closeModal()
   }
 
   return (

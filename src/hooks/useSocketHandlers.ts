@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
@@ -14,6 +15,7 @@ import {
   type PlayersUpdatedResponse,
   type RoundResponse,
   type SettingsUpdatedResponse,
+  type SystemChatResponse,
   type TickResponse,
   type WelcomeResponse,
 } from '@/types'
@@ -25,6 +27,7 @@ export function useSocketHandlers(
     data?: Record<string, unknown>,
   ) => void,
 ) {
+  const { t } = useTranslation()
   const { name, UUID, setId } = useUserStore()
   const { setRoomCode, setPlayers, setSettings, addChat } = useRoomStore()
   const {
@@ -86,10 +89,40 @@ export function useSocketHandlers(
         const chat = { player, text }
         addChat(chat)
       },
+      system_chat: ({ type, variable }: SystemChatResponse) => {
+        // Handled in Chat component
+        const player = { name: 'System', UUID: 'system' }
+        switch (type) {
+          case 'player_joined':
+            addChat({
+              player,
+              text: `${(variable as { name: string }).name} ${t('joined the game')}.`,
+            })
+            break
+          case 'player_left':
+            addChat({
+              player,
+              text: `${(variable as { name: string }).name} ${t('left the game')}.`,
+            })
+            break
+          case 'discussion_time_changed': {
+            const { name, amount } = variable as {
+              amount: number
+              name: string
+            }
+            addChat({
+              player,
+              text: `${name} ${t(`has ${amount > 0 ? 'extended' : 'shortened'} the remaining time`)}.`,
+            })
+            break
+          }
+        }
+      },
     }),
     [
       name,
       UUID,
+      t,
       setRoomCode,
       setPlayers,
       setSettings,

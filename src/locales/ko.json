@@ -51,5 +51,9 @@
   "Language": "언어",
   "language": "언어",
   "Korean": "한국어",
-  "English": "영어"
+  "English": "영어",
+  "has extended the remaining time": "님이 남은 시간을 연장했습니다",
+  "has shortened the remaining time": "님이 남은 시간을 단축했습니다",
+  "left the game": "님이 게임에서 나갔습니다",
+  "joined the game": "님이 게임에 참가했습니다"
 }

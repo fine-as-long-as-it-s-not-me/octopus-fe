@@ -11,4 +11,5 @@ export const ROUTES = {
   VOTING: `/room/voting`,
   VOTE_RESULT: `/room/vote-result`,
   RESULT: `/room/result`,
+  TEST: `/room/test`,
 }

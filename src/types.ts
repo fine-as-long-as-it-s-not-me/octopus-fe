@@ -78,6 +78,7 @@ export type Message =
   | { type: 'round_updated'; data: RoundResponse }
   | { type: 'keyword'; data: KeywordResponse }
   | { type: 'chat_added'; data: ChatResponse }
+  | { type: 'system_chat'; data: SystemChatResponse }
 
 export type WelcomeResponse = {
   roomCode: string
@@ -126,6 +127,11 @@ export type KeywordResponse = {
 export type ChatResponse = {
   player: Player
   text: string
+}
+
+export type SystemChatResponse = {
+  type: 'player_joined' | 'player_left' | 'discussion_time_changed'
+  variable: object
 }
 
 export type Chat = {
