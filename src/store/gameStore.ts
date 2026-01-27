@@ -42,7 +42,13 @@ interface GameState {
   canvasColor: string
   setCanvasColor: (canvasColor: string) => void
 
-  flush: () => void
+  voteResult: Record<string, number>
+  setVoteResult: (voteResult: Record<string, number>) => void
+
+  octopusUUIDs: string[]
+  setOctopusUUIDs: (octopusUUIDs: string[]) => void
+
+  init: () => void
 }
 
 export const useGameStore = create<GameState>()(
@@ -90,7 +96,13 @@ export const useGameStore = create<GameState>()(
       canvasColor: '#ffffff',
       setCanvasColor: canvasColor => set({ canvasColor }),
 
-      flush: () =>
+      voteResult: {},
+      setVoteResult: voteResult => set({ voteResult }),
+
+      octopusUUIDs: [],
+      setOctopusUUIDs: octopusUUIDs => set({ octopusUUIDs }),
+
+      init: () =>
         set(() => ({
           phase: Phase.OUT,
           timeLeft: 0,
@@ -101,8 +113,6 @@ export const useGameStore = create<GameState>()(
           nextPainterUUID: null,
           tool: 'pen',
           strokes: [],
-          strokeWidth: DEFAULT_STROKE_WIDTH,
-          strokeColor: '#000000',
           canvasColor: '#ffffff',
         })),
     }),
@@ -111,7 +121,14 @@ export const useGameStore = create<GameState>()(
       partialize: state =>
         Object.fromEntries(
           Object.entries(state).filter(
-            ([key]) => !['painterUUID', 'nextPainterUUID'].includes(key),
+            ([key]) =>
+              ![
+                'painterUUID',
+                'nextPainterUUID',
+                'octopusUUIDs',
+                'strokeColor',
+                'tool',
+              ].includes(key),
           ),
         ),
     },

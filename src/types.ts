@@ -130,7 +130,11 @@ export type ChatResponse = {
 }
 
 export type SystemChatResponse = {
-  type: 'player_joined' | 'player_left' | 'discussion_time_changed'
+  type:
+    | 'player_joined'
+    | 'player_left'
+    | 'discussion_time_changed'
+    | 'player_voted'
   variable: object
 }
 
@@ -140,3 +144,7 @@ export type Chat = {
 }
 
 export type ToolType = 'pen' | 'eraser'
+
+export type VoteResultResponse = {
+  voteResult: Record<string, number>
+}

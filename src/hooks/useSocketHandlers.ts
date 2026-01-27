@@ -17,6 +17,7 @@ import {
   type SettingsUpdatedResponse,
   type SystemChatResponse,
   type TickResponse,
+  type VoteResultResponse,
   type WelcomeResponse,
 } from '@/types'
 
@@ -39,6 +40,7 @@ export function useSocketHandlers(
     setPainterUUID,
     setKeyword,
     setNextPainterUUID,
+    setVoteResult,
   } = useGameStore()
 
   const handlers: MessageHandlers = useMemo(
@@ -116,27 +118,41 @@ export function useSocketHandlers(
             })
             break
           }
+          case 'player_voted': {
+            const { voterName } = variable as { voterName: string }
+            addChat({
+              player,
+              text: `${voterName} ${t('has voted')}.`,
+            })
+            break
+          }
+          default:
+            break
         }
+      },
+      vote_result: ({ voteResult }: VoteResultResponse) => {
+        setVoteResult(voteResult)
       },
     }),
     [
+      t,
       name,
       UUID,
-      t,
-      setRoomCode,
-      setPlayers,
-      setSettings,
-      setPhase,
-      setRound,
-      setTimeLeft,
-      sendMessage,
-      setPainterUUID,
-      setNextPainterUUID,
-      setStrokes,
-      setCanvasColor,
       setId,
-      setKeyword,
       addChat,
+      setRound,
+      setPhase,
+      setPlayers,
+      setStrokes,
+      setKeyword,
+      sendMessage,
+      setSettings,
+      setRoomCode,
+      setTimeLeft,
+      setVoteResult,
+      setPainterUUID,
+      setCanvasColor,
+      setNextPainterUUID,
     ],
   )
 

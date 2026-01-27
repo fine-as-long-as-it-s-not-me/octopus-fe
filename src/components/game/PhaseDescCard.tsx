@@ -10,7 +10,7 @@ const PHASE_DESCRIPTIONS: Record<string, string> = {
   drawing: 'Draw!',
   discussion: 'Discuss with other players',
   voting: 'Vote for the suspicious...',
-  'vote-result': 'See the voting results',
+  'vote-result': 'The Octopus reveals itself!',
   guessing: 'Guess the correct word',
   result: 'See the round results',
 }

@@ -18,3 +18,5 @@ export const COLORS = [
 export const DEFAULT_STROKE_WIDTH = 5
 export const MAX_STROKE_WIDTH = 50
 export const MIN_STROKE_WIDTH = 1
+
+export const CONFETTI_DELAY = 2500
