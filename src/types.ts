@@ -77,10 +77,10 @@ export type MessageHandlers = {
 }
 
 export type Message =
+  | { type: 'player_logged_in'; data: PlayerLoggedInResponse }
   | { type: 'welcome'; data: WelcomeResponse }
   | { type: 'players_updated'; data: PlayersUpdatedResponse }
   | { type: 'settings_updated'; data: SettingsUpdatedResponse }
-  | { type: 'hello'; data: PlayerLoggedInResponse }
   | { type: 'tick'; data: TickResponse }
   | { type: 'painter'; data: PainterResponse }
   | { type: 'canvas_updated'; data: CanvasUpdatedResponse }
@@ -146,6 +146,7 @@ export type SystemChatResponse = {
     | 'player_left'
     | 'discussion_time_changed'
     | 'player_voted'
+    | 'revote'
   variable: SystemChatVariable
 }
 

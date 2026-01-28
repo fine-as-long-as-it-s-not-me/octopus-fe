@@ -1,7 +1,7 @@
 import { twMerge } from 'tailwind-merge'
 
 import { useWindow } from '@/context/WindowContext'
-import { useGameStore } from '@/store/gameStore'
+import { useRoundStore } from '@/store/roundStore'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
 import Profile from './Profile'
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function PlayerListItem({ UUID, name, host }: Props) {
-  const { painterUUID, nextPainterUUID } = useGameStore()
+  const { painterUUID, nextPainterUUID } = useRoundStore()
   const { direction } = useWindow()
 
   return (

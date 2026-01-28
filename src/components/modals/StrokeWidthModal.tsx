@@ -1,10 +1,10 @@
 import { MAX_STROKE_WIDTH, MIN_STROKE_WIDTH } from '@/consts'
-import { useGameStore } from '@/store/gameStore'
+import { useRoundStore } from '@/store/roundStore'
 import Modal from '../common/Modal'
 import Ink from '../game/Ink'
 
 export default function StrokeWidthModal() {
-  const { strokeWidth, setStrokeWidth, strokeColor } = useGameStore()
+  const { strokeWidth, setStrokeWidth, strokeColor } = useRoundStore()
   return (
     <Modal>
       <div className='flex flex-row items-center justify-between gap-4'>

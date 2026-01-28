@@ -27,7 +27,7 @@ export default function EntryLayout() {
         className='w-[50dvw] max-w-[560px] min-w-[400px]'
       />
       <Outlet />
-      <div className={`flex w-full`}>
+      <div className={`flex h-[52px] w-full`}>
         <SettingModalButton />
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
 
@@ -15,12 +16,16 @@ import { useBackground } from '@/context/BackgroundContext'
 import { useWindow } from '@/context/WindowContext'
 import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
+import { useRoundStore } from '@/store/roundStore'
 
 export default function GameLayout() {
   const { setBackgroundImage } = useBackground()
   const { setIsCompact, direction } = useWindow()
   const { settings } = useRoomStore()
-  const { keyword, round } = useGameStore()
+  const { round } = useGameStore()
+  const { keyword } = useRoundStore()
+  const { t } = useTranslation()
+
   useEffect(() => {
     setBackgroundImage('room')
     setIsCompact(true)
@@ -31,7 +36,7 @@ export default function GameLayout() {
       <div className='flex h-fit w-full flex-row flex-wrap sm:gap-2'>
         <div className='flex min-w-[400px] grow flex-row sm:gap-2'>
           <Card size='md' className='order-0 w-auto shrink-0 items-center'>
-            Round {round}/{settings.rounds}
+            {t('Round')} {round}/{settings.rounds}
           </Card>
           <Card
             size='md'

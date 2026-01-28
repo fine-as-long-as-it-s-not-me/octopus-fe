@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge'
 
 import { useAddStroke } from '@/apis/canvas'
 import { useWindow } from '@/context/WindowContext'
-import { useGameStore } from '@/store/gameStore'
+import { useRoundStore } from '@/store/roundStore'
 import { useUserStore } from '@/store/userStore'
 import { Phase, type Point } from '@/types'
 import Card from '../common/Card'
@@ -22,7 +22,7 @@ export default function Canvas() {
     strokeWidth,
     phase,
     tool,
-  } = useGameStore()
+  } = useRoundStore()
 
   const lastStrokeId = strokes.reduce(
     (max, stroke) => Math.max(max, stroke.id),

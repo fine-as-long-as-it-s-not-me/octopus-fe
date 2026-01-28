@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useSocketConnection } from '@/hooks/useSocketConnection'
 import { getPhasePath } from '@/lib/getPhasePath'
 import { ROUTES } from '@/routes/ROUTES'
-import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
+import { useRoundStore } from '@/store/roundStore'
 import { useUserStore } from '@/store/userStore'
 import type { ErrorType } from '@/types'
 import { SocketContext } from './SocketContext'
@@ -16,7 +16,7 @@ interface Props {
 
 export default function SocketProvider({ children }: Props) {
   const [error, setError] = useState<null | ErrorType>(null)
-  const { phase } = useGameStore()
+  const { phase } = useRoundStore()
   const { roomCode } = useRoomStore()
   const { id: userId, name: userName } = useUserStore()
   const navigate = useNavigate()

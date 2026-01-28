@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 
 import Card from '@/components/common/Card'
 import { useSound } from '@/context/SoundContext'
-import { useGameStore } from '@/store/gameStore'
+import { useRoundStore } from '@/store/roundStore'
 
 export default function KeywordPage() {
   const { playSoundEffect, pauseMusic } = useSound()
-  const { keyword } = useGameStore()
+  const { keyword } = useRoundStore()
   const { t } = useTranslation()
 
   useEffect(() => {

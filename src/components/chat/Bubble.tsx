@@ -23,8 +23,8 @@ export default function Bubble({ player, text }: Props) {
       )}
     >
       <Profile name={player.name} size='sm' />
-      <Card size='sm' className='rounded-full px-4 py-2 md:py-2'>
-        <p>{text}</p>
+      <Card size='sm' className='rounded-2xl px-4 py-2 md:py-2'>
+        <p className='wihtespace-pre-wrap max-w-[320px] break-words'>{text}</p>
       </Card>
     </div>
   )

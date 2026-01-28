@@ -4,8 +4,8 @@ import { twMerge } from 'tailwind-merge'
 
 import Button from '@/components/common/Button'
 import Profile from '@/components/player/Profile'
-import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
+import { useRoundStore } from '@/store/roundStore'
 
 interface Props {
   onSubmit?: (votedPlayerUUID: string) => void
@@ -14,7 +14,7 @@ interface Props {
 export default function VoteCard({ onSubmit }: Props) {
   const [selected, setSelected] = useState<string | null>(null)
   const [voted, setVoted] = useState<boolean>(false)
-  const { timeLeft, voteResult } = useGameStore()
+  const { timeLeft, voteResult } = useRoundStore()
   const { players } = useRoomStore()
   const { t } = useTranslation()
 

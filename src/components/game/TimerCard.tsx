@@ -1,11 +1,11 @@
 import { twMerge } from 'tailwind-merge'
 
-import { useGameStore } from '@/store/gameStore'
+import { useRoundStore } from '@/store/roundStore'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
 
 export default function TimerCard() {
-  const { timeLeft } = useGameStore()
+  const { timeLeft } = useRoundStore()
   const colorClass = (time: number) => {
     if (time > 10) return ''
     if (time > 5) return 'text-yellow-500'

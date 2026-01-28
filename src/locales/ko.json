@@ -1,5 +1,4 @@
 {
-  "hello": "안녕하세요",
   "en": "English",
   "ko": "한국어",
   "Guest": "게스트",
@@ -74,5 +73,8 @@
   "The secret code is...": "이번 라운드의 암호는...",
   "The octopus gets different word.": "문어는 다른 암호를 받습니다.",
   "Voted for": "투표 완료:",
-  "has voted": "님이 투표했습니다"
+  "has voted": "님이 투표했습니다",
+  "The game has been started.": "게임이 시작되었습니다.",
+  "Revote has been initiated due to a tie. If tie occurs again, octopus wins.": "무승부로 인해 재투표가 시작되었습니다. 다시 무승부가 발생하면 문어가 승리합니다.",
+  "Round": "라운드"
 }

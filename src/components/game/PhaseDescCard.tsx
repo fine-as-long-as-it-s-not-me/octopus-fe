@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { twMerge } from 'tailwind-merge'
 
-import { useGameStore } from '@/store/gameStore'
+import { useRoundStore } from '@/store/roundStore'
 import Card from '../common/Card'
 
 const PHASE_DESCRIPTIONS: Record<string, string> = {
@@ -17,7 +17,7 @@ const PHASE_DESCRIPTIONS: Record<string, string> = {
 
 export default function PhaseDescCard() {
   const { t } = useTranslation()
-  const { phase } = useGameStore()
+  const { phase } = useRoundStore()
   const phaseDescription = PHASE_DESCRIPTIONS[phase] || ''
 
   return (
