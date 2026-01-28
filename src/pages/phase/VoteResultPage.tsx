@@ -1,15 +1,39 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import Realistic from 'react-canvas-confetti/dist/presets/realistic'
+import { useTranslation } from 'react-i18next'
 
 import Card from '@/components/common/Card'
 import Img from '@/components/common/Img'
 import VoteCard from '@/components/game/VoteCard'
 import { CONFETTI_DELAY } from '@/consts'
 import useAvatar from '@/hooks/useAvatar'
+import { useRoomStore } from '@/store/roomStore'
+import { useRoundStore } from '@/store/roundStore'
 
 export default function VoteResultPage() {
-  const avatar = useAvatar('abc')
   const imageRef = useRef<HTMLImageElement | null>(null)
+  const { voteResult, octopuses } = useRoundStore()
+  const { players } = useRoomStore()
+  const { t } = useTranslation()
+
+  const votedUUID = useMemo(() => {
+    if (!voteResult) return null
+    let maxVotes = -1
+    let votedUUID: string | null = null
+    for (const [uuid, count] of Object.entries(voteResult)) {
+      if (count > maxVotes) {
+        maxVotes = count
+        votedUUID = uuid
+      }
+    }
+    return votedUUID
+  }, [voteResult])
+
+  const votedPlayerName =
+    players.find(player => player.UUID === votedUUID)?.name || 'Unknown'
+
+  const avatar = useAvatar(votedPlayerName)
+  const didFindOctopus = octopuses.some(octopus => octopus.UUID === votedUUID)
 
   useEffect(() => {
     if (!imageRef.current) return
@@ -21,7 +45,7 @@ export default function VoteResultPage() {
   }, [])
 
   return (
-    <Card className='flex h-fit w-auto shrink-0 grow-4 flex-col items-center justify-center'>
+    <Card className='flex w-auto shrink-0 grow-4 flex-col items-center justify-center'>
       <Img
         src={avatar}
         ref={imageRef}
@@ -30,6 +54,16 @@ export default function VoteResultPage() {
         }}
         className='mb-4 max-w-[160px] grayscale filter-[brightness(0)]'
       />
+      <div className='mb-8 text-center text-2xl font-bold'>
+        <p>
+          {`${t(`The ${octopuses.length > 1 ? 'octopuses were' : 'octopus was'}`)} ${octopuses.map(octopus => octopus.name).join(', ')}.`}
+        </p>
+        <p>
+          {didFindOctopus
+            ? t(`Squids found the octopus! 🎉`)
+            : t(`Squids failed to find the octopus. 😢`)}
+        </p>
+      </div>
 
       <Realistic
         autorun={{ speed: 0.0001, delay: CONFETTI_DELAY }}

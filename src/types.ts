@@ -152,4 +152,5 @@ export type SystemChatResponse = {
 
 export type VoteResultResponse = {
   voteResult: [string, number][]
+  octopuses: Player[]
 }

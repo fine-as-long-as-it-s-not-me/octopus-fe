@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { DEFAULT_STROKE_WIDTH } from '@/consts'
-import { Phase, type Stroke, type ToolType } from '@/types'
+import { Phase, type Player, type Stroke, type ToolType } from '@/types'
 
 interface RoundState {
   phase: Phase
@@ -39,8 +39,8 @@ interface RoundState {
   voteResult: Record<string, number>
   setVoteResult: (voteResult: Record<string, number>) => void
 
-  octopusUUIDs: string[]
-  setOctopusUUIDs: (octopusUUIDs: string[]) => void
+  octopuses: Player[]
+  setOctopuses: (octopuses: Player[]) => void
 
   init: () => void
 }
@@ -87,8 +87,8 @@ export const useRoundStore = create<RoundState>()(
       voteResult: {},
       setVoteResult: voteResult => set({ voteResult }),
 
-      octopusUUIDs: [],
-      setOctopusUUIDs: octopusUUIDs => set({ octopusUUIDs }),
+      octopuses: [],
+      setOctopuses: octopuses => set({ octopuses }),
 
       init: () =>
         set(() => ({
@@ -100,6 +100,8 @@ export const useRoundStore = create<RoundState>()(
           tool: 'pen',
           strokes: [],
           canvasColor: '#ffffff',
+          voteResult: {},
+          octopuses: [],
         })),
     }),
     {
@@ -111,7 +113,7 @@ export const useRoundStore = create<RoundState>()(
               ![
                 'painterUUID',
                 'nextPainterUUID',
-                'octopusUUIDs',
+                'octopuses',
                 'strokeColor',
                 'tool',
               ].includes(key),

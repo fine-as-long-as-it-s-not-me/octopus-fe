@@ -44,6 +44,7 @@ export function useSocketHandlers(
     setKeyword,
     setNextPainterUUID,
     setVoteResult,
+    setOctopuses,
     init: initRound,
   } = useRoundStore()
 
@@ -145,12 +146,13 @@ export function useSocketHandlers(
             break
         }
       },
-      vote_result: ({ voteResult }: VoteResultResponse) => {
+      vote_result: ({ voteResult, octopuses }: VoteResultResponse) => {
         const voteResultMap: Record<string, number> = {}
         voteResult.forEach(([votedUUID, votes]) => {
           voteResultMap[votedUUID] = votes
         })
         setVoteResult(voteResultMap)
+        setOctopuses(octopuses)
       },
       error: ({ message }: { message: string }) => {
         notify(message)
@@ -180,6 +182,7 @@ export function useSocketHandlers(
       setSettings,
       setRoomCode,
       setTimeLeft,
+      setOctopuses,
       setIsStarted,
       setVoteResult,
       setPainterUUID,
