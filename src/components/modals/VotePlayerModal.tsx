@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { twMerge } from 'tailwind-merge'
 
 import { useRoomStore } from '@/store/roomStore'
@@ -13,6 +14,7 @@ interface Props {
 export default function VotePlayerModal({ onSubmit }: Props) {
   const [selected, setSelected] = useState<string | null>(null)
   const { players } = useRoomStore()
+  const { t } = useTranslation()
 
   const selectHandler = (playerId: string) => {
     setSelected(playerId)
@@ -20,7 +22,9 @@ export default function VotePlayerModal({ onSubmit }: Props) {
   return (
     <Modal>
       <div className='flex w-full flex-col gap-4'>
-        <h2 className='text-center text-2xl font-bold'>Vote for a Player</h2>
+        <h2 className='text-center text-2xl font-bold'>
+          {t('Vote for a Player')}
+        </h2>
         <div className='flex w-full flex-row flex-wrap gap-2'>
           {players.map(player => (
             <Button
@@ -49,7 +53,7 @@ export default function VotePlayerModal({ onSubmit }: Props) {
           }}
           disabled={!selected}
         >
-          Vote
+          {t('Confirm')}
         </Button>
       </div>
     </Modal>

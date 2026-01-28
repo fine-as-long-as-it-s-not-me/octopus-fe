@@ -59,5 +59,20 @@
   "You have already extended the discussion time.": "이미 토론 시간을 연장했습니다.",
   "You have already shortened the discussion time.": "이미 토론 시간을 단축했습니다.",
   "Who's the Octopus?": "이 중에 문어가 있습니다...",
-  "Deep beneath the sea lies a peaceful squid village.\nOne day, a disguised octopus sneaks in, very insidious.\nThe squids draw secret words with their ink\nto uncover the octopus who doesn’t know the code!": "깊은 바다, 평화로운 오징어 마을.\n한 음흉한 문어가 위장술로 숨어들며 소동이 시작됩니다.\n오징어들은 먹물로 비밀 단어를 그려 비밀 단어를 모르는 문어를 가려내야 합니다!"
+  "Deep beneath the sea lies a peaceful squid village.\nOne day, a disguised octopus sneaks in, very insidious.\nThe squids draw secret words with their ink\nto uncover the octopus who doesn’t know the code!": "깊은 바다, 평화로운 오징어 마을.\n한 음흉한 문어가 위장술로 숨어들며 소동이 시작됩니다.\n오징어들은 먹물로 비밀 단어를 그려 비밀 단어를 모르는 문어를 가려내야 합니다!",
+  "Vote for a Player": "문어를 색출하세요!",
+  "Confirm": "확정",
+  "Logout": "로그아웃",
+  "Waiting for players": "플레이어를 기다리는 중",
+  "Check your given word": "주어진 단어를 확인하세요",
+  "Draw the keyword": "암호를 그리세요",
+  "Discuss with other players": "다른 플레이어와 토론하세요",
+  "Vote for the Octopus": "문어를 투표하세요",
+  "The Octopus reveals itself!": "문어가 자신을 드러냅니다",
+  "Octopus, make your guess": "문어가 암호를 추측합니다",
+  "Round results": "라운드 결과",
+  "The secret code is...": "이번 라운드의 암호는...",
+  "The octopus gets different word.": "문어는 다른 암호를 받습니다.",
+  "Voted for": "투표 완료:",
+  "has voted": "님이 투표했습니다"
 }

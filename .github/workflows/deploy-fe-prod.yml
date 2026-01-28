@@ -120,7 +120,7 @@ jobs:
             UPDATED_RULES=$(echo "$CUR_JSON" | jq --arg RN "$PROD_RULE_NAME" --arg BS "$TARGET_SET" '
               .data.rules
               | map(
-                  if .name == $RN
+                  if .name === $RN
                   then (.actions[0].backendSetName = $BS)
                   else .
                   end

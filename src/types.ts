@@ -52,6 +52,8 @@ export interface Stroke {
   points: Point[]
 }
 
+export type ToolType = 'pen' | 'eraser'
+
 export interface Point {
   x: number
   y: number
@@ -62,6 +64,13 @@ export interface Score {
   delta: number
   total: number
 }
+
+export type Chat = {
+  player: Player
+  text: string
+}
+
+// --------------------------------- Socket Messages ---------------------------------
 
 export type MessageHandlers = {
   [K in Message['type']]: (data: Extract<Message, { type: K }>['data']) => void
@@ -124,10 +133,12 @@ export type KeywordResponse = {
   keyword: string
 }
 
-export type ChatResponse = {
-  player: Player
-  text: string
-}
+export type ChatResponse = Chat
+
+type SystemChatVariable =
+  | { name: string } // for player_joined, player_left, player_voted
+  | { name: string; amount: number } // for discussion_time_changed
+  | { voterName: string }
 
 export type SystemChatResponse = {
   type:
@@ -135,15 +146,8 @@ export type SystemChatResponse = {
     | 'player_left'
     | 'discussion_time_changed'
     | 'player_voted'
-  variable: object
+  variable: SystemChatVariable
 }
-
-export type Chat = {
-  player: Player
-  text: string
-}
-
-export type ToolType = 'pen' | 'eraser'
 
 export type VoteResultResponse = {
   voteResult: Record<string, number>

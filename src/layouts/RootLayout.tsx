@@ -48,8 +48,8 @@ function ModalProviderWrapper({ children }: { children: React.ReactNode }) {
       }}
       beforeClose={async ref => {
         if (!ref?.current) return
-        ref.current.classList.remove('fadeIn')
-        ref.current.classList.add('fadeOut')
+        ref.current.classList.remove('fade-in')
+        ref.current.classList.add('fade-out')
         return new Promise(resolve => {
           setTimeout(() => {
             resolve()

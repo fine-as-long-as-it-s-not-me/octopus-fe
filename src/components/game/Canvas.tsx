@@ -106,7 +106,7 @@ export default function Canvas() {
 
     const canvas = canvasRef.current
     if (!canvas) return
-    if (UUID == painterUUID && phase === Phase.DRAWING) {
+    if (UUID === painterUUID && phase === Phase.DRAWING) {
       canvas.onpointerdown = e => {
         e.preventDefault()
         canvas.setPointerCapture(e.pointerId)

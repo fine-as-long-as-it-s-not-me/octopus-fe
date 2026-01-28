@@ -5,14 +5,14 @@ import { useGameStore } from '@/store/gameStore'
 import Card from '../common/Card'
 
 const PHASE_DESCRIPTIONS: Record<string, string> = {
-  waiting: 'Waiting for players...',
+  waiting: 'Waiting for players',
   keyword: 'Check your given word',
-  drawing: 'Draw!',
+  drawing: 'Draw the keyword',
   discussion: 'Discuss with other players',
-  voting: 'Vote for the suspicious...',
+  voting: 'Vote for the Octopus',
   'vote-result': 'The Octopus reveals itself!',
-  guessing: 'Guess the correct word',
-  result: 'See the round results',
+  guessing: 'Octopus, make your guess',
+  result: 'Round results',
 }
 
 export default function PhaseDescCard() {

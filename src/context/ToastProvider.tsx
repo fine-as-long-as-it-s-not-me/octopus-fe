@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { createRef, useRef, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ToastContext } from './ToastContext'
@@ -9,6 +9,7 @@ type Toast = {
   id: number
   message: string
   createdAt: number
+  ref: React.RefObject<HTMLDivElement>
 }
 
 export const ToastProvider = ({ children }: Props) => {
@@ -19,13 +20,17 @@ export const ToastProvider = ({ children }: Props) => {
       id: nextId.current++,
       message,
       createdAt: Date.now(),
-    }
+      ref: createRef<HTMLDivElement>(),
+    } as Toast
     setToasts(prevToasts => [...prevToasts, toast])
 
     // Remove the toast after 3 seconds
     setTimeout(() => {
-      setToasts(prevToasts => prevToasts.filter(t => t.id !== toast.id))
-    }, 3000)
+      toast.ref.current.classList.add('fade-out')
+      setTimeout(() => {
+        setToasts(prevToasts => prevToasts.filter(t => t.id !== toast.id))
+      }, 500)
+    }, 2000)
   }
   const { t } = useTranslation()
 
@@ -36,11 +41,12 @@ export const ToastProvider = ({ children }: Props) => {
       }}
     >
       {children}
-      <div className='pointer-events-none fixed right-4 bottom-4 z-50 flex flex-col space-y-2'>
+      <div className='pointer-events-none fixed right-4 bottom-4 z-1050 flex flex-col space-y-2'>
         {toasts.map(toast => (
           <div
             key={toast.id}
-            className='rounded bg-gray-800 px-4 py-2 text-white opacity-90 shadow-lg'
+            ref={toast.ref}
+            className='fade-in rounded bg-gray-800 px-4 py-2 text-white opacity-0 shadow-lg transition duration-500'
           >
             {t(toast.message)}
           </div>

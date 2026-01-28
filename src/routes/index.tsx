@@ -83,8 +83,12 @@ const router = createBrowserRouter([
                 path: ROUTES.RESULT,
               },
               {
-                element: <VoteResultPage />,
-                path: ROUTES.TEST,
+                ...(import.meta.env.DEV
+                  ? {
+                      element: <VoteResultPage />,
+                      path: ROUTES.TEST,
+                    }
+                  : {}),
               },
             ],
           },

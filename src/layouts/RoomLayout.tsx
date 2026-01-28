@@ -59,7 +59,9 @@ export default function RoomLayout() {
           {t('Room Code')} #{roomCode}
           <Icon name='content_copy' />
         </Button>
-        {/* <Button onClick={() => navigate(ROUTES.TEST)}> ? </Button> */}
+        {import.meta.env.DEV && (
+          <Button onClick={() => navigate(ROUTES.TEST!)}> ? </Button>
+        )}
         <PlayerListButton />
         {size.sm ? <SettingButtons /> : <SettingModalButton />}
         <CloseButton />

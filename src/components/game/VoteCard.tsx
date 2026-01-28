@@ -19,7 +19,7 @@ export default function VoteCard({ onSubmit }: Props) {
   const { t } = useTranslation()
 
   useEffect(() => {
-    if (timeLeft == 0 && !voted && selected && onSubmit) onSubmit(selected)
+    if (timeLeft === 0 && !voted && selected && onSubmit) onSubmit(selected)
   }, [timeLeft, voted, selected, onSubmit])
 
   return (
@@ -64,8 +64,8 @@ export default function VoteCard({ onSubmit }: Props) {
           disabled={!selected || voted}
         >
           {voted
-            ? `Voted for ${players.find(player => player.UUID === selected)?.name}`
-            : 'Vote'}
+            ? `${t('Voted for')} ${players.find(player => player.UUID === selected)?.name}`
+            : t('Vote')}
         </Button>
       )}
     </div>
