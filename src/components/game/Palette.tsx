@@ -12,7 +12,7 @@ import Ink from './Ink'
 
 export default function Palette() {
   const { t } = useTranslation()
-  const { setTool, setStrokeColor } = useRoundStore()
+  const { tool, setTool, setStrokeColor } = useRoundStore()
   const { openModal } = useModal()
 
   return (
@@ -34,8 +34,8 @@ export default function Palette() {
           size='sm'
           cardClassName='h-16 w-16'
           onClick={() => {
-            setTool('pen')
-            openModal(<StrokeWidthModal />)
+            if (tool === 'pen') openModal(<StrokeWidthModal />)
+            else setTool('pen')
           }}
         >
           <Icon name='pen_size_4' size={32} />
@@ -43,7 +43,10 @@ export default function Palette() {
         <Button
           size='sm'
           cardClassName='h-16 w-16'
-          onClick={() => setTool('eraser')}
+          onClick={() => {
+            if (tool === 'eraser') openModal(<StrokeWidthModal />)
+            else setTool('eraser')
+          }}
         >
           <Icon name='ink_eraser' size={32} />
         </Button>
