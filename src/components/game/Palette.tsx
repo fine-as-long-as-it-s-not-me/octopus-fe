@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useModal } from 'sam-react-modal'
 
 import { COLORS } from '@/consts'
-import { useGameStore } from '@/store/gameStore'
+import { useRoundStore } from '@/store/roundStore'
 import Button from '../common/Button'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
@@ -12,7 +12,7 @@ import Ink from './Ink'
 
 export default function Palette() {
   const { t } = useTranslation()
-  const { setTool, setStrokeColor } = useGameStore()
+  const { setTool, setStrokeColor } = useRoundStore()
   const { openModal } = useModal()
 
   return (

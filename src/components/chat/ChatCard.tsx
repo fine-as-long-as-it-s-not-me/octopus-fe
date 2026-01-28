@@ -27,12 +27,12 @@ export default function ChatCard() {
   return (
     <Card
       className={twMerge(
-        'flex h-full min-h-[240px] flex-col justify-start p-0 md:p-0 lg:p-0',
-        direction === 'vertical' ? 'w-auto grow-12' : 'w-fit grow-1',
+        'flex shrink-10000 grow-1 flex-col p-0 md:p-0 lg:p-0',
+        direction === 'vertical' ? 'w-auto' : 'w-fit',
       )}
     >
       <div
-        className='no-scrollbar flex h-[calc(100%-56px)] flex-col overflow-scroll'
+        className='no-scrollbar flex h-[calc(100%-56px)] flex-col overflow-y-scroll'
         ref={chatListRef}
       >
         {chats.map((chat, index) => (
@@ -40,7 +40,7 @@ export default function ChatCard() {
         ))}
       </div>
       <Form
-        className='mt-auto flex h-[56px] shrink-0 sm:rounded-t-none'
+        className='flex h-[56px] shrink-0 sm:rounded-t-none'
         onSubmit={e => {
           e.preventDefault()
           const formData = new FormData(e.currentTarget)
@@ -56,6 +56,7 @@ export default function ChatCard() {
           placeholder={t('Type your message...')}
           className='h-full w-full shrink-0 rounded-none sm:rounded-t-none'
           name='chatMessage'
+          autoComplete='off'
         />
       </Form>
     </Card>

@@ -52,6 +52,8 @@ export interface Stroke {
   points: Point[]
 }
 
+export type ToolType = 'pen' | 'eraser'
+
 export interface Point {
   x: number
   y: number
@@ -63,21 +65,29 @@ export interface Score {
   total: number
 }
 
+export type Chat = {
+  player: Player
+  text: string
+}
+
+// --------------------------------- Socket Messages ---------------------------------
+
 export type MessageHandlers = {
   [K in Message['type']]: (data: Extract<Message, { type: K }>['data']) => void
 }
 
 export type Message =
+  | { type: 'player_logged_in'; data: PlayerLoggedInResponse }
   | { type: 'welcome'; data: WelcomeResponse }
   | { type: 'players_updated'; data: PlayersUpdatedResponse }
   | { type: 'settings_updated'; data: SettingsUpdatedResponse }
-  | { type: 'hello'; data: PlayerLoggedInResponse }
   | { type: 'tick'; data: TickResponse }
   | { type: 'painter'; data: PainterResponse }
   | { type: 'canvas_updated'; data: CanvasUpdatedResponse }
   | { type: 'round_updated'; data: RoundResponse }
   | { type: 'keyword'; data: KeywordResponse }
   | { type: 'chat_added'; data: ChatResponse }
+  | { type: 'system_chat'; data: SystemChatResponse }
 
 export type WelcomeResponse = {
   roomCode: string
@@ -123,14 +133,23 @@ export type KeywordResponse = {
   keyword: string
 }
 
-export type ChatResponse = {
-  player: Player
-  text: string
+export type ChatResponse = Chat
+
+type SystemChatVariable =
+  | { name: string } // for player_joined, player_left, player_voted
+  | { name: string; amount: number } // for discussion_time_changed
+  | { voterName: string }
+
+export type SystemChatResponse = {
+  type:
+    | 'player_joined'
+    | 'player_left'
+    | 'discussion_time_changed'
+    | 'player_voted'
+    | 'revote'
+  variable: SystemChatVariable
 }
 
-export type Chat = {
-  player: Player
-  text: string
+export type VoteResultResponse = {
+  voteResult: Record<string, number>
 }
-
-export type ToolType = 'pen' | 'eraser'

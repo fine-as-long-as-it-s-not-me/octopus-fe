@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge'
 
-import { useGameStore } from '@/store/gameStore'
+import { useRoundStore } from '@/store/roundStore'
 
 interface Props {
   color: string
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function Ink({ color, onClick, size = 48 }: Props) {
-  const { strokeColor } = useGameStore()
+  const { strokeColor } = useRoundStore()
 
   return (
     <button

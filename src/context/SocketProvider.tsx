@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useSocketConnection } from '@/hooks/useSocketConnection'
 import { getPhasePath } from '@/lib/getPhasePath'
 import { ROUTES } from '@/routes/ROUTES'
-import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
+import { useRoundStore } from '@/store/roundStore'
 import { useUserStore } from '@/store/userStore'
 import type { ErrorType } from '@/types'
 import { SocketContext } from './SocketContext'
@@ -16,7 +16,7 @@ interface Props {
 
 export default function SocketProvider({ children }: Props) {
   const [error, setError] = useState<null | ErrorType>(null)
-  const { phase, round, setPhase, setRound } = useGameStore()
+  const { phase } = useRoundStore()
   const { roomCode } = useRoomStore()
   const { id: userId, name: userName } = useUserStore()
   const navigate = useNavigate()
@@ -33,40 +33,16 @@ export default function SocketProvider({ children }: Props) {
   }, [error, isConnected, isConnecting, connectSocket, setError])
 
   useEffect(() => {
-    if (userId == -1 || !userName) navigate(ROUTES.HOME)
+    if (userId === -1 || !userName) navigate(ROUTES.HOME)
     else {
       if (roomCode) navigate(getPhasePath(phase))
       else navigate(ROUTES.LOBBY)
     }
   }, [phase, roomCode, navigate, userId, userName])
 
-  const DEV_nextPhase = () => {
-    // for dev
-    const phases = [
-      'waiting',
-      'keyword',
-      'drawing',
-      'discussion',
-      'voting',
-      'vote-result',
-      'guessing',
-      'result',
-    ]
-    const currentIndex = phases.indexOf(phase)
-    const nextIndex = (currentIndex + 1) % phases.length
-    setPhase(phases[nextIndex] as typeof phase)
-    if (phases[nextIndex] === 'keyword') {
-      setRound(round + 1)
-    }
-    if (phases[nextIndex] === 'waiting') {
-      setRound(0)
-    }
-  }
-
   return (
     <SocketContext.Provider
       value={{
-        DEV_nextPhase,
         setError,
         sendMessage,
       }}

@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge'
 
 import { useAddStroke } from '@/apis/canvas'
 import { useWindow } from '@/context/WindowContext'
-import { useGameStore } from '@/store/gameStore'
+import { useRoundStore } from '@/store/roundStore'
 import { useUserStore } from '@/store/userStore'
 import { Phase, type Point } from '@/types'
 import Card from '../common/Card'
@@ -22,7 +22,7 @@ export default function Canvas() {
     strokeWidth,
     phase,
     tool,
-  } = useGameStore()
+  } = useRoundStore()
 
   const lastStrokeId = strokes.reduce(
     (max, stroke) => Math.max(max, stroke.id),
@@ -106,7 +106,7 @@ export default function Canvas() {
 
     const canvas = canvasRef.current
     if (!canvas) return
-    if (UUID == painterUUID && phase === Phase.DRAWING) {
+    if (UUID === painterUUID && phase === Phase.DRAWING) {
       canvas.onpointerdown = e => {
         e.preventDefault()
         canvas.setPointerCapture(e.pointerId)
@@ -160,10 +160,14 @@ export default function Canvas() {
       style={{
         backgroundColor: canvasColor,
         padding: '0px',
-        minWidth: 'min(100vw, 440px)',
+        minWidth: 'min(100vw, 420px)',
       }}
     >
-      <canvas className='block aspect-square w-full' ref={canvasRef} />
+      <canvas
+        className='block aspect-square w-full touch-none'
+        ref={canvasRef}
+        style={{ touchAction: 'none' }}
+      />
     </Card>
   )
 }

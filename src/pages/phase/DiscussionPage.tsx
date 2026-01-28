@@ -1,5 +1,6 @@
 import { twMerge } from 'tailwind-merge'
 
+import { useUpdateDiscussionTime } from '@/apis/game'
 import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
 import Icon from '@/components/common/Icon'
@@ -8,6 +9,7 @@ import { useWindow } from '@/context/WindowContext'
 
 export default function DiscussionPage() {
   const { direction } = useWindow()
+  const { mutate: changeTimeLeft } = useUpdateDiscussionTime()
   return (
     <div
       className={twMerge(
@@ -17,20 +19,26 @@ export default function DiscussionPage() {
     >
       <Card
         className={twMerge(
-          'flex min-w-[480px] grow items-center justify-center',
+          'flex grow items-center justify-center',
           direction === 'vertical' ? '' : '',
         )}
       >
         <Canvas />
       </Card>
-      <Button className='flex shrink-0'>
+      <Button
+        className='flex shrink-0'
+        onClick={() => changeTimeLeft('increase')}
+      >
         <div className='flex'>
           <Icon name='timer' />
           <Icon name='add' size={16} />
         </div>
         More Time
       </Button>
-      <Button className='flex shrink-0'>
+      <Button
+        className='flex shrink-0'
+        onClick={() => changeTimeLeft('decrease')}
+      >
         <div className='flex'>
           <Icon name='timer' />
           <Icon name='remove' size={16} />

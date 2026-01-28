@@ -2,8 +2,6 @@ import { useTranslation } from 'react-i18next'
 import { Spacing, useModal } from 'sam-react-modal'
 
 import { useJoinRandomRoom } from '@/apis/room'
-// import chzzkIcon from '@/assets/images/icons/chzzk.png'
-// import Img from '@/components/common/Img'
 import Button from '@/components/common/Button'
 import CreateRoomModal from '@/components/modals/CreateRoomModal'
 import RoomCodeInputModal from '@/components/modals/RoomCodeInputModal'
@@ -24,9 +22,6 @@ export default function LobbyPage() {
   const createRoomClickHandler = () => {
     openModal(<CreateRoomModal action='create' />)
   }
-  // const leaderboardClickHandler = () => {
-  //   navigate(ROUTES.LEADERBOARD)
-  // }
   const logoutClickHandler = () => {
     setId(-1)
   }
@@ -38,12 +33,6 @@ export default function LobbyPage() {
       <Button onClick={useRoomCodeClickHandler}>{t('Use Room Code')}</Button>
       <Button onClick={createRoomClickHandler}>{t('Create Room')}</Button>
       <Button onClick={logoutClickHandler}>{t('Logout')}</Button>
-      {/* <Button
-        icon={<Img width={32} src={chzzkIcon} alt='Chzzk Icon' />}
-        onClick={leaderboardClickHandler}
-      >
-        {t('Leaderboard')}
-      </Button> */}
       <Spacing />
     </>
   )

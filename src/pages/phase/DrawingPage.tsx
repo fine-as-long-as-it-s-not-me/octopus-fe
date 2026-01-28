@@ -5,12 +5,12 @@ import Canvas from '@/components/game/Canvas'
 import Palette from '@/components/game/Palette'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
-import { useGameStore } from '@/store/gameStore'
+import { useRoundStore } from '@/store/roundStore'
 import { useUserStore } from '@/store/userStore'
 
 export default function DrawingPage() {
   const { direction } = useWindow()
-  const { painterUUID } = useGameStore()
+  const { painterUUID } = useRoundStore()
   const { UUID } = useUserStore()
   const { playMusic } = useSound()
 

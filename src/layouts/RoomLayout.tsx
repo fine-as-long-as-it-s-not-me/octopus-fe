@@ -59,13 +59,18 @@ export default function RoomLayout() {
           {t('Room Code')} #{roomCode}
           <Icon name='content_copy' />
         </Button>
+        {import.meta.env.DEV && (
+          <Button className='w-fit' onClick={() => navigate(ROUTES.TEST!)}>
+            TEST
+          </Button>
+        )}
         <PlayerListButton />
         {size.sm ? <SettingButtons /> : <SettingModalButton />}
         <CloseButton />
       </div>
       <div
         className={twMerge(
-          'flex h-full w-full sm:h-[calc(100%-80px)] sm:gap-2',
+          'flex h-[calc(100%-54px)] w-full sm:h-[calc(100%-80px)] sm:gap-2',
           direction === 'vertical' ? 'flex-col' : 'flex-row',
         )}
       >

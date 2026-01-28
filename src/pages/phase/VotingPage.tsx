@@ -1,25 +1,25 @@
 import { twMerge } from 'tailwind-merge'
 
+import { useVoteOctopus } from '@/apis/game'
 import Card from '@/components/common/Card'
 import Canvas from '@/components/game/Canvas'
+import VoteCard from '@/components/game/VoteCard'
 import { useWindow } from '@/context/WindowContext'
 
 export default function VotingPage() {
   const { direction } = useWindow()
+  const { mutate: vote } = useVoteOctopus()
+
   return (
-    <div
-      className={twMerge(
-        'flex shrink-0 grow-12 flex-col sm:gap-2',
-        direction === 'vertical' ? '' : '',
-      )}
-    >
+    <div className={twMerge('flex shrink-0 grow-12 flex-col sm:gap-2')}>
       <Card
         className={twMerge(
-          'flex min-w-[480px] grow items-center justify-center',
+          'grow flex-col items-center justify-center gap-4',
           direction === 'vertical' ? '' : '',
         )}
       >
         <Canvas />
+        <VoteCard onSubmit={vote} key={'voting'} />
       </Card>
     </div>
   )

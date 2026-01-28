@@ -20,14 +20,14 @@ export default function EntryLayout() {
   })
 
   return (
-    <div className='no-scrollbar flex h-full w-full max-w-[720px] flex-col items-center gap-4 overflow-scroll p-12 md:gap-8'>
+    <div className='no-scrollbar flex h-full w-full max-w-[720px] flex-col items-center gap-4 overflow-scroll p-4 sm:p-12 md:gap-8'>
       <Img
         src={logo}
         alt='Logo'
         className='w-[50dvw] max-w-[560px] min-w-[400px]'
       />
       <Outlet />
-      <div className={`flex w-full`}>
+      <div className={`flex h-[52px] w-full`}>
         <SettingModalButton />
       </div>
     </div>

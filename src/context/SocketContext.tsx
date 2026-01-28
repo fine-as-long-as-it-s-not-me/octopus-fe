@@ -3,7 +3,6 @@ import { createContext, useContext } from 'react'
 import type { ErrorType } from '@/types'
 
 type SocketContextType = {
-  DEV_nextPhase: () => void // for dev
   setError: (error: null | ErrorType) => void
   sendMessage: (
     mainType: string,
