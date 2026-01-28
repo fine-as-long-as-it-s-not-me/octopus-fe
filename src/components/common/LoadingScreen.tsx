@@ -30,9 +30,9 @@ export default function LoadingScreen() {
 
       <div className='relative flex flex-col items-center'>
         <div className='water-round-container'>
-          <Wave number={1} top={`${100 - progress}%`} />
-          <Wave number={2} top={`${105 - progress}%`} />
-          <Wave number={3} top={`${110 - progress}%`} />
+          <Wave number={1} top={`${95 - progress}%`} />
+          <Wave number={2} top={`${100 - progress}%`} />
+          <Wave number={3} top={`${105 - progress}%`} />
           <p className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-xl font-bold'>
             {progress}%
           </p>
@@ -53,6 +53,7 @@ function Wave({ number, top }: { number: 1 | 2 | 3; top: string }) {
       className={`water-wave${number}`}
       style={{
         top,
+        transition: 'top 0.3s ease-in-out',
       }}
     />
   )

@@ -52,20 +52,21 @@ export default function Canvas() {
     context.lineJoin = 'round'
 
     // Draw each stroke
-    strokes.forEach(stroke => {
-      context.strokeStyle = stroke.color
+    for (let i = 0; i < strokes.length; i++) {
+      const stroke = strokes[i]
+
+      if (stroke.tool === 'pen') context.strokeStyle = stroke.color
+      else if (stroke.tool === 'eraser') context.strokeStyle = canvasColor
+
       context.lineWidth = stroke.strokeWidth
       context.beginPath()
       stroke.points.forEach((point, index) => {
-        if (index === 0) {
-          context.moveTo(point.x, point.y)
-        } else {
-          context.lineTo(point.x, point.y)
-        }
+        if (index === 0) context.moveTo(point.x, point.y)
+        else context.lineTo(point.x, point.y)
       })
       context.stroke()
-    })
-  }, [strokes])
+    }
+  }, [strokes, canvasColor])
 
   useEffect(() => {
     function startNewStroke() {
