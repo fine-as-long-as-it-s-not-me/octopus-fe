@@ -26,7 +26,7 @@ export const ToastProvider = ({ children }: Props) => {
 
     // Remove the toast after 3 seconds
     setTimeout(() => {
-      toast.ref.current.classList.add('fade-out')
+      toast.ref.current?.classList.add('fade-out')
       setTimeout(() => {
         setToasts(prevToasts => prevToasts.filter(t => t.id !== toast.id))
       }, 500)

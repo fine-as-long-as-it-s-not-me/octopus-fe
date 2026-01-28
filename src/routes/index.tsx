@@ -88,7 +88,7 @@ const router = createBrowserRouter([
                       element: <VoteResultPage />,
                       path: ROUTES.TEST,
                     }
-                  : {}),
+                  : undefined),
               },
             ],
           },
