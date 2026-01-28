@@ -36,8 +36,8 @@ interface RoundState {
   canvasColor: string
   setCanvasColor: (canvasColor: string) => void
 
-  voteResult: string[]
-  setVoteResult: (voteResult: string[]) => void
+  voteResult: Record<string, number>
+  setVoteResult: (voteResult: Record<string, number>) => void
 
   octopusUUIDs: string[]
   setOctopusUUIDs: (octopusUUIDs: string[]) => void
@@ -84,7 +84,7 @@ export const useRoundStore = create<RoundState>()(
       canvasColor: '#ffffff',
       setCanvasColor: canvasColor => set({ canvasColor }),
 
-      voteResult: [],
+      voteResult: {},
       setVoteResult: voteResult => set({ voteResult }),
 
       octopusUUIDs: [],

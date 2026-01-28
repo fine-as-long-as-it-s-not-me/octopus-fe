@@ -151,5 +151,5 @@ export type SystemChatResponse = {
 }
 
 export type VoteResultResponse = {
-  topVotes: string[]
+  voteResult: [string, number][]
 }

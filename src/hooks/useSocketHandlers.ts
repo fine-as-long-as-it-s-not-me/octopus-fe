@@ -145,8 +145,12 @@ export function useSocketHandlers(
             break
         }
       },
-      vote_result: ({ topVotes }: VoteResultResponse) => {
-        setVoteResult(topVotes)
+      vote_result: ({ voteResult }: VoteResultResponse) => {
+        const voteResultMap: Record<string, number> = {}
+        voteResult.forEach(([votedUUID, votes]) => {
+          voteResultMap[votedUUID] = votes
+        })
+        setVoteResult(voteResultMap)
       },
       error: ({ message }: { message: string }) => {
         notify(message)
