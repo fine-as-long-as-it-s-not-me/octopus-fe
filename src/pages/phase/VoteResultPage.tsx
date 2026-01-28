@@ -12,11 +12,12 @@ export default function VoteResultPage() {
   const imageRef = useRef<HTMLImageElement | null>(null)
 
   useEffect(() => {
-    if (imageRef.current) {
-      setTimeout(() => {
-        if (imageRef.current) imageRef.current.style.filter = 'none'
-      }, CONFETTI_DELAY)
-    }
+    if (!imageRef.current) return
+    const timeout = setTimeout(() => {
+      if (imageRef.current) imageRef.current.style.filter = 'none'
+    }, CONFETTI_DELAY)
+
+    return () => clearTimeout(timeout)
   }, [])
 
   return (
