@@ -29,6 +29,7 @@ export default function GameSettingListCard({ isHost }: Props) {
         className='flex flex-row items-center justify-center gap-2 p-2 pt-0'
         onClick={() => openModal(<CreateRoomModal action='change' />)}
         disabled={!isHost}
+        aria-label={isHost ? 'Edit game settings' : 'View game settings'}
       >
         <p>{t('Game Settings')}</p>
         {isHost && <Icon name='arrow_forward' />}
