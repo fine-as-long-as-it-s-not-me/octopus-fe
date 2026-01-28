@@ -37,6 +37,7 @@ export default function Palette() {
             setTool('pen')
             openModal(<StrokeWidthModal />)
           }}
+          aria-label='Adjust pen size'
         >
           <Icon name='pen_size_4' size={32} />
         </Button>
@@ -44,6 +45,7 @@ export default function Palette() {
           size='sm'
           cardClassName='h-16 w-16'
           onClick={() => setTool('eraser')}
+          aria-label='Eraser'
         >
           <Icon name='ink_eraser' size={32} />
         </Button>

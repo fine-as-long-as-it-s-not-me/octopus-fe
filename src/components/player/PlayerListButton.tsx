@@ -15,6 +15,7 @@ export default function PlayerListButton() {
       onClick={() => {
         openModal(<PlayerListModal />)
       }}
+      aria-label='Open player list'
     >
       <Icon name='group' />
     </Button>

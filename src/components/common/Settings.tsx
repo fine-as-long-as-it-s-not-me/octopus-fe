@@ -41,6 +41,7 @@ export default function Settings() {
           onClick={() => {
             openModal(<SettingButtonsModal />)
           }}
+          aria-label='Open settings'
         >
           <Icon name='settings' />
         </Button>

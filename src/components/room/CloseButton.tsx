@@ -24,6 +24,7 @@ export default function CloseButton() {
         onClick={() => {
           navigate(ROUTES.WAITING)
         }}
+        aria-label='Go back'
       >
         <Icon name='arrow_back' />
       </Button>
@@ -43,6 +44,7 @@ export default function CloseButton() {
           )
             navigate(ROUTES.LOBBY)
         }}
+        aria-label='Leave room'
       >
         <Icon name='logout' />
       </Button>
