@@ -52,8 +52,8 @@ export default function GameSettingListCard({ isHost }: Props) {
         />
         <SettingItem
           icon={<Icon name='help_outline' />}
-          label={t('Liars')}
-          value={settings.liars.toString()}
+          label={t('Octopus Amount')}
+          value={settings.octopusAmount.toString()}
         />
         <SettingItem
           icon={<Icon name='timer' />}

@@ -29,7 +29,7 @@ export type Phase = (typeof Phase)[keyof typeof Phase]
 export interface Settings {
   rounds: number
   maxPlayers: number
-  liars: number
+  octopusAmount: number
   drawingTime: number
   useCustomWord: boolean
   isCustomWordVoteOpen: boolean
@@ -40,7 +40,7 @@ export interface Settings {
 
 export type ChangeableSettings = Omit<
   Settings,
-  'lang' | 'isCustomWordVoteOpen' | 'customWordMinVotes' | 'liars'
+  'lang' | 'isCustomWordVoteOpen' | 'customWordMinVotes' | 'octopusAmount'
 >
 
 export interface Stroke {
@@ -151,5 +151,5 @@ export type SystemChatResponse = {
 }
 
 export type VoteResultResponse = {
-  voteResult: Record<string, number>
+  voteResult: [string, number][]
 }
