@@ -145,8 +145,8 @@ export function useSocketHandlers(
             break
         }
       },
-      vote_result: ({ voteResult }: VoteResultResponse) => {
-        setVoteResult(voteResult)
+      vote_result: ({ topVotes }: VoteResultResponse) => {
+        setVoteResult(topVotes)
       },
       error: ({ message }: { message: string }) => {
         notify(message)

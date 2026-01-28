@@ -22,7 +22,7 @@ export const mockSetting: Settings = {
   rounds: 3,
   drawingTime: 60,
   maxPlayers: 8,
-  liars: 2,
+  octopusAmount: 2,
   isPublic: true,
   isCustomWordVoteOpen: true,
   customWordMinVotes: 2,
