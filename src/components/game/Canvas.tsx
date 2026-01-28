@@ -167,6 +167,7 @@ export default function Canvas() {
         className='block aspect-square w-full touch-none'
         ref={canvasRef}
         style={{ touchAction: 'none' }}
+        role='application'
         aria-label='Drawing canvas'
       />
     </Card>
