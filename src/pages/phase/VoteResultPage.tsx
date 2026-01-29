@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Realistic from 'react-canvas-confetti/dist/presets/realistic'
 import { useTranslation } from 'react-i18next'
 
@@ -7,33 +7,17 @@ import Img from '@/components/common/Img'
 import VoteCard from '@/components/game/VoteCard'
 import { CONFETTI_DELAY } from '@/consts'
 import useAvatar from '@/hooks/useAvatar'
-import { useRoomStore } from '@/store/roomStore'
 import { useRoundStore } from '@/store/roundStore'
 
 export default function VoteResultPage() {
   const imageRef = useRef<HTMLImageElement | null>(null)
-  const { voteResult, octopuses } = useRoundStore()
-  const { players } = useRoomStore()
+  const { octopuses, votedPlayer } = useRoundStore()
   const { t } = useTranslation()
 
-  const votedUUID = useMemo(() => {
-    if (!voteResult) return null
-    let maxVotes = -1
-    let votedUUID: string | null = null
-    for (const [uuid, count] of Object.entries(voteResult)) {
-      if (count > maxVotes) {
-        maxVotes = count
-        votedUUID = uuid
-      }
-    }
-    return votedUUID
-  }, [voteResult])
-
-  const votedPlayerName =
-    players.find(player => player.UUID === votedUUID)?.name || 'Unknown'
-
-  const avatar = useAvatar(votedPlayerName)
-  const didFindOctopus = octopuses.some(octopus => octopus.UUID === votedUUID)
+  const avatar = useAvatar(votedPlayer?.name || 'Unknown')
+  const didFindOctopus = octopuses.some(
+    octopus => octopus.UUID === votedPlayer?.UUID,
+  )
 
   useEffect(() => {
     if (!imageRef.current) return
