@@ -8,7 +8,11 @@ import Icon from './Icon'
 import SettingButtons from './SettingButtons'
 import SettingButtonsModal from './SettingButtonsModal'
 
-export default function Settings() {
+interface Props {
+  translate?: boolean
+}
+
+export default function Settings({ translate = true }: Props) {
   const { openModal } = useModal()
   const ref = useRef(null)
   const [isLong, setIsLong] = useState(true)
@@ -33,13 +37,13 @@ export default function Settings() {
       ref={ref}
     >
       {isLong ? (
-        <SettingButtons />
+        <SettingButtons translate={translate} />
       ) : (
         <Button
           className='w-fit grow'
           cardClassName='h-full'
           onClick={() => {
-            openModal(<SettingButtonsModal />)
+            openModal(<SettingButtonsModal translate={translate} />)
           }}
           aria-label='Open settings'
         >

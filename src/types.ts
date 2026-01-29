@@ -20,7 +20,8 @@ export const Phase = {
   DISCUSSION: 'discussion',
   VOTING: 'voting',
   VOTE_RESULT: 'vote-result',
-  RESULT: 'result',
+  ROUND_RESULT: 'round-result',
+  GAME_RESULT: 'game-result',
   GUESSING: 'guessing',
 } as const
 
@@ -59,8 +60,11 @@ export interface Point {
   y: number
 }
 
-export interface Score {
+export interface Rank {
   player: Player
+  score: Score
+}
+export type Score = {
   delta: number
   total: number
 }
@@ -88,6 +92,12 @@ export type Message =
   | { type: 'keyword'; data: KeywordResponse }
   | { type: 'chat_added'; data: ChatResponse }
   | { type: 'system_chat'; data: SystemChatResponse }
+  | { type: 'game_started'; data: undefined }
+  | { type: 'vote_result'; data: VoteResultResponse }
+  | { type: 'round_result'; data: RoundResultResponse }
+  | { type: 'game_result'; data: GameResultResponse }
+  | { type: 'error'; data: ErrorType }
+  | { type: 'game_ended'; data: undefined }
 
 export type WelcomeResponse = {
   roomCode: string
@@ -147,10 +157,23 @@ export type SystemChatResponse = {
     | 'discussion_time_changed'
     | 'player_voted'
     | 'revote'
+    | 'octopus_guessed'
   variable: SystemChatVariable
 }
 
 export type VoteResultResponse = {
   voteResult: [string, number][]
   octopuses: Player[]
+}
+
+export type RoundResultResponse = {
+  ranks: Rank[]
+  tied: boolean
+  guessed: boolean
+  isUnanimity: boolean
+  octopuses: Player[]
+}
+
+export type GameResultResponse = {
+  ranks: Rank[]
 }

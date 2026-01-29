@@ -50,7 +50,7 @@ export default function GameLayout() {
         <div className='flex grow sm:gap-2'>
           <TimerCard />
           <PlayerListButton />
-          <SettingModalButton />
+          <SettingModalButton translate={false} />
           <CloseButton />
         </div>
       </div>

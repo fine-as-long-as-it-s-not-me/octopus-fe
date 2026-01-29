@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
 
 import Button from '@/components/common/Button'
 import Profile from '@/components/player/Profile'
 import { useRoomStore } from '@/store/roomStore'
 import { useRoundStore } from '@/store/roundStore'
+import Confirm from '../modals/Confirm'
 
 interface Props {
   onSubmit?: (votedPlayerUUID: string) => void
@@ -14,9 +16,11 @@ interface Props {
 export default function VoteCard({ onSubmit }: Props) {
   const [selected, setSelected] = useState<string | null>(null)
   const [voted, setVoted] = useState<boolean>(false)
+  const { openModal } = useModal()
   const { timeLeft, voteResult } = useRoundStore()
   const { players } = useRoomStore()
   const { t } = useTranslation()
+  const selectedName = players.find(p => p.UUID === selected)?.name
 
   useEffect(() => {
     if (timeLeft === 0 && !voted && selected && onSubmit) onSubmit(selected)
@@ -25,13 +29,13 @@ export default function VoteCard({ onSubmit }: Props) {
   return (
     <div className='flex flex-col items-center gap-2'>
       <h2>{onSubmit ? t("Who's the Octopus?") : t('Vote Results')}</h2>
-      <div className='grid grid-cols-6 gap-2'>
+      <div className='flex max-w-xl flex-wrap gap-2'>
         {players.map(player => (
           <Button
             key={player.UUID}
             size='sm'
             cardClassName={twMerge(
-              'flex flex-row gap-2 items-center justify-between',
+              'flex flex-row gap-2 items-center justify-between py-1.5 md:py-2',
               !voted && onSubmit ? 'hover:bg-red-100' : '',
               selected === player.UUID ? 'border-4 border-red-400' : '',
             )}
@@ -55,8 +59,15 @@ export default function VoteCard({ onSubmit }: Props) {
             !voted ? 'hover:bg-gray-700' : '',
             !selected ? 'cursor-not-allowed opacity-50' : '',
           )}
-          onClick={() => {
-            if (selected) {
+          onClick={async () => {
+            if (
+              selected &&
+              (await openModal(
+                <Confirm>
+                  {t('Are you sure you want to vote ') + selectedName + '?'}
+                </Confirm>,
+              ))
+            ) {
               onSubmit(selected)
               setVoted(true)
             }

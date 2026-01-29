@@ -39,6 +39,18 @@ interface RoundState {
   voteResult: Record<string, number>
   setVoteResult: (voteResult: Record<string, number>) => void
 
+  votedPlayer: Player | null
+  setVotedPlayer: (votedPlayer: Player) => void
+
+  tied: boolean
+  setTied: (tied: boolean) => void
+
+  guessed: boolean
+  setGuessed: (guessed: boolean) => void
+
+  isUnanimity: boolean
+  setIsUnanimity: (isUnanimity: boolean) => void
+
   octopuses: Player[]
   setOctopuses: (octopuses: Player[]) => void
 
@@ -49,11 +61,7 @@ export const useRoundStore = create<RoundState>()(
   persist(
     set => ({
       phase: Phase.OUT,
-      setPhase: phase => {
-        if (phase === Phase.KEYWORD)
-          set({ strokes: [], phase, strokeColor: '#000000' })
-        else set({ phase })
-      },
+      setPhase: phase => set({ phase }),
 
       timeLeft: 0,
       setTimeLeft: timeLeft => set({ timeLeft }),
@@ -87,6 +95,18 @@ export const useRoundStore = create<RoundState>()(
       voteResult: {},
       setVoteResult: voteResult => set({ voteResult }),
 
+      votedPlayer: null,
+      setVotedPlayer: votedPlayer => set({ votedPlayer }),
+
+      tied: false,
+      setTied: tied => set({ tied }),
+
+      guessed: false,
+      setGuessed: guessed => set({ guessed }),
+
+      isUnanimity: false,
+      setIsUnanimity: isUnanimity => set({ isUnanimity }),
+
       octopuses: [],
       setOctopuses: octopuses => set({ octopuses }),
 
@@ -95,12 +115,20 @@ export const useRoundStore = create<RoundState>()(
           phase: Phase.OUT,
           timeLeft: 0,
           keyword: '',
+
           painterUUID: null,
           nextPainterUUID: null,
           tool: 'pen',
+          strokeColor: '#000000',
+          strokeWidth: DEFAULT_STROKE_WIDTH,
+
           strokes: [],
           canvasColor: '#ffffff',
+
           voteResult: {},
+          tied: false,
+          guessed: false,
+          isUnanimity: false,
           octopuses: [],
         })),
     }),
@@ -115,7 +143,9 @@ export const useRoundStore = create<RoundState>()(
                 'nextPainterUUID',
                 'octopuses',
                 'strokeColor',
+                'strokeWidth',
                 'tool',
+                'votedPlayer',
               ].includes(key),
           ),
         ),

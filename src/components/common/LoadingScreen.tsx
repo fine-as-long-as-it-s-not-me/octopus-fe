@@ -53,7 +53,7 @@ function Wave({ number, top }: { number: 1 | 2 | 3; top: string }) {
       className={`water-wave${number}`}
       style={{
         top,
-        transition: 'top 0.3s ease-in-out',
+        transition: 'top 0.1s ease-in-out',
       }}
     />
   )

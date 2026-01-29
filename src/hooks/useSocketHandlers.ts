@@ -11,12 +11,14 @@ import {
   Phase,
   type CanvasUpdatedResponse,
   type ChatResponse,
+  type GameResultResponse,
   type KeywordResponse,
   type MessageHandlers,
   type PainterResponse,
   type PlayerLoggedInResponse,
   type PlayersUpdatedResponse,
   type RoundResponse,
+  type RoundResultResponse,
   type SettingsUpdatedResponse,
   type SystemChatResponse,
   type TickResponse,
@@ -30,50 +32,37 @@ export function useSocketHandlers(
     subType: string,
     data?: Record<string, unknown>,
   ) => void,
-) {
+): MessageHandlers {
   const { t } = useTranslation()
   const { name, UUID, setId } = useUserStore()
   const { setRoomCode, setPlayers, setSettings, addChat } = useRoomStore()
-  const { setRound, setIsStarted } = useGameStore()
+  const { setRound, setIsStarted, setRanks } = useGameStore()
   const {
-    setStrokes,
-    setCanvasColor,
-    setPhase,
-    setTimeLeft,
-    setPainterUUID,
-    setKeyword,
-    setNextPainterUUID,
-    setVoteResult,
-    setOctopuses,
     init: initRound,
+    setTied,
+    setGuessed,
+    setIsUnanimity,
+    setPhase,
+    setKeyword,
+    setStrokes,
+    setTimeLeft,
+    setOctopuses,
+    setVoteResult,
+    setCanvasColor,
+    setPainterUUID,
+    setNextPainterUUID,
   } = useRoundStore()
 
   const { notify } = useToast()
 
-  const handlers: MessageHandlers = useMemo(
+  return useMemo(
     () => ({
-      keyword: ({ keyword }: KeywordResponse) => {
-        setKeyword(keyword)
-      },
-      canvas_updated: ({ strokes, bgColor }: CanvasUpdatedResponse) => {
-        setStrokes(strokes)
-        setCanvasColor(bgColor)
-      },
-      round_updated: ({ round }: RoundResponse) => {
-        setRound(round)
-        initRound()
-      },
-      painter: ({ UUID, nextUUID }: PainterResponse) => {
-        setPainterUUID(UUID)
-        setNextPainterUUID(nextUUID)
-      },
-      tick: ({ round, phase, timeLeft }: TickResponse) => {
-        setPhase(phase)
-        setRound(round)
-        setTimeLeft(timeLeft)
-      },
-      settings_updated: ({ settings }: SettingsUpdatedResponse) => {
-        setSettings(settings)
+      player_logged_in: ({ roomCode, id }: PlayerLoggedInResponse) => {
+        setId(id)
+        setRoomCode(roomCode)
+
+        if (roomCode) sendMessage('room', 'join', { roomCode, name, UUID })
+        else setPhase(Phase.OUT)
       },
       welcome: ({ roomCode }: WelcomeResponse) => {
         setRoomCode(roomCode)
@@ -87,12 +76,8 @@ export function useSocketHandlers(
           })),
         )
       },
-      player_logged_in: ({ roomCode, id }: PlayerLoggedInResponse) => {
-        setId(id)
-        setRoomCode(roomCode)
-
-        if (roomCode) sendMessage('room', 'join', { roomCode, name, UUID })
-        else setPhase(Phase.OUT)
+      settings_updated: ({ settings }: SettingsUpdatedResponse) => {
+        setSettings(settings)
       },
       chat_added: ({ player, text }: ChatResponse) => {
         // Handled in Chat component
@@ -142,9 +127,41 @@ export function useSocketHandlers(
             })
             break
           }
+          case 'octopus_guessed': {
+            const { name, word } = variable as { name: string; word: string }
+            addChat({
+              player: SYSTEM,
+              text: `${name} ${t('guessed the code :')} '${word}'`,
+            })
+            break
+          }
           default:
             break
         }
+      },
+      game_started: () => {
+        setIsStarted(true)
+        addChat({ player: SYSTEM, text: t('The game has been started.') })
+      },
+      keyword: ({ keyword }: KeywordResponse) => {
+        setKeyword(keyword)
+      },
+      canvas_updated: ({ strokes, bgColor }: CanvasUpdatedResponse) => {
+        setStrokes(strokes)
+        setCanvasColor(bgColor)
+      },
+      round_updated: ({ round }: RoundResponse) => {
+        setRound(round)
+        initRound()
+      },
+      painter: ({ UUID, nextUUID }: PainterResponse) => {
+        setPainterUUID(UUID)
+        setNextPainterUUID(nextUUID)
+      },
+      tick: ({ round, phase, timeLeft }: TickResponse) => {
+        setPhase(phase)
+        setRound(round)
+        setTimeLeft(timeLeft)
       },
       vote_result: ({ voteResult, octopuses }: VoteResultResponse) => {
         const voteResultMap: Record<string, number> = {}
@@ -154,15 +171,25 @@ export function useSocketHandlers(
         setVoteResult(voteResultMap)
         setOctopuses(octopuses)
       },
-      error: ({ message }: { message: string }) => {
-        notify(message)
+      round_result: ({
+        ranks,
+        tied,
+        guessed,
+        isUnanimity,
+      }: RoundResultResponse) => {
+        setRanks(ranks)
+        setTied(tied)
+        setGuessed(guessed)
+        setIsUnanimity(isUnanimity)
       },
-      game_started: () => {
-        setIsStarted(true)
-        addChat({ player: SYSTEM, text: t('The game has been started.') })
+      game_result: ({ ranks }: GameResultResponse) => {
+        setRanks(ranks)
       },
       game_ended: () => {
         setIsStarted(false)
+      },
+      error: ({ message }: { message: string }) => {
+        notify(message)
       },
     }),
     [
@@ -172,11 +199,14 @@ export function useSocketHandlers(
       notify,
       setId,
       addChat,
+      setTied,
+      setRanks,
       setRound,
       setPhase,
       initRound,
       setPlayers,
       setStrokes,
+      setGuessed,
       setKeyword,
       sendMessage,
       setSettings,
@@ -186,10 +216,9 @@ export function useSocketHandlers(
       setIsStarted,
       setVoteResult,
       setPainterUUID,
+      setIsUnanimity,
       setCanvasColor,
       setNextPainterUUID,
     ],
   )
-
-  return handlers
 }

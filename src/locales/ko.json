@@ -81,5 +81,19 @@
   "The octopuses were": "문어들은",
   "Squids found the octopus! 🎉": "오징어들이 문어를 찾았습니다! 🎉",
   "Squids failed to find the octopus. 😢": "오징어들이 문어를 찾지 못했습니다. 😢",
-  "Vote Results": "투표 결과"
+  "Vote Results": "투표 결과",
+  "The Octopus": "문어",
+  " is guessing the word...": "가 암호를 추측합니다...",
+  "You are an Octopus.": "당신은 문어입니다.",
+  "Guess the secret code to occupy the squid village...": "암호를 맞추고 오징어 마을을 점령하세요.",
+  "Enter your guess...": "당신의 추측은?",
+  "Pray for village not being occupied.": "마을이 점령당하지 않기를 기도하세요.",
+  "Are you sure you want to leave the room?": "정말로 방을 나가시겠습니까?",
+  "Submit": "제출",
+  "guessed the code :": "님이 추론한 암호 :",
+  "Vote": "투표",
+  "Are you sure you want to submit your guess?": "추측을 제출하시겠습니까?",
+  "Are you sure you want to vote ": "투표하시겠습니까? 대상 : ",
+  "Cancel": "취소",
+  "Ok": "확인"
 }

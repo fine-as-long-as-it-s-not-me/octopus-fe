@@ -22,3 +22,10 @@ export function useVoteOctopus() {
     mutate: (targetUUID: string) => sendMessage('vote', 'cast', { targetUUID }),
   }
 }
+
+export function useGuessWord() {
+  const { sendMessage } = useSocket()
+  return {
+    mutate: (word: string) => sendMessage('game', 'guess', { word }),
+  }
+}

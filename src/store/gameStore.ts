@@ -1,14 +1,14 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { type Score } from '@/types'
+import { type Rank } from '@/types'
 
 interface GameState {
   isStarted: boolean
   setIsStarted: (isStarted: boolean) => void
 
-  scores: Score[]
-  setScores: (scores: Score[]) => void
+  ranks: Rank[]
+  setRanks: (ranks: Rank[]) => void
 
   round: number
   setRound: (round: number) => void
@@ -22,8 +22,8 @@ export const useGameStore = create<GameState>()(
       isStarted: false,
       setIsStarted: isStarted => set({ isStarted }),
 
-      scores: [],
-      setScores: scores => set({ scores }),
+      ranks: [],
+      setRanks: ranks => set({ ranks }),
       round: 0,
 
       setRound: round => set({ round }),
@@ -31,7 +31,7 @@ export const useGameStore = create<GameState>()(
       init: () =>
         set(() => ({
           isStarted: false,
-          scores: [],
+          ranks: [],
           round: 0,
         })),
     }),

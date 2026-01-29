@@ -80,12 +80,12 @@ const router = createBrowserRouter([
               },
               {
                 element: <RoundResultPage />,
-                path: ROUTES.RESULT,
+                path: ROUTES.ROUND_RESULT,
               },
               {
                 ...(import.meta.env.DEV
                   ? {
-                      element: <VoteResultPage />,
+                      element: <VotingPage />,
                       path: ROUTES.TEST,
                     }
                   : undefined),
