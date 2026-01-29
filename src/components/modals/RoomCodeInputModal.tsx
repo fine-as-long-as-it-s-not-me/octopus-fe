@@ -1,38 +1,40 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useModal } from 'sam-react-modal'
 
-import { ROUTES } from '@/routes/ROUTES'
+import { useJoinRoom } from '@/apis/room'
 import Button from '../common/Button'
 import Form from '../common/Form'
 import Input from '../common/Input'
 import Modal from '../common/Modal'
+import Alert from './Alert'
 
 export default function RoomCodeInputModal() {
   const { t } = useTranslation()
-  const navigate = useNavigate()
 
-  const [roomCode, setRoomCode] = useState('')
+  const { openModal } = useModal()
+  const { mutate: joinRoom } = useJoinRoom()
 
-  const roomCodeSubmitHandler = (e: React.FormEvent) => {
+  const roomCodeSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    navigate(ROUTES.ROOM(roomCode))
+    const formData = new FormData(e.currentTarget)
+    const roomCode = formData.get('roomCode') as string
+    if (!roomCode.trim())
+      return openModal(<Alert>{t('Please enter the room code.')}</Alert>)
+    joinRoom(roomCode)
   }
   return (
     <Modal>
       <Form
         onSubmit={roomCodeSubmitHandler}
-        className='flex flex-col gap-4 items-center w-full'
+        className='flex w-full flex-col items-center gap-4'
       >
         <Input
-          placeholder='Enter Room Code'
-          required
+          placeholder={t('Enter the room code.')}
           className='w-full'
-          value={roomCode}
-          onChange={e => setRoomCode(e.target.value)}
+          name='roomCode'
         />
 
-        <Button size='sm' type='submit'>
+        <Button size='md' type='submit'>
           {t('Enter')}
         </Button>
       </Form>

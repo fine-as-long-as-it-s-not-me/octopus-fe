@@ -1,13 +1,23 @@
 import { Outlet, useBlocker } from 'react-router-dom'
 import { ModalProvider, useModal } from 'sam-react-modal'
 
+import SocketProvider from '@/context/SocketProvider'
+import { ToastProvider } from '@/context/ToastProvider'
+import WindowProvider from '@/context/WindowProvider'
+
 export default function RootLayout() {
   return (
-    <ModalProviderWrapper>
-      <div className='h-dvh w-dvw overflow-hidden no-scrollbar flex flex-col justify-center items-center'>
-        <Outlet />
-      </div>
-    </ModalProviderWrapper>
+    <WindowProvider>
+      <ToastProvider>
+        <SocketProvider>
+          <ModalProviderWrapper>
+            <div className='no-scrollbar flex h-dvh w-dvw flex-col items-center overflow-hidden'>
+              <Outlet />
+            </div>
+          </ModalProviderWrapper>
+        </SocketProvider>
+      </ToastProvider>
+    </WindowProvider>
   )
 }
 
@@ -38,8 +48,8 @@ function ModalProviderWrapper({ children }: { children: React.ReactNode }) {
       }}
       beforeClose={async ref => {
         if (!ref?.current) return
-        ref.current.classList.remove('fadeIn')
-        ref.current.classList.add('fadeOut')
+        ref.current.classList.remove('fade-in')
+        ref.current.classList.add('fade-out')
         return new Promise(resolve => {
           setTimeout(() => {
             resolve()

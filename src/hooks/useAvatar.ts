@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
-import { IMAGE } from '../consts'
 import { useAssets } from '../context/AssetContext'
+
+const AVATAR_SQUARE_SIZE = 640
 
 export default function useAvatar(name: string): string {
   const [avatarUrl, setAvatarUrl] = useState<string>('')
@@ -22,24 +23,12 @@ export default function useAvatar(name: string): string {
 
   if (!avatarCache[cacheKey]) {
     const canvas = document.createElement('canvas')
-    canvas.width = IMAGE.AVATAR_SQUARE_SIZE
-    canvas.height = IMAGE.AVATAR_SQUARE_SIZE
+    canvas.width = AVATAR_SQUARE_SIZE
+    canvas.height = AVATAR_SQUARE_SIZE
     const ctx = canvas.getContext('2d')
 
-    ctx?.drawImage(
-      skinImage,
-      0,
-      0,
-      IMAGE.AVATAR_SQUARE_SIZE,
-      IMAGE.AVATAR_SQUARE_SIZE,
-    )
-    ctx?.drawImage(
-      accessoryImage,
-      0,
-      0,
-      IMAGE.AVATAR_SQUARE_SIZE,
-      IMAGE.AVATAR_SQUARE_SIZE,
-    )
+    ctx?.drawImage(skinImage, 0, 0, AVATAR_SQUARE_SIZE, AVATAR_SQUARE_SIZE)
+    ctx?.drawImage(accessoryImage, 0, 0, AVATAR_SQUARE_SIZE, AVATAR_SQUARE_SIZE)
     setAvatarCache({
       ...avatarCache,
       [cacheKey]: canvas.toDataURL(),

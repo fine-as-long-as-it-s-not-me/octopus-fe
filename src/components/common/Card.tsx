@@ -1,24 +1,34 @@
 import { twMerge } from 'tailwind-merge'
 
-interface Props {
+import { useWindow } from '@/context/WindowContext'
+
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   size?: 'sm' | 'md' | 'lg'
   children?: React.ReactNode
   className?: string
 }
 
-export default function Card({ size = 'lg', children, className }: Props) {
+export default function Card({
+  size = 'lg',
+  children,
+  className,
+  ...rest
+}: Props) {
+  const { isCompact } = useWindow()
+
   const sizeClassName = {
-    sm: 'text-sm md:text-base rounded-full w-fit',
-    md: 'text-lg rounded-2xl w-full',
-    lg: 'text-lg rounded-xl w-full',
+    sm: `text-sm md:text-base w-fit px-2.5 py-2 rounded-[24px]`,
+    md: `text-lg w-full p-3 md:p-4 ${isCompact ? 'sm:rounded-2xl' : 'rounded-2xl'}`,
+    lg: `text-lg w-full p-3 md:p-4 ${isCompact ? 'sm:rounded-xl' : 'rounded-xl'}`,
   }
   return (
     <div
       className={twMerge(
-        `rounded-full overflow-hidden bg-white/35 border border-white/45 backdrop-blur-[3px] p-2 md:p-4`,
+        `flex overflow-hidden border border-white/45 bg-white/70 backdrop-blur-[3px]`,
         sizeClassName[size],
         className,
       )}
+      {...rest}
     >
       {children}
     </div>

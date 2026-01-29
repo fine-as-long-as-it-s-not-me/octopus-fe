@@ -7,7 +7,7 @@ import {
   musicAssets,
   soundEffectsAssets,
 } from '@/assets'
-import { loadAudio, loadImage } from '@/utils/loaders'
+import { loadAudio, loadImage } from '@/lib/loaders'
 import { AssetContext } from './AssetContext'
 
 type Props = { children: ReactNode }
@@ -22,6 +22,7 @@ export const AssetProvider = ({ children }: Props) => {
   const [sounds, setSounds] = useState<Record<string, HTMLAudioElement>>({})
   const [loading, setLoading] = useState(true)
   const [progress, setProgress] = useState(0)
+  const [avatarCache, setAvatarCache] = useState<Record<string, string>>({})
 
   useEffect(() => {
     const loadAll = async () => {
@@ -68,26 +69,22 @@ export const AssetProvider = ({ children }: Props) => {
       for (const item of imageEntries) {
         images[item.key] = await item.loader()
         loaded++
-        console.log(`Loaded ${item.key} (${loaded}/${total})`)
         setProgress(Math.round((loaded / total) * 100))
       }
       for (const item of desktopBgEntries) {
         backgrounds.desktop[item.key] = await item.loader()
         loaded++
-        console.log(`Loaded ${item.key} (${loaded}/${total})`)
         setProgress(Math.round((loaded / total) * 100))
       }
       for (const item of mobileBgEntries) {
         backgrounds.mobile[item.key] = await item.loader()
         loaded++
-        console.log(`Loaded ${item.key} (${loaded}/${total})`)
         setProgress(Math.round((loaded / total) * 100))
       }
 
       for (const item of soundEntries) {
         sounds[item.key] = await item.loader()
         loaded++
-        console.log(`Loaded ${item.key} (${loaded}/${total})`)
         setProgress(Math.round((loaded / total) * 100))
       }
 
@@ -100,10 +97,6 @@ export const AssetProvider = ({ children }: Props) => {
 
     loadAll()
   }, [])
-
-  // 조합된 아바타
-
-  const [avatarCache, setAvatarCache] = useState<Record<string, string>>({})
 
   return (
     <AssetContext.Provider

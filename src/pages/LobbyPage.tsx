@@ -1,30 +1,29 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { Spacing, useModal } from 'sam-react-modal'
 
-import chzzkIcon from '@/assets/images/icons/chzzk.png'
+import { useJoinRandomRoom } from '@/apis/room'
 import Button from '@/components/common/Button'
-import Img from '@/components/common/Img'
 import CreateRoomModal from '@/components/modals/CreateRoomModal'
 import RoomCodeInputModal from '@/components/modals/RoomCodeInputModal'
-import { ROUTES } from '@/routes/ROUTES'
+import { useUserStore } from '@/store/userStore'
 
 export default function LobbyPage() {
   const { t } = useTranslation()
   const { openModal } = useModal()
-  const navigate = useNavigate()
+  const { mutate: joinRandomRoom } = useJoinRandomRoom()
+  const { setId } = useUserStore()
 
   const randomRoomClickHandler = () => {
-    navigate(ROUTES.ROOM('random?'))
+    joinRandomRoom()
   }
   const useRoomCodeClickHandler = () => {
     openModal(<RoomCodeInputModal />)
   }
   const createRoomClickHandler = () => {
-    openModal(<CreateRoomModal />)
+    openModal(<CreateRoomModal action='create' />)
   }
-  const leaderboardClickHandler = () => {
-    navigate(ROUTES.LEADERBOARD)
+  const logoutClickHandler = () => {
+    setId(-1)
   }
 
   return (
@@ -33,12 +32,7 @@ export default function LobbyPage() {
       <Button onClick={randomRoomClickHandler}>{t('Join Random Room')}</Button>
       <Button onClick={useRoomCodeClickHandler}>{t('Use Room Code')}</Button>
       <Button onClick={createRoomClickHandler}>{t('Create Room')}</Button>
-      <Button
-        icon={<Img width={32} src={chzzkIcon} alt='Chzzk Icon' />}
-        onClick={leaderboardClickHandler}
-      >
-        {t('Leaderboard')}
-      </Button>
+      <Button onClick={logoutClickHandler}>{t('Logout')}</Button>
       <Spacing />
     </>
   )

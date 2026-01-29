@@ -3,27 +3,32 @@ import { Outlet } from 'react-router-dom'
 
 import logo from '@/assets/images/logo/logo.png'
 import Img from '@/components/common/Img'
-import SettingButtons from '@/components/common/SettingButtons'
+import SettingModalButton from '@/components/common/Settings'
 import { useBackground } from '@/context/BackgroundContext'
+import { useSound } from '@/context/SoundContext'
+import { useWindow } from '@/context/WindowContext'
 
 export default function EntryLayout() {
-  const { playMusic, setBackgroundImage } = useBackground()
+  const { setBackgroundImage } = useBackground()
+  const { setIsCompact } = useWindow()
+  const { playMusic } = useSound()
 
   useEffect(() => {
     playMusic('citymafia')
     setBackgroundImage('home')
+    setIsCompact(false)
   })
 
   return (
-    <div className='h-full w-full overflow-scroll no-scrollbar max-w-[720px] p-16 md:p-12 flex flex-col items-center gap-4'>
+    <div className='no-scrollbar flex h-full w-full max-w-[720px] flex-col items-center gap-4 overflow-scroll p-4 sm:p-12 md:gap-8'>
       <Img
         src={logo}
         alt='Logo'
-        className='w-[50dvw] min-w-[400px] max-w-[560px]'
+        className='w-[50dvw] max-w-[560px] min-w-[400px]'
       />
       <Outlet />
-      <div className={`grid grid-cols-3 gap-4 w-full`}>
-        <SettingButtons />
+      <div className={`flex h-[52px] w-full`}>
+        <SettingModalButton translate={true} />
       </div>
     </div>
   )

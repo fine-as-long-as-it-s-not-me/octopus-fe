@@ -1,0 +1,26 @@
+import type { Player } from './types'
+
+const SOCKET_MESSAGE_ERROR = 'SOCKET_MESSAGE_ERROR'
+
+export { SOCKET_MESSAGE_ERROR }
+
+export const COLORS = [
+  '#000000',
+  '#FFFFFF',
+  '#d21717',
+  '#00b300',
+  '#0000FF',
+  '#ecec7d',
+  '#cc61cc',
+  '#00FFFF',
+  '#808080',
+  '#800000',
+]
+
+export const DEFAULT_STROKE_WIDTH = 5
+export const MAX_STROKE_WIDTH = 50
+export const MIN_STROKE_WIDTH = 1
+
+export const CONFETTI_DELAY = 2500
+
+export const SYSTEM = { name: 'System', UUID: 'system' } as Player

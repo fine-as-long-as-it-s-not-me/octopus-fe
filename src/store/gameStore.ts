@@ -1,0 +1,42 @@
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+
+import { type Rank } from '@/types'
+
+interface GameState {
+  isStarted: boolean
+  setIsStarted: (isStarted: boolean) => void
+
+  ranks: Rank[]
+  setRanks: (ranks: Rank[]) => void
+
+  round: number
+  setRound: (round: number) => void
+
+  init: () => void
+}
+
+export const useGameStore = create<GameState>()(
+  persist(
+    set => ({
+      isStarted: false,
+      setIsStarted: isStarted => set({ isStarted }),
+
+      ranks: [],
+      setRanks: ranks => set({ ranks }),
+      round: 0,
+
+      setRound: round => set({ round }),
+
+      init: () =>
+        set(() => ({
+          isStarted: false,
+          ranks: [],
+          round: 0,
+        })),
+    }),
+    {
+      name: 'game-storage',
+    },
+  ),
+)

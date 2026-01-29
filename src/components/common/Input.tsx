@@ -22,7 +22,7 @@ export default function Input({
       value={value}
       onClick={onClick}
       className={twMerge(
-        'h-fit text-base md:text-lg bg-white/75 rounded-xl',
+        'h-fit rounded-xl bg-white/75 text-base md:text-lg',
         shapeClassName[shape],
         className,
       )}
