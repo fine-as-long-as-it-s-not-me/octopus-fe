@@ -17,7 +17,7 @@ export default function Palette() {
 
   return (
     <Card className='flex flex-row items-center justify-between gap-4 p-4'>
-      <div className='grid grow-4 grid-cols-4 gap-2'>
+      <div className='grid grow-4 grid-cols-5 gap-2'>
         {COLORS.map(color => (
           <Ink
             key={color}

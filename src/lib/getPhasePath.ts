@@ -17,8 +17,10 @@ export function getPhasePath(phase: Phase): string {
       return ROUTES.VOTE_RESULT
     case Phase.GUESSING:
       return ROUTES.GUESSING
-    case Phase.RESULT:
-      return ROUTES.RESULT
+    case Phase.ROUND_RESULT:
+      return ROUTES.ROUND_RESULT
+    case Phase.GAME_RESULT:
+      return ROUTES.ROUND_RESULT
     default:
       return ROUTES.WAITING
   }

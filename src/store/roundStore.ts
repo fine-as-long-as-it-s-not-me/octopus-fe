@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { DEFAULT_STROKE_WIDTH } from '@/consts'
-import { Phase, type Stroke, type ToolType } from '@/types'
+import { Phase, type Player, type Stroke, type ToolType } from '@/types'
 
 interface RoundState {
   phase: Phase
@@ -39,8 +39,20 @@ interface RoundState {
   voteResult: Record<string, number>
   setVoteResult: (voteResult: Record<string, number>) => void
 
-  octopusUUIDs: string[]
-  setOctopusUUIDs: (octopusUUIDs: string[]) => void
+  votedPlayer: Player | null
+  setVotedPlayer: (votedPlayer: Player) => void
+
+  tied: boolean
+  setTied: (tied: boolean) => void
+
+  guessed: boolean
+  setGuessed: (guessed: boolean) => void
+
+  isUnanimity: boolean
+  setIsUnanimity: (isUnanimity: boolean) => void
+
+  octopuses: Player[]
+  setOctopuses: (octopuses: Player[]) => void
 
   init: () => void
 }
@@ -49,11 +61,7 @@ export const useRoundStore = create<RoundState>()(
   persist(
     set => ({
       phase: Phase.OUT,
-      setPhase: phase => {
-        if (phase === Phase.KEYWORD)
-          set({ strokes: [], phase, strokeColor: '#000000' })
-        else set({ phase })
-      },
+      setPhase: phase => set({ phase }),
 
       timeLeft: 0,
       setTimeLeft: timeLeft => set({ timeLeft }),
@@ -87,19 +95,41 @@ export const useRoundStore = create<RoundState>()(
       voteResult: {},
       setVoteResult: voteResult => set({ voteResult }),
 
-      octopusUUIDs: [],
-      setOctopusUUIDs: octopusUUIDs => set({ octopusUUIDs }),
+      votedPlayer: null,
+      setVotedPlayer: votedPlayer => set({ votedPlayer }),
+
+      tied: false,
+      setTied: tied => set({ tied }),
+
+      guessed: false,
+      setGuessed: guessed => set({ guessed }),
+
+      isUnanimity: false,
+      setIsUnanimity: isUnanimity => set({ isUnanimity }),
+
+      octopuses: [],
+      setOctopuses: octopuses => set({ octopuses }),
 
       init: () =>
         set(() => ({
           phase: Phase.OUT,
           timeLeft: 0,
           keyword: '',
+
           painterUUID: null,
           nextPainterUUID: null,
           tool: 'pen',
+          strokeColor: '#000000',
+          strokeWidth: DEFAULT_STROKE_WIDTH,
+
           strokes: [],
           canvasColor: '#ffffff',
+
+          voteResult: {},
+          tied: false,
+          guessed: false,
+          isUnanimity: false,
+          octopuses: [],
         })),
     }),
     {
@@ -111,9 +141,11 @@ export const useRoundStore = create<RoundState>()(
               ![
                 'painterUUID',
                 'nextPainterUUID',
-                'octopusUUIDs',
+                'octopuses',
                 'strokeColor',
+                'strokeWidth',
                 'tool',
+                'votedPlayer',
               ].includes(key),
           ),
         ),

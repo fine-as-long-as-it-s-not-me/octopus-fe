@@ -10,6 +10,6 @@ export const ROUTES = {
   GUESSING: `/room/guessing`,
   VOTING: `/room/voting`,
   VOTE_RESULT: `/room/vote-result`,
-  RESULT: `/room/result`,
+  ROUND_RESULT: `/room/round-result`,
   TEST: `/room/test`,
 }

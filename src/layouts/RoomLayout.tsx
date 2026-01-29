@@ -65,7 +65,11 @@ export default function RoomLayout() {
           </Button>
         )}
         <PlayerListButton />
-        {size.sm ? <SettingButtons /> : <SettingModalButton />}
+        {size.sm ? (
+          <SettingButtons translate={false} />
+        ) : (
+          <SettingModalButton translate={false} />
+        )}
         <CloseButton />
       </div>
       <div

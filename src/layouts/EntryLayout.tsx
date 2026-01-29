@@ -28,7 +28,7 @@ export default function EntryLayout() {
       />
       <Outlet />
       <div className={`flex h-[52px] w-full`}>
-        <SettingModalButton />
+        <SettingModalButton translate={true} />
       </div>
     </div>
   )

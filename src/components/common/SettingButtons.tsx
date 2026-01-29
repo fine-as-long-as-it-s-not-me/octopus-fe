@@ -13,7 +13,12 @@ interface SettingButtonProps {
   ariaLabel: string
 }
 
-function SettingButton({ onClick, iconName, className, ariaLabel }: SettingButtonProps) {
+function SettingButton({
+  onClick,
+  iconName,
+  className,
+  ariaLabel,
+}: SettingButtonProps) {
   return (
     <Button
       size='md'
@@ -29,9 +34,10 @@ function SettingButton({ onClick, iconName, className, ariaLabel }: SettingButto
 
 interface Props {
   className?: string
+  translate?: boolean
 }
 
-export default function SettingButtons({ className }: Props) {
+export default function SettingButtons({ className, translate = true }: Props) {
   const {
     isMusicMuted,
     isEffectMuted,
@@ -41,13 +47,6 @@ export default function SettingButtons({ className }: Props) {
   const { openModal } = useModal()
 
   const buttons = [
-    {
-      onClick: () => {
-        openModal(<LanguageSelectModal />)
-      },
-      iconName: 'translate',
-      ariaLabel: 'Change language',
-    },
     {
       onClick: () => muteMusicToggle(),
       iconName: isMusicMuted ? 'music_off' : 'music_note',
@@ -59,6 +58,16 @@ export default function SettingButtons({ className }: Props) {
       ariaLabel: isEffectMuted ? 'Unmute sound effects' : 'Mute sound effects',
     },
   ]
+
+  if (translate) {
+    buttons.push({
+      onClick: () => {
+        openModal(<LanguageSelectModal />)
+      },
+      iconName: 'translate',
+      ariaLabel: 'Change language',
+    })
+  }
 
   return (
     <>
