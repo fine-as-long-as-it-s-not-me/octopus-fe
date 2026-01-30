@@ -76,7 +76,6 @@ export default function Canvas() {
     }
 
     function sendCurrentStroke({ flush = false } = {}) {
-      if (strokeIdRef.current === null) return
       addStroke({
         stroke: {
           id: strokeIdRef.current,

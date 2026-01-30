@@ -5,7 +5,10 @@ export function useStartGame() {
 }
 
 export function useUpdateDiscussionTime() {
-  return useMutation<{ type: string }>('discussion', 'change_time')
+  return useMutation<{ type: 'increase' | 'decrease' }>(
+    'discussion',
+    'change_time',
+  )
 }
 
 export function useVoteOctopus() {
