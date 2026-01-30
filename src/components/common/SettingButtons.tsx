@@ -60,7 +60,7 @@ export default function SettingButtons({ className, translate = true }: Props) {
   ]
 
   if (translate) {
-    buttons.push({
+    buttons.unshift({
       onClick: () => {
         openModal(<LanguageSelectModal />)
       },

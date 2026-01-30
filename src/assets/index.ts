@@ -83,7 +83,14 @@ export const mobileBgAssets = {
 
 export const soundEffectsAssets = {
   pop: '/sounds/effect/pop.mp3',
-  gameover: '/sounds/effect/gameover.mp3',
+  pubobob: '/sounds/effect/pubobob.mp3',
+  'lg-button': '/sounds/effect/lg-button.mp3',
+  'keyword-intro': '/sounds/effect/keyword.mp3',
+  phase: '/sounds/effect/phase.mp3',
+  nav: '/sounds/effect/nav.mp3',
+  'drum-roll': '/sounds/effect/drum-roll.mp3',
+  notify: '/sounds/effect/notify.mp3',
+
   'ddok!': '/sounds/effect/ddok!.mp3',
   ddok: '/sounds/effect/ddok.mp3',
   ddududu: '/sounds/effect/ddududu.mp3',
@@ -91,17 +98,12 @@ export const soundEffectsAssets = {
   ddik: '/sounds/effect/ddik.mp3',
   dding: '/sounds/effect/dding.mp3',
   navigate: '/sounds/effect/navigate.mp3',
-  boblebogglebobleboggle: '/sounds/effect/boblebogglebobleboggle.mp3',
   bbap: '/sounds/effect/bbap.mp3',
-  'keyword-intro': '/sounds/effect/keyword.mp3',
-  chalbakchalbak: '/sounds/effect/chalbakchalbak.mp3',
   chung: '/sounds/effect/chung.mp3',
   chulugrruk: '/sounds/effect/chulugrruk.mp3',
   taek: '/sounds/effect/taek.mp3',
   'pyap!': '/sounds/effect/pyap!.mp3',
-  pubobob: '/sounds/effect/pubobob.mp3',
   disabled: '/sounds/effect/disabled.mp3',
-  lgButton: '/sounds/effect/lgButton.mp3',
 }
 
 export const musicAssets = {

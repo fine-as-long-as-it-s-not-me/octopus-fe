@@ -1,9 +1,10 @@
 import type {
   MessageHandlers,
   Phase,
+  Player,
+  RoundResultResponse,
   Stroke,
   VoteResultResponse,
-  RoundResultResponse,
 } from '@/types'
 
 type RoundHandlersDeps = {
@@ -22,6 +23,8 @@ type RoundHandlersDeps = {
   setNextPainterUUID: (uuid: string) => void
   setRound: (round: number) => void
   setRanks: (ranks: RoundResultResponse['ranks']) => void
+  setCustomWords: (customWords: [string, number][]) => void
+  setVotedPlayer: (player: Player) => void
 }
 
 export const createRoundHandlers = ({
@@ -40,6 +43,8 @@ export const createRoundHandlers = ({
   setNextPainterUUID,
   setRound,
   setRanks,
+  setCustomWords,
+  setVotedPlayer,
 }: RoundHandlersDeps): Pick<
   MessageHandlers,
   | 'keyword'
@@ -49,6 +54,7 @@ export const createRoundHandlers = ({
   | 'tick'
   | 'vote_result'
   | 'round_result'
+  | 'custom_words_updated'
 > => ({
   keyword: ({ keyword }) => {
     setKeyword(keyword)
@@ -70,17 +76,22 @@ export const createRoundHandlers = ({
     setRound(round)
     setTimeLeft(timeLeft)
   },
-  vote_result: ({ voteResult, octopuses }) => {
-    const voteResultMap = Object.fromEntries(
-      voteResult,
-    ) as Record<string, number>
+  vote_result: ({ voteResult, octopuses, votedPlayer }) => {
+    const voteResultMap = Object.fromEntries(voteResult) as Record<
+      string,
+      number
+    >
     setVoteResult(voteResultMap)
     setOctopuses(octopuses)
+    setVotedPlayer(votedPlayer)
   },
   round_result: ({ ranks, tied, guessed, isUnanimity }) => {
     setRanks(ranks)
     setTied(tied)
     setGuessed(guessed)
     setIsUnanimity(isUnanimity)
+  },
+  custom_words_updated: ({ customWords }) => {
+    setCustomWords(customWords)
   },
 })

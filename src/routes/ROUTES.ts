@@ -2,7 +2,7 @@ export const ROUTES = {
   HOME: '/',
   LOBBY: '/lobby',
   LEADERBOARD: '/leaderboard',
-  WAITING: `/room/waiting`,
+  ROOM: `/room`,
   CUSTOM_WORD: `/room/custom-words`,
   KEYWORD: `/room/keyword`,
   DRAWING: `/room/drawing`,

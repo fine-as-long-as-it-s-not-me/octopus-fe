@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import type { Chat, Player, Settings } from '@/types'
-import { mockPlayers, mockSetting } from './mocks'
+import { mockSetting } from './mocks'
 
 interface RoomState {
   roomCode: string
@@ -10,6 +10,9 @@ interface RoomState {
 
   settings: Settings
   setSettings: (settings: Settings) => void
+
+  customWords: [string, number][]
+  setCustomWords: (customWords: [string, number][]) => void
 
   players: Player[]
   setPlayers: (players: Player[]) => void
@@ -30,7 +33,10 @@ export const useRoomStore = create<RoomState>()(
       settings: mockSetting,
       setSettings: (settings: Settings) => set({ settings }),
 
-      players: mockPlayers,
+      customWords: [],
+      setCustomWords: (customWords: [string, number][]) => set({ customWords }),
+
+      players: [],
       setPlayers: (players: Player[]) => set({ players }),
 
       chats: [],
@@ -40,7 +46,8 @@ export const useRoomStore = create<RoomState>()(
           chats: [...state.chats, chat],
         })),
 
-      flush: () => set({ roomCode: '', players: [], chats: [] }),
+      flush: () =>
+        set({ roomCode: '', players: [], chats: [], customWords: [] }),
     }),
     {
       name: 'room-storage',

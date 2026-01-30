@@ -9,9 +9,9 @@ import Confirm from '../modals/Confirm'
 
 export default function CloseButton() {
   const navigate = useNavigate()
-  const isRoomPage = useMatch(ROUTES.WAITING)
+  const isRoomPage = useMatch(ROUTES.ROOM)
   const isCustomWordPage = useMatch(ROUTES.CUSTOM_WORD)
-  const isGamePage = useMatch(`${ROUTES.WAITING}/*`)
+  const isGamePage = useMatch(`${ROUTES.ROOM}/*`)
 
   const { t } = useTranslation()
   const { openModal } = useModal()
@@ -22,7 +22,7 @@ export default function CloseButton() {
         cardClassName='py-2 md:py-3 h-full'
         size='md'
         onClick={() => {
-          navigate(ROUTES.WAITING)
+          navigate(ROUTES.ROOM)
         }}
         aria-label='Go back'
       >

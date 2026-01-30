@@ -24,6 +24,7 @@ export default function Img({
       height={height}
       className={className}
       ref={ref}
+      draggable='false'
       {...rest}
     />
   )

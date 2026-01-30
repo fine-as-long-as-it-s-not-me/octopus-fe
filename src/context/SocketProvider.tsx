@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { matchPath, useLocation, useNavigate } from 'react-router-dom'
 
 import { useSocketConnection } from '@/hooks/useSocketConnection'
 import { getPhasePath } from '@/lib/getPhasePath'
@@ -7,7 +7,7 @@ import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
 import { useRoundStore } from '@/store/roundStore'
 import { useUserStore } from '@/store/userStore'
-import type { ErrorType } from '@/types'
+import { type ErrorType } from '@/types'
 import { SocketContext } from './SocketContext'
 
 interface Props {
@@ -20,6 +20,7 @@ export default function SocketProvider({ children }: Props) {
   const { roomCode } = useRoomStore()
   const { id: userId, name: userName } = useUserStore()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const { connectSocket, isConnected, isConnecting, sendMessage } =
     useSocketConnection(setError)
@@ -35,10 +36,19 @@ export default function SocketProvider({ children }: Props) {
   useEffect(() => {
     if (userId === -1 || !userName) navigate(ROUTES.HOME)
     else {
-      if (roomCode) navigate(getPhasePath(phase))
-      else navigate(ROUTES.LOBBY)
+      if (roomCode) {
+        const nextPath = getPhasePath(phase)
+        if (
+          !(
+            matchPath(ROUTES.CUSTOM_WORD, location.pathname) &&
+            nextPath === ROUTES.ROOM
+          )
+        ) {
+          navigate(nextPath)
+        }
+      } else navigate(ROUTES.LOBBY)
     }
-  }, [phase, roomCode, navigate, userId, userName])
+  }, [phase, roomCode, navigate, userId, userName, location.pathname])
 
   return (
     <SocketContext.Provider

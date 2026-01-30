@@ -3,8 +3,6 @@ import { Phase } from '@/types'
 
 export function getPhasePath(phase: Phase): string {
   switch (phase) {
-    case Phase.OUT:
-      return ROUTES.WAITING
     case Phase.KEYWORD:
       return ROUTES.KEYWORD
     case Phase.DRAWING:
@@ -22,6 +20,6 @@ export function getPhasePath(phase: Phase): string {
     case Phase.GAME_RESULT:
       return ROUTES.ROUND_RESULT
     default:
-      return ROUTES.WAITING
+      return ROUTES.ROOM
   }
 }

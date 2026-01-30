@@ -166,7 +166,7 @@ export default function Canvas() {
       }}
     >
       <canvas
-        className='block aspect-square w-full touch-none'
+        className='block aspect-square max-h-[70vh] w-full touch-none'
         ref={canvasRef}
         style={{ touchAction: 'none' }}
         role='application'
