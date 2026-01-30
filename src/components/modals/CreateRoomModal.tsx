@@ -39,8 +39,8 @@ export default function CreateRoomModal({ action }: Props) {
       useCustomWord: !!e.currentTarget.useCustomWord.checked,
       isPublic: e.currentTarget.roomType.value === 'public',
     }
-    if (action === 'create') createRoom(settings)
-    else if (action === 'change') changeSettings(settings)
+    if (action === 'create') createRoom({ settings })
+    else if (action === 'change') changeSettings({ settings })
     closeModal()
   }
 

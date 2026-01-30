@@ -78,12 +78,14 @@ export default function Canvas() {
     function sendCurrentStroke({ flush = false } = {}) {
       if (strokeIdRef.current === null) return
       addStroke({
-        id: strokeIdRef.current,
-        sequence: sequenceRef.current++,
-        color: strokeColor,
-        tool,
-        strokeWidth,
-        points: [...pointsRef.current],
+        stroke: {
+          id: strokeIdRef.current,
+          sequence: sequenceRef.current++,
+          color: strokeColor,
+          tool,
+          strokeWidth,
+          points: [...pointsRef.current],
+        },
       })
       pointsRef.current = flush
         ? []
