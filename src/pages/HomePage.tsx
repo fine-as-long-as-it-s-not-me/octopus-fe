@@ -1,10 +1,8 @@
-import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Spacing, useModal } from 'sam-react-modal'
 
 import { useLogin } from '@/apis/player'
-import { useTest } from '@/apis/test'
 import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
 import Form from '@/components/common/Form'
@@ -37,11 +35,6 @@ export default function HomePage() {
     login({ name: enteredName, UUID, lang })
     navigate(ROUTES.LOBBY)
   }
-
-  const { mutate } = useTest()
-  useEffect(() => {
-    mutate()
-  })
 
   return (
     <>

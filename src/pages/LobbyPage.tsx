@@ -11,10 +11,10 @@ export default function LobbyPage() {
   const { t } = useTranslation()
   const { openModal } = useModal()
   const { mutate: joinRandomRoom } = useJoinRandomRoom()
-  const { setId } = useUserStore()
+  const { setId, UUID } = useUserStore()
 
   const randomRoomClickHandler = () => {
-    joinRandomRoom()
+    joinRandomRoom({ UUID })
   }
   const useRoomCodeClickHandler = () => {
     openModal(<RoomCodeInputModal />)

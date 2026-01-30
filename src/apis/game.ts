@@ -1,7 +1,7 @@
 import { useMutation } from './base'
 
 export function useStartGame() {
-  return useMutation('game', 'start')
+  return useMutation<void>('game', 'start')
 }
 
 export function useUpdateDiscussionTime() {

@@ -7,7 +7,7 @@ type SocketContextType = {
   sendMessage: (
     mainType: string,
     subType: string,
-    data?: Record<string, unknown>,
+    data?: Record<string, unknown> | void,
   ) => void
 }
 

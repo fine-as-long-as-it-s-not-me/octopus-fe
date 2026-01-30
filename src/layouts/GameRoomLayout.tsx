@@ -6,13 +6,13 @@ import { useRoomStore } from '@/store/roomStore'
 
 export default function GameRoomLayout() {
   const { mutate: leaveRoom } = useLeaveRoom()
-  const { flush } = useRoomStore()
+  const { roomCode, flush } = useRoomStore()
 
   useEffect(() => {
     return () => {
+      leaveRoom({ roomCode })
       flush()
-      leaveRoom()
     }
-  }, [leaveRoom, flush])
+  }, [leaveRoom, roomCode, flush])
   return <Outlet />
 }

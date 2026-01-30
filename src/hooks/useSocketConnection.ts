@@ -14,7 +14,11 @@ export function useSocketConnection(
   const { name, UUID, lang } = useUserStore()
 
   const sendMessage = useCallback(
-    (mainType: string, subType: string, data?: Record<string, unknown>) => {
+    (
+      mainType: string,
+      subType: string,
+      data: Record<string, unknown> | void,
+    ) => {
       if (!ws.current) {
         console.error('WebSocket not initialized')
         setError({
