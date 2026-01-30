@@ -8,7 +8,6 @@ export interface Player {
 }
 
 export const Phase = {
-  OUT: 'out',
   KEYWORD: 'keyword',
   DRAWING: 'drawing',
   DISCUSSION: 'discussion',
@@ -17,6 +16,7 @@ export const Phase = {
   ROUND_RESULT: 'round-result',
   GAME_RESULT: 'game-result',
   GUESSING: 'guessing',
+  END: 'end',
 } as const
 
 export type Phase = (typeof Phase)[keyof typeof Phase]
@@ -93,6 +93,7 @@ export type Message =
 
 export type WelcomeResponse = {
   roomCode: string
+  phase: Phase
 }
 export type PlayersUpdatedResponse = {
   hostUUID: string
@@ -156,6 +157,7 @@ export type SystemChatResponse = {
 export type VoteResultResponse = {
   voteResult: [string, number][]
   octopuses: Player[]
+  votedPlayer: Player
 }
 
 export type RoundResultResponse = {

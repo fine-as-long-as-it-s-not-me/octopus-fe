@@ -60,7 +60,7 @@ interface RoundState {
 export const useRoundStore = create<RoundState>()(
   persist(
     set => ({
-      phase: Phase.OUT,
+      phase: Phase.END,
       setPhase: phase => set({ phase }),
 
       timeLeft: 0,
@@ -112,7 +112,6 @@ export const useRoundStore = create<RoundState>()(
 
       init: () =>
         set(() => ({
-          phase: Phase.OUT,
           timeLeft: 0,
           keyword: '',
 
@@ -133,7 +132,7 @@ export const useRoundStore = create<RoundState>()(
         })),
     }),
     {
-      name: 'game-storage',
+      name: 'round-storage',
       partialize: state =>
         Object.fromEntries(
           Object.entries(state).filter(
@@ -146,6 +145,7 @@ export const useRoundStore = create<RoundState>()(
                 'strokeWidth',
                 'tool',
                 'votedPlayer',
+                'phase',
               ].includes(key),
           ),
         ),
