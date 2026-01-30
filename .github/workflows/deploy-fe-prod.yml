@@ -43,12 +43,14 @@ jobs:
           key: ${{ secrets.OCI_KEY }}
           script: |
             set -e
+            set -x
+
+            export PATH="/home/ubuntu/bin:$PATH"
 
             IMAGE="${{ secrets.OCI_REGISTRY }}/axslwmgnmqcx/findtheoctopus-fe:latest"
 
             LB_OCID="${{ secrets.OCI_LB_OCID }}"
-            ROUTING_POLICY_NAME="Octopus-Main-Policy"
-
+            ROUTING_POLICY_NAME="ProdPolicy"
             PROD_RULE_NAME="Prod_FE_Rule"
 
             BLUE_SET="FE-BLUEset"
@@ -56,25 +58,39 @@ jobs:
 
             BLUE_PORT=81
             GREEN_PORT=82
-
             CONTAINER_PORT=80
 
+            OCI_REGION="ap-osaka-1"
+            OCI_AUTH="instance_principal"
+
+            echo "STEP 0: ensure jq"
             if ! command -v jq >/dev/null 2>&1; then
               sudo apt-get update -y
               sudo apt-get install -y jq
             fi
 
-            echo "🔍 Reading current routing policy..."
-            CUR_JSON=$(oci lb routing-policy get --load-balancer-id "$LB_OCID" --routing-policy-name "$ROUTING_POLICY_NAME")
-            CURRENT_SET=$(echo "$CUR_JSON" | jq -r --arg RN "$PROD_RULE_NAME" '.data.rules[] | select(.name==$RN) | .actions[0].backendSetName')
+            echo "STEP 1: read routing policy"
+            CUR_JSON=$(oci lb routing-policy get \
+              --load-balancer-id "$LB_OCID" \
+              --routing-policy-name "$ROUTING_POLICY_NAME" \
+              --auth "$OCI_AUTH" \
+              --region "$OCI_REGION")
 
+            echo "STEP 2: determine current backend set"
+            CURRENT_SET=$(echo "$CUR_JSON" | jq -r --arg RN "$PROD_RULE_NAME" '
+              .data.rules[]
+              | select(.name==$RN)
+              | .actions[0]["backend-set-name"]
+            ')
+
+            echo "CURRENT_SET=$CURRENT_SET"
             if [ -z "$CURRENT_SET" ] || [ "$CURRENT_SET" = "null" ]; then
-              echo "❌ Cannot find rule name '$PROD_RULE_NAME' in routing policy '$ROUTING_POLICY_NAME'."
+              echo "ERROR: rule '$PROD_RULE_NAME' not found in routing policy '$ROUTING_POLICY_NAME'"
+              echo "$CUR_JSON" | jq -r '.data.rules[]?.name'
               exit 1
             fi
 
-            echo "✅ Current FE PROD backend set: $CURRENT_SET"
-
+            echo "STEP 3: choose target"
             if [ "$CURRENT_SET" = "$BLUE_SET" ]; then
               TARGET_SET="$GREEN_SET"
               TARGET_COLOR="green"
@@ -86,20 +102,20 @@ jobs:
               TARGET_PORT=$BLUE_PORT
               OLD_COLOR="green"
             fi
+            echo "TARGET_SET=$TARGET_SET TARGET_COLOR=$TARGET_COLOR TARGET_PORT=$TARGET_PORT OLD_COLOR=$OLD_COLOR"
 
-            echo "🚀 Switching FE to $TARGET_COLOR: set=$TARGET_SET, port=$TARGET_PORT"
-
+            echo "STEP 4: docker login/pull"
             echo "${{ secrets.OCI_AUTH_TOKEN }}" | docker login "${{ secrets.OCI_REGISTRY }}" -u "${{ secrets.OCI_USERNAME }}" --password-stdin
             docker pull "$IMAGE"
 
-            docker rm -f "octopus-fe-$TARGET_COLOR" >/dev/null 2>&1 || true
-
+            echo "STEP 5: run target container"
+            docker rm -f "octopus-fe-$TARGET_COLOR" || true
             docker run -d --name "octopus-fe-$TARGET_COLOR" \
               -p "$TARGET_PORT:$CONTAINER_PORT" \
               --restart unless-stopped \
               "$IMAGE"
 
-            echo "⏳ Waiting for FE health check..."
+            echo "STEP 6: health check"
             OK=0
             for i in {1..20}; do
               if curl -sf "http://127.0.0.1:$TARGET_PORT/" >/dev/null 2>&1; then
@@ -107,37 +123,73 @@ jobs:
               fi
               sleep 3
             done
-
             if [ "$OK" -ne 1 ]; then
-              echo "❌ FE Health check failed on http://127.0.0.1:$TARGET_PORT/"
+              echo "ERROR: FE health check failed on http://127.0.0.1:$TARGET_PORT/"
               docker logs --tail 200 "octopus-fe-$TARGET_COLOR" || true
               exit 1
             fi
-            echo "✅ FE is healthy on port $TARGET_PORT"
 
-            echo "🔁 Updating routing policy rule action backendSetName -> $TARGET_SET"
-
-            UPDATED_RULES=$(echo "$CUR_JSON" | jq --arg RN "$PROD_RULE_NAME" --arg BS "$TARGET_SET" '
+            echo "STEP 7: write rules.json safely"
+            jq -c --arg RN "$PROD_RULE_NAME" --arg BS "$TARGET_SET" '
               .data.rules
-              | map(
-                  if .name == $RN
-                  then (.actions[0].backendSetName = $BS)
-                  else .
-                  end
-                )
-            ')
+              | map(if .name == $RN then (.actions[0]["backend-set-name"] = $BS) else . end)
+            ' <<<"$CUR_JSON" > /tmp/fe_rules.json
 
-            echo "$UPDATED_RULES" > /tmp/fe-rules.json
+            cat /tmp/fe_rules.json | jq '.'
 
-            oci lb routing-policy update \
+            echo "STEP 8: routing-policy update (force) + capture work request via jq"
+            UPDATE_OUT=$(oci lb routing-policy update \
               --load-balancer-id "$LB_OCID" \
               --routing-policy-name "$ROUTING_POLICY_NAME" \
-              --rules file:///tmp/fe-rules.json
+              --rules file:///tmp/fe_rules.json \
+              --force \
+              --auth "$OCI_AUTH" \
+              --region "$OCI_REGION")
 
-            echo "✅ Routing policy switched to $TARGET_SET"
+            echo "$UPDATE_OUT"
+            WR_ID=$(echo "$UPDATE_OUT" | jq -r '."opc-work-request-id"')
+            echo "WORK_REQUEST_ID=$WR_ID"
 
-            echo "🧹 Cleanup old FE container after stabilization..."
+            if [ -z "$WR_ID" ] || [ "$WR_ID" = "null" ]; then
+              echo "ERROR: cannot get opc-work-request-id"
+              exit 1
+            fi
+
+            echo "STEP 8-1: wait work request SUCCEEDED"
+            for i in {1..120}; do
+              STATUS=$(oci lb work-request get \
+                --work-request-id "$WR_ID" \
+                --auth "$OCI_AUTH" \
+                --region "$OCI_REGION" \
+                --query 'data."lifecycle-state"' \
+                --raw-output)
+              echo "WR_STATUS=$STATUS"
+              [ "$STATUS" = "SUCCEEDED" ] && break
+              [ "$STATUS" = "FAILED" ] && exit 1
+              sleep 5
+            done
+
+            echo "STEP 9: verify routing policy switched"
+            NEW_JSON=$(oci lb routing-policy get \
+              --load-balancer-id "$LB_OCID" \
+              --routing-policy-name "$ROUTING_POLICY_NAME" \
+              --auth "$OCI_AUTH" \
+              --region "$OCI_REGION")
+
+            NEW_SET=$(echo "$NEW_JSON" | jq -r --arg RN "$PROD_RULE_NAME" '
+              .data.rules[]
+              | select(.name==$RN)
+              | .actions[0]["backend-set-name"]
+            ')
+            echo "NEW_SET=$NEW_SET (expected $TARGET_SET)"
+
+            if [ "$NEW_SET" != "$TARGET_SET" ]; then
+              echo "ERROR: routing policy not updated as expected"
+              exit 1
+            fi
+
+            echo "STEP 10: cleanup old container after stabilization"
             sleep 60
-            docker rm -f "octopus-fe-$OLD_COLOR" >/dev/null 2>&1 || true
+            docker rm -f "octopus-fe-$OLD_COLOR" || true
 
-            echo "🎉 Active FE: $TARGET_COLOR ($TARGET_PORT) / backendSet: $TARGET_SET"
+            echo "DONE: Active=$TARGET_COLOR port=$TARGET_PORT backendSet=$TARGET_SET"
