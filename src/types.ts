@@ -7,12 +7,6 @@ export interface Player {
   host?: boolean
 }
 
-export interface Keyword {
-  id: string
-  word: string
-  votes: number
-}
-
 export const Phase = {
   OUT: 'out',
   KEYWORD: 'keyword',
@@ -39,10 +33,7 @@ export interface Settings {
   lang: Language
 }
 
-export type ChangeableSettings = Omit<
-  Settings,
-  'lang' | 'isCustomWordVoteOpen' | 'customWordMinVotes' | 'octopusAmount'
->
+export type ChangeableSettings = Omit<Settings, 'lang' | 'octopusAmount'>
 
 export interface Stroke {
   id: number
@@ -98,6 +89,7 @@ export type Message =
   | { type: 'game_result'; data: GameResultResponse }
   | { type: 'error'; data: ErrorType }
   | { type: 'game_ended'; data: undefined }
+  | { type: 'custom_words_updated'; data: { customWords: [string, number][] } }
 
 export type WelcomeResponse = {
   roomCode: string

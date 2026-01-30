@@ -14,7 +14,7 @@ export function useJoinRandomRoom() {
 }
 
 export function useChangeRoomSettings() {
-  return useMutation<{ settings: ChangeableSettings }>(
+  return useMutation<{ settings: Partial<ChangeableSettings> }>(
     'room',
     'change_settings',
   )
@@ -22,4 +22,8 @@ export function useChangeRoomSettings() {
 
 export function useLeaveRoom() {
   return useMutation<{ roomCode: string }>('room', 'leave')
+}
+
+export function useVoteCustomWord() {
+  return useMutation<{ keyword: string }>('room', 'vote_keyword')
 }

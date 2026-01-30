@@ -22,7 +22,8 @@ export function useSocketHandlers(
 ): MessageHandlers {
   const { t } = useTranslation()
   const { name, UUID, setId } = useUserStore()
-  const { setRoomCode, setPlayers, setSettings, addChat } = useRoomStore()
+  const { setRoomCode, setPlayers, setSettings, addChat, setCustomWords } =
+    useRoomStore()
   const { setRound, setIsStarted, setRanks } = useGameStore()
   const {
     init: initRound,
@@ -93,6 +94,7 @@ export function useSocketHandlers(
         setNextPainterUUID,
         setRound,
         setRanks,
+        setCustomWords,
       }),
     [
       initRound,
@@ -110,6 +112,7 @@ export function useSocketHandlers(
       setNextPainterUUID,
       setRound,
       setRanks,
+      setCustomWords,
     ],
   )
 
@@ -124,10 +127,7 @@ export function useSocketHandlers(
     [setIsStarted, setRanks, addChat, t],
   )
 
-  const errorHandlers = useMemo(
-    () => createErrorHandlers({ notify }),
-    [notify],
-  )
+  const errorHandlers = useMemo(() => createErrorHandlers({ notify }), [notify])
 
   return useMemo(
     () => ({
