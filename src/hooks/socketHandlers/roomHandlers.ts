@@ -38,10 +38,11 @@ export const createRoomHandlers = ({
     setRoomCode(roomCode)
 
     if (roomCode) sendMessage('room', 'join', { roomCode, name, UUID })
-    else setPhase(Phase.OUT)
+    else setPhase(Phase.END)
   },
-  welcome: ({ roomCode }) => {
+  welcome: ({ roomCode, phase }) => {
     setRoomCode(roomCode)
+    setPhase(phase)
   },
   players_updated: ({ hostUUID, players }) => {
     setPlayers(

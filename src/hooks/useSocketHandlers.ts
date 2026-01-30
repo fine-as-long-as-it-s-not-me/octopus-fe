@@ -24,7 +24,7 @@ export function useSocketHandlers(
   const { name, UUID, setId } = useUserStore()
   const { setRoomCode, setPlayers, setSettings, addChat, setCustomWords } =
     useRoomStore()
-  const { setRound, setIsStarted, setRanks } = useGameStore()
+  const { setRound, setRanks } = useGameStore()
   const {
     init: initRound,
     setTied,
@@ -39,6 +39,7 @@ export function useSocketHandlers(
     setCanvasColor,
     setPainterUUID,
     setNextPainterUUID,
+    setVotedPlayer,
   } = useRoundStore()
 
   const { notify } = useToast()
@@ -95,6 +96,7 @@ export function useSocketHandlers(
         setRound,
         setRanks,
         setCustomWords,
+        setVotedPlayer,
       }),
     [
       initRound,
@@ -113,18 +115,18 @@ export function useSocketHandlers(
       setRound,
       setRanks,
       setCustomWords,
+      setVotedPlayer,
     ],
   )
 
   const gameHandlers = useMemo(
     () =>
       createGameHandlers({
-        setIsStarted,
         setRanks,
         addChat,
         t,
       }),
-    [setIsStarted, setRanks, addChat, t],
+    [setRanks, addChat, t],
   )
 
   const errorHandlers = useMemo(() => createErrorHandlers({ notify }), [notify])

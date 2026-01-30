@@ -1,6 +1,7 @@
 import { createRef, useRef, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useSound } from './SoundContext'
 import { ToastContext } from './ToastContext'
 
 type Props = { children: ReactNode }
@@ -15,6 +16,8 @@ type Toast = {
 export const ToastProvider = ({ children }: Props) => {
   const [toasts, setToasts] = useState<Toast[]>([])
   const nextId = useRef(1)
+  const { playSoundEffect } = useSound()
+
   const notify = (message: string) => {
     const toast = {
       id: nextId.current++,
@@ -23,6 +26,7 @@ export const ToastProvider = ({ children }: Props) => {
       ref: createRef<HTMLDivElement>(),
     } as Toast
     setToasts(prevToasts => [...prevToasts, toast])
+    playSoundEffect('notify')
 
     // Remove the toast after 3 seconds
     setTimeout(() => {
@@ -32,6 +36,7 @@ export const ToastProvider = ({ children }: Props) => {
       }, 500)
     }, 2000)
   }
+
   const { t } = useTranslation()
 
   return (

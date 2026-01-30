@@ -93,11 +93,13 @@
   "guessed the code :": "님이 추론한 암호 :",
   "Vote": "투표",
   "Are you sure you want to submit your guess?": "추측을 제출하시겠습니까?",
-  "Are you sure you want to vote ": "투표하시겠습니까? 대상 : ",
+  "Voting ": "투표 : ",
   "Cancel": "취소",
   "Ok": "확인",
   "Open Vote": "투표 열기",
   "The vote is currently closed.": "투표가 닫혀 있습니다.",
   "The vote is currently open.": "투표가 열려 있습니다.",
-  "Voting is closed": "투표가 닫혀있어요"
+  "Voting is closed": "투표가 닫혀있어요",
+  "More Time": "시간 연장",
+  "Less Time": "시간 단축"
 }

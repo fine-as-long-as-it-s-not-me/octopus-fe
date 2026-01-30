@@ -1,6 +1,7 @@
 import type {
   MessageHandlers,
   Phase,
+  Player,
   RoundResultResponse,
   Stroke,
   VoteResultResponse,
@@ -23,6 +24,7 @@ type RoundHandlersDeps = {
   setRound: (round: number) => void
   setRanks: (ranks: RoundResultResponse['ranks']) => void
   setCustomWords: (customWords: [string, number][]) => void
+  setVotedPlayer: (player: Player) => void
 }
 
 export const createRoundHandlers = ({
@@ -42,6 +44,7 @@ export const createRoundHandlers = ({
   setRound,
   setRanks,
   setCustomWords,
+  setVotedPlayer,
 }: RoundHandlersDeps): Pick<
   MessageHandlers,
   | 'keyword'
@@ -73,13 +76,14 @@ export const createRoundHandlers = ({
     setRound(round)
     setTimeLeft(timeLeft)
   },
-  vote_result: ({ voteResult, octopuses }) => {
+  vote_result: ({ voteResult, octopuses, votedPlayer }) => {
     const voteResultMap = Object.fromEntries(voteResult) as Record<
       string,
       number
     >
     setVoteResult(voteResultMap)
     setOctopuses(octopuses)
+    setVotedPlayer(votedPlayer)
   },
   round_result: ({ ranks, tied, guessed, isUnanimity }) => {
     setRanks(ranks)
