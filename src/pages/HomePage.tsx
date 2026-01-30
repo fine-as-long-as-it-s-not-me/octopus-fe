@@ -2,8 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Spacing, useModal } from 'sam-react-modal'
 
-import { useLogin } from '@/apis/room'
-// import chzzkIcon from '@/assets/images/icons/chzzk.png'
+import { useLogin } from '@/apis/player'
 import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
 import Form from '@/components/common/Form'
@@ -17,7 +16,7 @@ import { useUserStore } from '@/store/userStore'
 export default function HomePage() {
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const { name, setName } = useUserStore()
+  const { name, setName, UUID, lang } = useUserStore()
   const { openModal } = useModal()
   const { mutate: login } = useLogin()
 
@@ -33,7 +32,7 @@ export default function HomePage() {
       return openModal(<Alert>{t('Please enter your name.')}</Alert>)
 
     setName(enteredName)
-    login(enteredName)
+    login({ name: enteredName, UUID, lang })
     navigate(ROUTES.LOBBY)
   }
 
@@ -57,9 +56,6 @@ export default function HomePage() {
           </Button>
         </Form>
       </Card>
-      {/* <Button icon={<Img width={32} src={chzzkIcon} alt='Chzzk Icon' />}>
-        {t('Live Streamer')}
-      </Button> */}
       <Spacing />
     </>
   )

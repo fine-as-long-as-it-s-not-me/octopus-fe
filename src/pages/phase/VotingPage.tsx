@@ -19,7 +19,10 @@ export default function VotingPage() {
         )}
       >
         <Canvas />
-        <VoteCard onSubmit={vote} key={'voting'} />
+        <VoteCard
+          onSubmit={(targetUUID: string) => vote({ targetUUID })}
+          key={'voting'}
+        />
       </Card>
     </div>
   )

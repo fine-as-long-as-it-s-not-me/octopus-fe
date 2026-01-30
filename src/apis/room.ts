@@ -1,70 +1,25 @@
-import { useSocket } from '@/context/SocketContext'
-import { useRoomStore } from '@/store/roomStore'
-import { useUserStore } from '@/store/userStore'
 import type { ChangeableSettings } from '@/types'
+import { useMutation } from './base'
+
+export function useCreateRoom() {
+  return useMutation<{ settings: ChangeableSettings }>('room', 'create')
+}
 
 export function useJoinRoom() {
-  const { sendMessage } = useSocket()
-  const { UUID } = useUserStore()
-
-  return {
-    mutate: (roomCode: string) =>
-      sendMessage('room', 'join', { roomCode, UUID }),
-  }
-}
-export function useCreateRoom() {
-  const { sendMessage } = useSocket()
-
-  return {
-    mutate: (settings: ChangeableSettings) =>
-      sendMessage('room', 'create', { settings }),
-  }
-}
-
-export function useChangeRoomSettings() {
-  const { sendMessage } = useSocket()
-  const { roomCode } = useRoomStore()
-
-  return {
-    mutate: (settings: ChangeableSettings) =>
-      sendMessage('room', 'change_settings', { roomCode, settings }),
-  }
-}
-
-export function useLeaveRoom() {
-  const { sendMessage } = useSocket()
-  const { roomCode, setRoomCode } = useRoomStore()
-
-  return {
-    mutate: () => {
-      sendMessage('room', 'leave', { roomCode })
-      setRoomCode('')
-    },
-  }
-}
-
-export function useLogin() {
-  const { sendMessage } = useSocket()
-  const { name, UUID, lang } = useUserStore()
-
-  return {
-    mutate: (_name?: string) =>
-      sendMessage('player', 'login', { name: _name ?? name, UUID, lang }),
-  }
+  return useMutation<{ roomCode: string; UUID: string }>('room', 'join')
 }
 
 export function useJoinRandomRoom() {
-  const { sendMessage } = useSocket()
-  const { UUID } = useUserStore()
-
-  return {
-    mutate: () => sendMessage('room', 'join_random', { UUID }),
-  }
+  return useMutation<{ UUID: string }>('room', 'join_random')
 }
 
-export function useSendChat() {
-  const { sendMessage } = useSocket()
-  return {
-    mutate: (text: string) => sendMessage('chat', 'send', { text }),
-  }
+export function useChangeRoomSettings() {
+  return useMutation<{ settings: ChangeableSettings }>(
+    'room',
+    'change_settings',
+  )
+}
+
+export function useLeaveRoom() {
+  return useMutation<{ roomCode: string }>('room', 'leave')
 }

@@ -27,7 +27,7 @@ export default function DiscussionPage() {
       </Card>
       <Button
         className='flex shrink-0'
-        onClick={() => changeTimeLeft('increase')}
+        onClick={() => changeTimeLeft({ type: 'increase' })}
       >
         <div className='flex'>
           <Icon name='timer' />
@@ -37,7 +37,7 @@ export default function DiscussionPage() {
       </Button>
       <Button
         className='flex shrink-0'
-        onClick={() => changeTimeLeft('decrease')}
+        onClick={() => changeTimeLeft({ type: 'decrease' })}
       >
         <div className='flex'>
           <Icon name='timer' />
