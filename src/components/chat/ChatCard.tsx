@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { twMerge } from 'tailwind-merge'
 
-import { useSendChat } from '@/apis/room'
+import { useSendChat } from '@/apis/chat'
 import { useWindow } from '@/context/WindowContext'
 import { useRoomStore } from '@/store/roomStore'
 import Card from '../common/Card'
@@ -47,7 +47,7 @@ export default function ChatCard() {
           const message = formData.get('chatMessage') as string
           if (!message.trim()) return
 
-          sendChat(message)
+          sendChat({ text: message })
 
           e.currentTarget.reset()
         }}

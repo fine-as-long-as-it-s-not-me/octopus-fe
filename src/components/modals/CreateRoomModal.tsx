@@ -37,10 +37,12 @@ export default function CreateRoomModal({ action }: Props) {
       maxPlayers: Number(e.currentTarget.maxPlayers.value) || 8,
       drawingTime,
       useCustomWord: !!e.currentTarget.useCustomWord.checked,
+      isCustomWordVoteOpen: false,
+      customWordMinVotes: 1,
       isPublic: e.currentTarget.roomType.value === 'public',
     }
-    if (action === 'create') createRoom(settings)
-    else if (action === 'change') changeSettings(settings)
+    if (action === 'create') createRoom({ settings })
+    else if (action === 'change') changeSettings({ settings })
     closeModal()
   }
 

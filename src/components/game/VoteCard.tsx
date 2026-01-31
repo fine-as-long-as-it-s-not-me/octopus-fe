@@ -63,9 +63,7 @@ export default function VoteCard({ onSubmit }: Props) {
             if (
               selected &&
               (await openModal(
-                <Confirm>
-                  {t('Are you sure you want to vote ') + selectedName + '?'}
-                </Confirm>,
+                <Confirm>{t('Voting ') + selectedName}</Confirm>,
               ))
             ) {
               onSubmit(selected)

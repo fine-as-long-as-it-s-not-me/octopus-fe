@@ -7,14 +7,7 @@ export interface Player {
   host?: boolean
 }
 
-export interface Keyword {
-  id: string
-  word: string
-  votes: number
-}
-
 export const Phase = {
-  OUT: 'out',
   KEYWORD: 'keyword',
   DRAWING: 'drawing',
   DISCUSSION: 'discussion',
@@ -23,6 +16,7 @@ export const Phase = {
   ROUND_RESULT: 'round-result',
   GAME_RESULT: 'game-result',
   GUESSING: 'guessing',
+  END: 'end',
 } as const
 
 export type Phase = (typeof Phase)[keyof typeof Phase]
@@ -39,10 +33,7 @@ export interface Settings {
   lang: Language
 }
 
-export type ChangeableSettings = Omit<
-  Settings,
-  'lang' | 'isCustomWordVoteOpen' | 'customWordMinVotes' | 'octopusAmount'
->
+export type ChangeableSettings = Omit<Settings, 'lang' | 'octopusAmount'>
 
 export interface Stroke {
   id: number
@@ -98,9 +89,11 @@ export type Message =
   | { type: 'game_result'; data: GameResultResponse }
   | { type: 'error'; data: ErrorType }
   | { type: 'game_ended'; data: undefined }
+  | { type: 'custom_words_updated'; data: { customWords: [string, number][] } }
 
 export type WelcomeResponse = {
   roomCode: string
+  phase: Phase
 }
 export type PlayersUpdatedResponse = {
   hostUUID: string
@@ -164,6 +157,7 @@ export type SystemChatResponse = {
 export type VoteResultResponse = {
   voteResult: [string, number][]
   octopuses: Player[]
+  votedPlayer: Player
 }
 
 export type RoundResultResponse = {

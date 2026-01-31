@@ -6,6 +6,7 @@ import Card from '@/components/common/Card'
 import Img from '@/components/common/Img'
 import VoteCard from '@/components/game/VoteCard'
 import { CONFETTI_DELAY } from '@/consts'
+import { useSound } from '@/context/SoundContext'
 import useAvatar from '@/hooks/useAvatar'
 import { useRoundStore } from '@/store/roundStore'
 
@@ -14,10 +15,17 @@ export default function VoteResultPage() {
   const { octopuses, votedPlayer } = useRoundStore()
   const { t } = useTranslation()
 
-  const avatar = useAvatar(votedPlayer?.name || 'Unknown')
+  const { playSoundEffect, pauseMusic } = useSound()
+
+  const avatar = useAvatar(octopuses[0]?.name || 'Unknown')
   const didFindOctopus = octopuses.some(
     octopus => octopus.UUID === votedPlayer?.UUID,
   )
+
+  useEffect(() => {
+    playSoundEffect('drum-roll')
+    pauseMusic()
+  }, [playSoundEffect, pauseMusic])
 
   useEffect(() => {
     if (!imageRef.current) return

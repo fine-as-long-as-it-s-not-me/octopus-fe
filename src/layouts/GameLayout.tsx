@@ -56,8 +56,10 @@ export default function GameLayout() {
       </div>
       <div
         className={twMerge(
-          'flex h-[calc(100%-112px)] w-full flex-col sm:h-[calc(100%-80px)] sm:gap-2',
-          direction === 'vertical' ? 'flex-col' : 'flex-row flex-wrap',
+          'flex w-full flex-col sm:h-[calc(100%-80px)] sm:gap-2',
+          direction === 'vertical'
+            ? 'flex-col'
+            : 'h-[calc(100%-112px)] flex-row flex-wrap',
         )}
       >
         <PlayersCard />

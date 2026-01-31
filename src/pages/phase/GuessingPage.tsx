@@ -27,7 +27,7 @@ export default function GuessingPage() {
           onSubmit={async e => {
             e.preventDefault()
 
-            const enteredGuess = e.currentTarget.guess.value
+            const enteredGuess = e.currentTarget.guess.value as string
 
             if (
               await openModal(
@@ -36,7 +36,7 @@ export default function GuessingPage() {
                 </Confirm>,
               )
             ) {
-              guess(enteredGuess)
+              guess({ word: enteredGuess })
             }
           }}
         >
@@ -49,7 +49,6 @@ export default function GuessingPage() {
               type='text'
               placeholder={t('Enter your guess...')}
               name='guess'
-              onChange={e => console.log(e.target.value)}
               required
             />
             <Button size='md' type='submit' cardClassName='rounded-xl h-full'>

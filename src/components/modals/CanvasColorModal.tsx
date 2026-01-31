@@ -16,7 +16,7 @@ export default function CanvasColorModal() {
             key={color}
             color={color}
             onClick={() => {
-              setBgColor(color)
+              setBgColor({ color })
               closeModal()
             }}
           />

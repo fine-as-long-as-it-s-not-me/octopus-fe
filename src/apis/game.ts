@@ -1,31 +1,20 @@
-import { useSocket } from '@/context/SocketContext'
+import { useMutation } from './base'
 
 export function useStartGame() {
-  const { sendMessage } = useSocket()
-  return { mutate: () => sendMessage('game', 'start') }
+  return useMutation<void>('game', 'start')
 }
 
 export function useUpdateDiscussionTime() {
-  const { sendMessage } = useSocket()
-  return {
-    mutate: (type: 'increase' | 'decrease') =>
-      sendMessage(
-        'discussion',
-        type === 'increase' ? 'increase_time' : 'decrease_time',
-      ),
-  }
+  return useMutation<{ type: 'increase' | 'decrease' }>(
+    'discussion',
+    'change_time',
+  )
 }
 
 export function useVoteOctopus() {
-  const { sendMessage } = useSocket()
-  return {
-    mutate: (targetUUID: string) => sendMessage('vote', 'cast', { targetUUID }),
-  }
+  return useMutation<{ targetUUID: string }>('vote', 'cast')
 }
 
 export function useGuessWord() {
-  const { sendMessage } = useSocket()
-  return {
-    mutate: (word: string) => sendMessage('game', 'guess', { word }),
-  }
+  return useMutation<{ word: string }>('game', 'guess')
 }

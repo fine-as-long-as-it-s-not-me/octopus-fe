@@ -1,14 +1,10 @@
-import { useSocket } from '@/context/SocketContext'
 import type { Stroke } from '@/types'
+import { useMutation } from './base'
 
 export function useAddStroke() {
-  const { sendMessage } = useSocket()
-  return { mutate: (stroke: Stroke) => sendMessage('draw', 'add', { stroke }) }
+  return useMutation<{ stroke: Stroke }>('draw', 'add')
 }
 
 export function useBgColor() {
-  const { sendMessage } = useSocket()
-  return {
-    mutate: (color: string) => sendMessage('draw', 'background', { color }),
-  }
+  return useMutation<{ color: string }>('draw', 'background')
 }

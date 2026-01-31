@@ -1,41 +1,40 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useChangeRoomSettings, useVoteCustomWord } from '@/apis/room'
 import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
 import Form from '@/components/common/Form'
 import Icon from '@/components/common/Icon'
 import Input from '@/components/common/Input'
 import CustomWordListItem from '@/components/room/CustomWordListItem'
-import type { Keyword } from '@/types'
+import { useRoomStore } from '@/store/roomStore'
 
 export default function CustomWordPage() {
   const { t } = useTranslation()
+  const { settings, customWords } = useRoomStore()
 
-  const [keywords, setKeywords] = useState<Keyword[]>([])
+  const { mutate: fetchSettings } = useChangeRoomSettings()
+  const { mutate: voteCustomWord } = useVoteCustomWord()
 
   const addKeywordHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const word = formData.get('customWord') as string
-    if (!word) return
-    const newKeyword: Keyword = {
-      id: crypto.randomUUID(),
-      word,
-      votes: 1,
-    }
-    setKeywords(prevKeywords => [...prevKeywords, newKeyword])
+    const keyword = formData.get('customWord') as string
+    if (!keyword?.trim()) return
+
+    voteCustomWord({ keyword })
+
     e.currentTarget.reset()
   }
 
   return (
     <>
-      <Card className='flex h-fit min-h-[30dvh] grow flex-col items-center justify-between gap-4'>
+      <Card className='flex min-h-[30dvh] grow flex-col items-center justify-between gap-4'>
         {t('Custom Word List')}
         <div className='no-scrollbar flex max-h-[calc(70dvh-120px)] flex-row flex-wrap justify-center gap-2 overflow-scroll p-4'>
-          {keywords.length ? (
-            keywords.map(keyword => (
-              <CustomWordListItem key={keyword.id} keyword={keyword} />
+          {customWords.length ? (
+            customWords.map(([word, votes]) => (
+              <CustomWordListItem key={word} word={word} votes={votes} />
             ))
           ) : (
             <p className='text-black/50'>{t('No custom words added yet.')}</p>
@@ -47,8 +46,13 @@ export default function CustomWordPage() {
         >
           <Input
             shape='sm'
-            placeholder={t('Enter new custom word')}
+            placeholder={
+              settings.isCustomWordVoteOpen
+                ? t('Enter new custom word')
+                : t('Voting is closed')
+            }
             name='customWord'
+            disabled={!settings.isCustomWordVoteOpen}
           ></Input>
           <Button type='submit' size='sm'>
             {t('Add')}
@@ -56,16 +60,44 @@ export default function CustomWordPage() {
         </Form>
       </Card>
       <div className='flex h-full grow flex-col sm:h-auto sm:gap-4'>
-        <Button size='lg' className='grow-1' cardClassName='h-full'>
-          {t('Close Vote')}
-        </Button>
+        <Card className='grow-1 flex-col items-center justify-center gap-4'>
+          {settings.isCustomWordVoteOpen ? (
+            <>
+              <p className='text-md text-gray-700'>
+                {t('The vote is currently open.')}
+              </p>
+              <Button
+                size='md'
+                onClick={() => {
+                  fetchSettings({ settings: { isCustomWordVoteOpen: false } })
+                }}
+              >
+                {t('Close Vote')}
+              </Button>
+            </>
+          ) : (
+            <>
+              <p className='text-md text-gray-700'>
+                {t('The vote is currently closed.')}
+              </p>
+              <Button
+                size='md'
+                onClick={() => {
+                  fetchSettings({ settings: { isCustomWordVoteOpen: true } })
+                }}
+              >
+                {t('Open Vote')}
+              </Button>
+            </>
+          )}
+        </Card>
         <Card className='flex grow-2 flex-col items-center justify-center gap-4'>
           <p className='text-center text-xl'>
             {t('Public Vote (for streamers)')}
           </p>
           <p>
             {t(
-              `Anyone with the link can vote words to register. This feature is recommended to use with settings ‘Minimum votes to get registered’ to more than 0 to prevent trolls.`,
+              `Anyone with the link can vote words to register. This feature is recommended to use with settings ‘Minimum votes to get registered’ to more than 1 to prevent trolls.`,
             )}
           </p>
           <Button
@@ -85,10 +117,8 @@ export default function CustomWordPage() {
               min={0}
               defaultValue={0}
               onChange={e => {
-                e.currentTarget.value = Math.max(
-                  0,
-                  parseInt(e.currentTarget.value) || 0,
-                ).toString()
+                const value = Math.max(0, parseInt(e.currentTarget.value) || 0)
+                fetchSettings({ settings: { customWordMinVotes: value } })
               }}
             ></Input>
           </Form>

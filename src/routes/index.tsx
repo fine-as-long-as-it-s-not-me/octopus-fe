@@ -43,7 +43,7 @@ const router = createBrowserRouter([
             children: [
               {
                 element: <RoomPage />,
-                path: ROUTES.WAITING,
+                path: ROUTES.ROOM,
               },
               {
                 element: <CustomWordPage />,

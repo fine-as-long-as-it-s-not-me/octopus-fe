@@ -3,6 +3,7 @@ import { useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
 
 import Card from '@/components/common/Card'
+import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
 import { useGameStore } from '@/store/gameStore'
 import { useRoundStore } from '@/store/roundStore'
@@ -14,6 +15,13 @@ export default function RoundResultPage() {
 
   const { ranks } = useGameStore()
   const { phase } = useRoundStore()
+
+  const { playSoundEffect } = useSound()
+
+  useEffect(() => {
+    if (phase === Phase.ROUND_RESULT) playSoundEffect('phase')
+    else if (phase === Phase.GAME_RESULT) playSoundEffect('gameResult')
+  }, [phase, playSoundEffect])
 
   useEffect(() => {
     if (phase === Phase.GAME_RESULT) {

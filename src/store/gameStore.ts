@@ -4,9 +4,6 @@ import { persist } from 'zustand/middleware'
 import { type Rank } from '@/types'
 
 interface GameState {
-  isStarted: boolean
-  setIsStarted: (isStarted: boolean) => void
-
   ranks: Rank[]
   setRanks: (ranks: Rank[]) => void
 
@@ -19,9 +16,6 @@ interface GameState {
 export const useGameStore = create<GameState>()(
   persist(
     set => ({
-      isStarted: false,
-      setIsStarted: isStarted => set({ isStarted }),
-
       ranks: [],
       setRanks: ranks => set({ ranks }),
       round: 0,
@@ -30,7 +24,6 @@ export const useGameStore = create<GameState>()(
 
       init: () =>
         set(() => ({
-          isStarted: false,
           ranks: [],
           round: 0,
         })),
