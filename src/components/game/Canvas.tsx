@@ -152,7 +152,7 @@ export default function Canvas() {
 
   return (
     <Card
-      className='w-fit'
+      className='w-fit self-center'
       style={{
         backgroundColor: canvasColor,
         padding: '0px',

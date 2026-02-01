@@ -6,8 +6,7 @@ import { twMerge } from 'tailwind-merge'
 
 import Button from '@/components/common/Button'
 import Icon from '@/components/common/Icon'
-import SettingButtons from '@/components/common/SettingButtons'
-import SettingModalButton from '@/components/common/Settings'
+import Settings from '@/components/common/Settings'
 import Alert from '@/components/modals/Alert'
 import PlayerListButton from '@/components/player/PlayerListButton'
 import CloseButton from '@/components/room/CloseButton'
@@ -23,7 +22,7 @@ export default function RoomLayout() {
   const { playMusic } = useSound()
   const { roomCode } = useRoomStore()
   const { openModal } = useModal()
-  const { size, setIsCompact, direction } = useWindow()
+  const { setIsCompact, direction } = useWindow()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -40,39 +39,33 @@ export default function RoomLayout() {
   }
 
   return (
-    <div className='flex h-dvh sm:p-8 lg:p-16'>
-      <div className='flex flex-col items-center overflow-hidden sm:gap-4 md:gap-6'>
-        <div className='flex w-full flex-row sm:gap-2'>
-          <Button
-            size='md'
-            className='grow-1 self-stretch sm:min-w-1/2'
-            cardClassName={'py-2 md:py-3 h-full'}
-            onClick={copyLinkHandler}
-          >
-            {t('Room Code')} #{roomCode}
-            <Icon name='content_copy' />
-          </Button>
-          {import.meta.env.DEV && (
-            <Button className='w-fit' onClick={() => navigate(ROUTES.TEST!)}>
-              TEST
-            </Button>
-          )}
-          <PlayerListButton />
-          {size.sm ? (
-            <SettingButtons translate={false} />
-          ) : (
-            <SettingModalButton translate={false} />
-          )}
-          <CloseButton />
-        </div>
-        <div
-          className={twMerge(
-            'flex w-full sm:gap-2',
-            direction === 'vertical' ? 'flex-col' : 'flex-row',
-          )}
+    <div className='relative flex h-dvh w-full flex-col overflow-hidden sm:gap-4 sm:p-4 md:p-8 lg:p-16'>
+      <div className='flex w-full flex-row sm:gap-2'>
+        <Button
+          size='md'
+          className='grow-1 self-stretch sm:min-w-1/2'
+          cardClassName={'py-2 md:py-3 h-full'}
+          onClick={copyLinkHandler}
         >
-          <Outlet />
-        </div>
+          {t('Room Code')} #{roomCode}
+          <Icon name='content_copy' />
+        </Button>
+        {import.meta.env.DEV && (
+          <Button className='w-fit' onClick={() => navigate(ROUTES.TEST!)}>
+            TEST
+          </Button>
+        )}
+        <PlayerListButton />
+        <Settings translate={false} />
+        <CloseButton />
+      </div>
+      <div
+        className={twMerge(
+          'flex h-full w-full sm:gap-2',
+          direction === 'vertical' ? 'grow-1 flex-col' : 'flex-row',
+        )}
+      >
+        <Outlet />
       </div>
     </div>
   )
