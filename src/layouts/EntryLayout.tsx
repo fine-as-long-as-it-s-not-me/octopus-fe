@@ -20,7 +20,7 @@ export default function EntryLayout() {
   })
 
   return (
-    <div className='no-scrollbar flex h-full w-full max-w-[720px] flex-col items-center gap-4 overflow-scroll p-4 sm:p-12 md:gap-8'>
+    <div className='no-scrollbar box-content flex h-full w-full max-w-[720px] flex-col items-center justify-center gap-4 overflow-scroll p-4 md:p-8 lg:p-12'>
       <Img
         src={logo}
         alt='Logo'

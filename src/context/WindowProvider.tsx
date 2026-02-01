@@ -85,7 +85,7 @@ export default function WindowProvider({
         fullscreenToggle,
       }}
     >
-      <div className='overflow-hidden' ref={screenRef}>
+      <div className='h-dvh w-dvw overflow-hidden' ref={screenRef}>
         {children}
       </div>
     </WindowContext.Provider>

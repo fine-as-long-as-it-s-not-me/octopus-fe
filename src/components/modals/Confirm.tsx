@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
@@ -12,6 +13,12 @@ interface Props {
 export default function Confirm({ children }: Props) {
   const { closeModal } = useModal()
   const { t } = useTranslation()
+  const ref = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    ref.current?.focus()
+  }, [])
+
   return (
     <Modal>
       {children}
@@ -30,6 +37,7 @@ export default function Confirm({ children }: Props) {
           {t('Cancel')}
         </Button>
         <Button
+          ref={ref}
           size='md'
           onClick={() => {
             closeModal(true)
