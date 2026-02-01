@@ -55,21 +55,21 @@ export default function WindowProvider({
       screenRef.current
         ?.requestFullscreen()
         .then(() => {
-          setIsFullscreen(true)
+          // State will be updated by the 'fullscreenchange' event handler
         })
         .catch(error => {
           console.error('Failed to enter fullscreen:', error)
-          setIsFullscreen(false)
+          // State remains unchanged because fullscreen was not entered
         })
     } else {
       document
         .exitFullscreen()
         .then(() => {
-          setIsFullscreen(false)
+          // State will be updated by the 'fullscreenchange' event handler
         })
         .catch(error => {
           console.error('Failed to exit fullscreen:', error)
-          setIsFullscreen(true)
+          // State remains unchanged because fullscreen exit failed
         })
     }
   }
