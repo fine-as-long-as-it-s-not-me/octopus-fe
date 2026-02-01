@@ -40,37 +40,39 @@ export default function RoomLayout() {
   }
 
   return (
-    <div className='no-scrollbar flex h-dvh max-h-[1080px] w-full max-w-[1440px] flex-col overflow-scroll sm:gap-4 sm:p-8 md:gap-6 lg:p-16'>
-      <div className='flex h-fit w-full flex-row sm:gap-2'>
-        <Button
-          size='md'
-          className='grow-1 self-stretch sm:min-w-1/2'
-          cardClassName='py-2 md:py-3 h-full'
-          onClick={copyLinkHandler}
-        >
-          {t('Room Code')} #{roomCode}
-          <Icon name='content_copy' />
-        </Button>
-        {import.meta.env.DEV && (
-          <Button className='w-fit' onClick={() => navigate(ROUTES.TEST!)}>
-            TEST
+    <div className='flex h-dvh sm:p-8 lg:p-16'>
+      <div className='flex flex-col items-center overflow-hidden sm:gap-4 md:gap-6'>
+        <div className='flex w-full flex-row sm:gap-2'>
+          <Button
+            size='md'
+            className='grow-1 self-stretch sm:min-w-1/2'
+            cardClassName={'py-2 md:py-3 h-full'}
+            onClick={copyLinkHandler}
+          >
+            {t('Room Code')} #{roomCode}
+            <Icon name='content_copy' />
           </Button>
-        )}
-        <PlayerListButton />
-        {size.sm ? (
-          <SettingButtons translate={false} />
-        ) : (
-          <SettingModalButton translate={false} />
-        )}
-        <CloseButton />
-      </div>
-      <div
-        className={twMerge(
-          'flex h-[calc(100%-54px)] w-full sm:h-[calc(100%-80px)] sm:gap-2',
-          direction === 'vertical' ? 'flex-col' : 'flex-row',
-        )}
-      >
-        <Outlet />
+          {import.meta.env.DEV && (
+            <Button className='w-fit' onClick={() => navigate(ROUTES.TEST!)}>
+              TEST
+            </Button>
+          )}
+          <PlayerListButton />
+          {size.sm ? (
+            <SettingButtons translate={false} />
+          ) : (
+            <SettingModalButton translate={false} />
+          )}
+          <CloseButton />
+        </div>
+        <div
+          className={twMerge(
+            'flex w-full sm:gap-2',
+            direction === 'vertical' ? 'flex-col' : 'flex-row',
+          )}
+        >
+          <Outlet />
+        </div>
       </div>
     </div>
   )

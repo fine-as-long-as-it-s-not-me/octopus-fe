@@ -8,16 +8,16 @@ interface Props {
   size?: number
 }
 
-export default function Ink({ color, onClick, size = 48 }: Props) {
+export default function Ink({ color, onClick }: Props) {
   const { strokeColor } = useRoundStore()
 
   return (
     <button
       className={twMerge(
-        `aspect-square rounded-full`,
+        `aspect-square h-10 w-10 rounded-full sm:h-12 sm:w-12`,
         strokeColor === color && 'ring-4 ring-gray-400',
       )}
-      style={{ backgroundColor: color, width: size, height: size }}
+      style={{ backgroundColor: color }}
       onClick={onClick}
       aria-label={color}
     ></button>

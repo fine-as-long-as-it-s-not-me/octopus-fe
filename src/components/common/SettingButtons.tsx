@@ -2,6 +2,7 @@ import { useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
 
 import { useSound } from '@/context/SoundContext'
+import { useWindow } from '@/context/WindowContext'
 import LanguageSelectModal from '../modals/LanguageSelectModal'
 import Button from './Button'
 import Icon from './Icon'
@@ -40,10 +41,11 @@ interface Props {
 export default function SettingButtons({ className, translate = true }: Props) {
   const {
     isMusicMuted,
+    muteMusicToggle,
     isEffectMuted,
     muteSoundEffectToggle,
-    muteMusicToggle,
   } = useSound()
+  const { fullscreenToggle, isFullscreen } = useWindow()
   const { openModal } = useModal()
 
   const buttons = [
@@ -56,6 +58,11 @@ export default function SettingButtons({ className, translate = true }: Props) {
       onClick: () => muteSoundEffectToggle(),
       iconName: isEffectMuted ? 'volume_off' : 'volume_up',
       ariaLabel: isEffectMuted ? 'Unmute sound effects' : 'Mute sound effects',
+    },
+    {
+      onClick: () => fullscreenToggle(),
+      iconName: isFullscreen ? 'fullscreen_exit' : 'fullscreen',
+      ariaLabel: 'Toggle fullscreen mode',
     },
   ]
 

@@ -38,6 +38,7 @@ export default function SocketProvider({ children }: Props) {
     else {
       if (roomCode) {
         const nextPath = getPhasePath(phase)
+        console.log(ROUTES.TEST, nextPath)
         if (
           !(
             matchPath(ROUTES.CUSTOM_WORD, location.pathname) &&

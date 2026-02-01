@@ -14,20 +14,22 @@ export default function DrawingPage() {
   const { UUID } = useUserStore()
   const { playMusic } = useSound()
 
+  const isDrawing = UUID === painterUUID
+
   useEffect(() => {
-    if (UUID === painterUUID) playMusic('drawing')
+    if (isDrawing) playMusic('drawing')
     else playMusic('kidsgame')
-  }, [painterUUID, UUID, playMusic])
+  }, [isDrawing, playMusic])
 
   return (
     <div
       className={twMerge(
-        'flex shrink-0 grow-12 flex-col overflow-hidden sm:gap-2',
-        direction === 'vertical' ? '' : '',
+        'flex flex-col sm:gap-2',
+        direction === 'vertical' ? 'sm:flex-row' : '',
       )}
     >
       <Canvas />
-      <Palette />
+      {isDrawing && <Palette />}
     </div>
   )
 }

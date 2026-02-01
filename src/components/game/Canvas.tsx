@@ -1,8 +1,6 @@
 import { useEffect, useRef } from 'react'
-import { twMerge } from 'tailwind-merge'
 
 import { useAddStroke } from '@/apis/canvas'
-import { useWindow } from '@/context/WindowContext'
 import { useRoundStore } from '@/store/roundStore'
 import { useUserStore } from '@/store/userStore'
 import { Phase, type Point } from '@/types'
@@ -11,7 +9,6 @@ import Card from '../common/Card'
 const CANVAS_SIZE = 480
 
 export default function Canvas() {
-  const { direction } = useWindow()
   const { UUID } = useUserStore()
   const { mutate: addStroke } = useAddStroke()
   const {
@@ -155,18 +152,14 @@ export default function Canvas() {
 
   return (
     <Card
-      className={twMerge(
-        'flex items-center justify-center',
-        direction === 'vertical' ? '' : '',
-      )}
+      className='w-fit'
       style={{
         backgroundColor: canvasColor,
         padding: '0px',
-        minWidth: 'min(100vw, 420px)',
       }}
     >
       <canvas
-        className='block aspect-square max-h-[70vh] w-full touch-none'
+        className='aspect-square h-full touch-none'
         ref={canvasRef}
         style={{ touchAction: 'none' }}
         role='application'

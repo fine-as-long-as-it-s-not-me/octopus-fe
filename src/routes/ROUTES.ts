@@ -11,5 +11,5 @@ export const ROUTES = {
   VOTING: `/room/voting`,
   VOTE_RESULT: `/room/vote-result`,
   ROUND_RESULT: `/room/round-result`,
-  TEST: `/room/test`,
+  TEST: `/room/discussion`,
 }

@@ -11,7 +11,7 @@ export default function PlayerListButton() {
     <Button
       size='md'
       className={twMerge('max-w-[120px] grow self-stretch sm:hidden')}
-      cardClassName='h-full'
+      cardClassName={twMerge('h-full')}
       onClick={() => {
         openModal(<PlayerListModal />)
       }}

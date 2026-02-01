@@ -25,7 +25,7 @@ export default function RoomPage() {
   return (
     <>
       <PlayerListCard />
-      <div className='flex flex-col sm:gap-4'>
+      <div className='flex grow-1 flex-col sm:gap-4'>
         <GameSettingListCard isHost={isHost} />
         {isHost ? (
           <Button className='flex grow-1' onClick={startGameClickHandler}>

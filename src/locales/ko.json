@@ -75,7 +75,7 @@
   "Voted for": "투표 완료:",
   "has voted": "님이 투표했습니다",
   "The game has been started.": "게임이 시작되었습니다.",
-  "Revote has been initiated due to a tie. If tie occurs again, octopus wins.": "무승부로 인해 재투표가 시작되었습니다. 다시 무승부가 발생하면 문어가 승리합니다.",
+  "Revote has been initiated due to a tie. If tie occurs again, octopus wins.": "무승부로 인해 재투표가 시작되었습니다. 또다시 무승부가 발생하면 문어가 승리합니다.",
   "Round": "라운드",
   "The octopus was": "문어는",
   "The octopuses were": "문어들은",
@@ -101,5 +101,6 @@
   "The vote is currently open.": "투표가 열려 있습니다.",
   "Voting is closed": "투표가 닫혀있어요",
   "More Time": "시간 연장",
-  "Less Time": "시간 단축"
+  "Less Time": "시간 단축",
+  "View Canvas": "그림 보기"
 }
