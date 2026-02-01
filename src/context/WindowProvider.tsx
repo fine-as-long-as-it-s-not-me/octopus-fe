@@ -3,7 +3,7 @@ import { debounce } from 'lodash'
 
 import { WindowContext, type ScreenSize } from './WindowContext'
 
-const RESIZE_THROTTLE_MS = 100
+const RESIZE_THROTTLE_MS = 300
 
 export default function WindowProvider({
   children,
@@ -52,13 +52,25 @@ export default function WindowProvider({
 
   const fullscreenToggle = () => {
     if (!document.fullscreenElement) {
-      screenRef.current?.requestFullscreen().then(() => {
-        setIsFullscreen(true)
-      })
+      screenRef.current
+        ?.requestFullscreen()
+        .then(() => {
+          setIsFullscreen(true)
+        })
+        .catch(error => {
+          console.error('Failed to enter fullscreen:', error)
+          setIsFullscreen(false)
+        })
     } else {
-      document.exitFullscreen().then(() => {
-        setIsFullscreen(false)
-      })
+      document
+        .exitFullscreen()
+        .then(() => {
+          setIsFullscreen(false)
+        })
+        .catch(error => {
+          console.error('Failed to exit fullscreen:', error)
+          setIsFullscreen(true)
+        })
     }
   }
 
@@ -73,10 +85,7 @@ export default function WindowProvider({
         fullscreenToggle,
       }}
     >
-      <div
-        className='flex h-dvh w-dvw items-center justify-center overflow-hidden'
-        ref={screenRef}
-      >
+      <div className='overflow-hidden' ref={screenRef}>
         {children}
       </div>
     </WindowContext.Provider>

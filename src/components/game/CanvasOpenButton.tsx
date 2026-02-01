@@ -11,7 +11,7 @@ export default function CanvasOpenButton() {
   return (
     <Button
       size='md'
-      className='absolute bottom-[8vh] left-[4vw] z-50'
+      className='absolute bottom-4 left-4 z-50'
       cardClassName='items-center gap-1 flex-col justify-center rounded-xl'
       onClick={() => {
         openModal(<Canvas />)

@@ -24,7 +24,7 @@ export default function Bubble({ player, text }: Props) {
     >
       <Profile name={player.name} size='sm' />
       <Card size='sm' className='max-w-[70%] rounded-2xl px-4 py-2 md:py-2'>
-        <p className='break-all'>{text}</p>
+        <p className='break-words'>{text}</p>
       </Card>
     </div>
   )

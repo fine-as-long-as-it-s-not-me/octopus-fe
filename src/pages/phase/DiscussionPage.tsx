@@ -7,7 +7,7 @@ import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
 import Icon from '@/components/common/Icon'
 import Canvas from '@/components/game/Canvas'
-import CavnasOpenButton from '@/components/game/CanvasOpenButton'
+import CanvasOpenButton from '@/components/game/CanvasOpenButton'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
 
@@ -25,7 +25,7 @@ export default function DiscussionPage() {
   return (
     <div className={twMerge('flex flex-col sm:gap-2')}>
       {direction === 'vertical' ? (
-        <CavnasOpenButton />
+        <CanvasOpenButton />
       ) : (
         <Card className={twMerge('flex grow items-center justify-center')}>
           <Canvas />

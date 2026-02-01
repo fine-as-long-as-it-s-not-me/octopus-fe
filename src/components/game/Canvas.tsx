@@ -165,7 +165,7 @@ export default function Canvas() {
         ref={canvasRef}
         style={{
           touchAction: 'none',
-          aspectRatio: `${CANVAS_WIDTH} / ${CANVAS_HEIGHT}`,
+          aspectRatio: CANVAS_WIDTH / CANVAS_HEIGHT,
         }}
         role='application'
         aria-label='Drawing canvas'
