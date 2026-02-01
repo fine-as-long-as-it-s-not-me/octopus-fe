@@ -85,7 +85,7 @@ const router = createBrowserRouter([
               {
                 ...(import.meta.env.DEV
                   ? {
-                      element: <VotingPage />,
+                      element: <DiscussionPage />,
                       path: ROUTES.TEST,
                     }
                   : undefined),

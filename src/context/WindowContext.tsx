@@ -11,6 +11,8 @@ type WindowContextType = {
   direction: 'vertical' | 'horizontal'
   isCompact: boolean
   setIsCompact: (isCompact: boolean) => void
+  isFullscreen: boolean
+  fullscreenToggle: () => void
 }
 
 export const WindowContext = createContext<WindowContextType | null>(null)

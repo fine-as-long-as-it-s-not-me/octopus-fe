@@ -58,7 +58,7 @@
   "You have already extended the discussion time.": "이미 토론 시간을 연장했습니다.",
   "You have already shortened the discussion time.": "이미 토론 시간을 단축했습니다.",
   "Who's the Octopus?": "이 중에 문어가 있습니다...",
-  "Deep beneath the sea lies a peaceful squid village.\nOne day, a disguised octopus sneaks in, very insidious.\nThe squids draw secret words with their ink\nto uncover the octopus who doesn’t know the code!": "깊은 바다, 평화로운 오징어 마을.\n한 음흉한 문어가 위장술로 숨어들며 소동이 시작됩니다.\n오징어들은 먹물로 비밀 단어를 그려 문어를 찾아내기로 합니다.",
+  "Deep beneath the sea lies a peaceful squid village.\nOne day, a disguised octopus sneaks in, very insidious.\nThe squids draw secret words with their ink\nto uncover the octopus who doesn’t know the code!": "깊은 바다, 평화로운 오징어 마을.\n한 음흉한 문어가 위장술로 숨어들며 소동이 시작됩니다.\n오징어들은 그들의 먹물을 이용하여 마을의 비밀 단어를 그려 이를 모르는 문어를 찾아내기로 합니다.",
   "Vote for a Player": "문어를 색출하세요!",
   "Confirm": "확정",
   "Logout": "로그아웃",
@@ -75,7 +75,7 @@
   "Voted for": "투표 완료:",
   "has voted": "님이 투표했습니다",
   "The game has been started.": "게임이 시작되었습니다.",
-  "Revote has been initiated due to a tie. If tie occurs again, octopus wins.": "무승부로 인해 재투표가 시작되었습니다. 다시 무승부가 발생하면 문어가 승리합니다.",
+  "Revote has been initiated due to a tie. If tie occurs again, octopus wins.": "무승부로 인해 재투표가 시작되었습니다. 또다시 무승부가 발생하면 문어가 승리합니다.",
   "Round": "라운드",
   "The octopus was": "문어는",
   "The octopuses were": "문어들은",
@@ -101,5 +101,6 @@
   "The vote is currently open.": "투표가 열려 있습니다.",
   "Voting is closed": "투표가 닫혀있어요",
   "More Time": "시간 연장",
-  "Less Time": "시간 단축"
+  "Less Time": "시간 단축",
+  "View Canvas": "그림 보기"
 }

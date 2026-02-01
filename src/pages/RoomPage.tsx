@@ -25,14 +25,14 @@ export default function RoomPage() {
   return (
     <>
       <PlayerListCard />
-      <div className='flex flex-col sm:gap-4'>
+      <div className='flex grow-1 flex-col sm:gap-2'>
         <GameSettingListCard isHost={isHost} />
         {isHost ? (
           <Button className='flex grow-1' onClick={startGameClickHandler}>
             <h1>{t('Start Game')}</h1>
           </Button>
         ) : (
-          <Card className='justify-center'>
+          <Card className='grow-1 items-center justify-center'>
             <h3 className='text-center'>
               {t('Waiting for host to start the game...')}
             </h3>
