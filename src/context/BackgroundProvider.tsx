@@ -25,7 +25,7 @@ export const BackgroundProvider = ({ children }: Props) => {
       }}
     >
       <div
-        className='width-full height-full flex flex-col items-center'
+        className='flex h-dvh w-dvw flex-col items-center justify-center'
         style={{
           backgroundImage: bgImage ? `url(${bgImage.src})` : 'none',
           backgroundSize: 'cover',

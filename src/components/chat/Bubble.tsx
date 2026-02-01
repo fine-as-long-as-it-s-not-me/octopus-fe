@@ -18,13 +18,13 @@ export default function Bubble({ player, text }: Props) {
   return (
     <div
       className={twMerge(
-        'w-fit px-4 py-1 md:py-2',
+        'w-[100%] px-4 py-1 md:py-2',
         isMe ? 'flex flex-col items-end self-end' : '',
       )}
     >
       <Profile name={player.name} size='sm' />
-      <Card size='sm' className='rounded-2xl px-4 py-2 md:py-2'>
-        <p className='wihtespace-pre-wrap max-w-[320px] break-words'>{text}</p>
+      <Card size='sm' className='max-w-[70%] rounded-2xl px-4 py-2 md:py-2'>
+        <p className='break-words'>{text}</p>
       </Card>
     </div>
   )

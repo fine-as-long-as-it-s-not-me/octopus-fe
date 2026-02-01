@@ -32,7 +32,7 @@ export default function GameLayout() {
   }, [setBackgroundImage, setIsCompact])
 
   return (
-    <div className='no-scrollbar flex h-dvh max-h-[1080px] w-full max-w-[1440px] flex-col overflow-scroll sm:gap-4 sm:p-8 md:gap-6 lg:p-16'>
+    <div className='relative flex h-dvh w-full flex-col overflow-hidden sm:gap-4 sm:p-4 md:p-8 lg:p-16'>
       <div className='flex h-fit w-full flex-row flex-wrap sm:gap-2'>
         <div className='flex min-w-[400px] grow flex-row sm:gap-2'>
           <Card size='md' className='order-0 w-auto shrink-0 items-center'>
@@ -56,10 +56,8 @@ export default function GameLayout() {
       </div>
       <div
         className={twMerge(
-          'flex w-full flex-col sm:h-[calc(100%-80px)] sm:gap-2',
-          direction === 'vertical'
-            ? 'flex-col'
-            : 'h-[calc(100%-112px)] flex-row flex-wrap',
+          'flex h-full w-full items-stretch sm:gap-2',
+          direction === 'vertical' ? 'flex-col' : 'flex-row',
         )}
       >
         <PlayersCard />

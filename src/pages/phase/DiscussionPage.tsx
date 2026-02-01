@@ -7,6 +7,7 @@ import Button from '@/components/common/Button'
 import Card from '@/components/common/Card'
 import Icon from '@/components/common/Icon'
 import Canvas from '@/components/game/Canvas'
+import CanvasOpenButton from '@/components/game/CanvasOpenButton'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
 
@@ -22,20 +23,14 @@ export default function DiscussionPage() {
   }, [playSoundEffect, playMusic])
 
   return (
-    <div
-      className={twMerge(
-        'flex shrink-0 grow-1 flex-col sm:gap-2',
-        direction === 'vertical' ? '' : '',
+    <div className={twMerge('flex flex-col sm:gap-2')}>
+      {direction === 'vertical' ? (
+        <CanvasOpenButton />
+      ) : (
+        <Card className={twMerge('flex grow items-center justify-center')}>
+          <Canvas />
+        </Card>
       )}
-    >
-      <Card
-        className={twMerge(
-          'flex grow items-center justify-center',
-          direction === 'vertical' ? '' : '',
-        )}
-      >
-        <Canvas />
-      </Card>
       <Button
         className='flex shrink-0'
         onClick={() => changeTimeLeft({ type: 'increase' })}

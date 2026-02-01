@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge'
 import { useVoteOctopus } from '@/apis/game'
 import Card from '@/components/common/Card'
 import Canvas from '@/components/game/Canvas'
+import CanvasOpenButton from '@/components/game/CanvasOpenButton'
 import VoteCard from '@/components/game/VoteCard'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
@@ -18,14 +19,12 @@ export default function VotingPage() {
   }, [playSoundEffect])
 
   return (
-    <div className={twMerge('flex shrink-0 grow-12 flex-col sm:gap-2')}>
+    <div className={twMerge('flex grow-1 flex-col sm:gap-2')}>
+      {direction === 'vertical' && <CanvasOpenButton />}
       <Card
-        className={twMerge(
-          'grow flex-col items-center justify-center gap-4',
-          direction === 'vertical' ? '' : '',
-        )}
+        className={twMerge('grow flex-col items-center justify-center gap-4')}
       >
-        <Canvas />
+        {direction !== 'vertical' && <Canvas />}
         <VoteCard
           onSubmit={(targetUUID: string) => vote({ targetUUID })}
           key={'voting'}
