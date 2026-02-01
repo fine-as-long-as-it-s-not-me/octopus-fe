@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import { useAddStroke } from '@/apis/canvas'
 import { useRoundStore } from '@/store/roundStore'
@@ -6,7 +7,8 @@ import { useUserStore } from '@/store/userStore'
 import { Phase, type Point } from '@/types'
 import Card from '../common/Card'
 
-const CANVAS_SIZE = 480
+const CANVAS_WIDTH = 1280
+const CANVAS_HEIGHT = 960
 
 export default function Canvas() {
   const { UUID } = useUserStore()
@@ -38,8 +40,8 @@ export default function Canvas() {
     if (!context) return
 
     // Set canvas dimensions
-    canvas.width = CANVAS_SIZE
-    canvas.height = CANVAS_SIZE
+    canvas.width = CANVAS_WIDTH
+    canvas.height = CANVAS_HEIGHT
 
     // Clear the canvas
     context.clearRect(0, 0, canvas.width, canvas.height)
@@ -152,16 +154,19 @@ export default function Canvas() {
 
   return (
     <Card
-      className='w-fit self-center'
+      className={twMerge('h-fit w-fit self-center')}
       style={{
         backgroundColor: canvasColor,
         padding: '0px',
       }}
     >
       <canvas
-        className='aspect-square h-full touch-none'
+        className='w-full touch-none'
         ref={canvasRef}
-        style={{ touchAction: 'none' }}
+        style={{
+          touchAction: 'none',
+          aspectRatio: `${CANVAS_WIDTH} / ${CANVAS_HEIGHT}`,
+        }}
         role='application'
         aria-label='Drawing canvas'
       />

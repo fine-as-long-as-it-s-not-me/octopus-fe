@@ -3,7 +3,7 @@ import { debounce } from 'lodash'
 
 import { WindowContext, type ScreenSize } from './WindowContext'
 
-const RESIZE_THROTTLE_MS = 500
+const RESIZE_THROTTLE_MS = 100
 
 export default function WindowProvider({
   children,

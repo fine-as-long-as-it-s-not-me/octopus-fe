@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { matchPath, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
+import useRouteByPhase from '@/hooks/useRouteByPhase'
 import { useSocketConnection } from '@/hooks/useSocketConnection'
-import { getPhasePath } from '@/lib/getPhasePath'
-import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
 import { useRoundStore } from '@/store/roundStore'
 import { useUserStore } from '@/store/userStore'
@@ -33,23 +32,14 @@ export default function SocketProvider({ children }: Props) {
     }
   }, [error, isConnected, isConnecting, connectSocket, setError])
 
-  useEffect(() => {
-    if (userId === -1 || !userName) navigate(ROUTES.HOME)
-    else {
-      if (roomCode) {
-        const nextPath = getPhasePath(phase)
-        console.log(ROUTES.TEST, nextPath)
-        if (
-          !(
-            matchPath(ROUTES.CUSTOM_WORD, location.pathname) &&
-            nextPath === ROUTES.ROOM
-          )
-        ) {
-          navigate(nextPath)
-        }
-      } else navigate(ROUTES.LOBBY)
-    }
-  }, [phase, roomCode, navigate, userId, userName, location.pathname])
+  useRouteByPhase({
+    phase,
+    roomCode,
+    userId,
+    userName,
+    location,
+    navigate,
+  })
 
   return (
     <SocketContext.Provider

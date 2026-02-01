@@ -14,6 +14,7 @@ export default function DrawingPage() {
   const { UUID } = useUserStore()
   const { playMusic } = useSound()
 
+  // const isDrawing = true
   const isDrawing = UUID === painterUUID
 
   useEffect(() => {
@@ -24,8 +25,8 @@ export default function DrawingPage() {
   return (
     <div
       className={twMerge(
-        'flex flex-col sm:gap-2',
-        direction === 'vertical' ? 'sm:flex-row' : '',
+        'flex flex-col items-center overflow-hidden sm:gap-2',
+        direction === 'vertical' ? 'sm:max-h-[60vh]' : 'grow-1',
       )}
     >
       <Canvas />

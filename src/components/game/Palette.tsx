@@ -21,8 +21,8 @@ export default function Palette() {
   return (
     <Card
       className={twMerge(
-        'flex flex-row items-center justify-evenly gap-4 p-4',
-        direction === 'vertical' ? 'sm:w-fit sm:flex-col' : '',
+        'flex h-fit flex-row flex-wrap items-center justify-center gap-4 p-4',
+        direction === 'vertical' ? 'w-full' : 'h-fit',
       )}
     >
       <div className='grid grid-cols-5 gap-2'>
@@ -37,10 +37,10 @@ export default function Palette() {
           />
         ))}
       </div>
-      <div className='flex justify-between gap-4'>
+      <div className='flex justify-around gap-2'>
         <Button
           size='sm'
-          cardClassName='h-16 w-16'
+          cardClassName='h-14 w-14'
           onClick={() => {
             if (tool === 'pen') openModal(<StrokeWidthModal />)
             else setTool('pen')
@@ -51,7 +51,7 @@ export default function Palette() {
         </Button>
         <Button
           size='sm'
-          cardClassName='h-16 w-16'
+          cardClassName='h-14 w-14'
           onClick={() => {
             if (tool === 'eraser') openModal(<StrokeWidthModal />)
             else setTool('eraser')
@@ -63,7 +63,7 @@ export default function Palette() {
       </div>
       <Button
         size='md'
-        cardClassName='rounded-xl'
+        cardClassName='rounded-2xl p-3'
         onClick={() => openModal(<CanvasColorModal />)}
       >
         {t('Canvas Color')}
