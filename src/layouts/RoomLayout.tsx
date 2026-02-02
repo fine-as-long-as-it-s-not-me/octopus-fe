@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { useModal } from 'sam-react-modal'
 
 import Button from '@/components/common/Button'
@@ -15,7 +15,6 @@ import RoomWrapper from '@/components/room/RoomWrapper'
 import { useBackground } from '@/context/BackgroundContext'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
-import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
 
 export default function RoomLayout() {
@@ -25,7 +24,6 @@ export default function RoomLayout() {
   const { roomCode } = useRoomStore()
   const { openModal } = useModal()
   const { setIsCompact } = useWindow()
-  const navigate = useNavigate()
 
   useEffect(() => {
     playMusic('waiting')
@@ -52,11 +50,6 @@ export default function RoomLayout() {
           {t('Room Code')} #{roomCode}
           <Icon name='content_copy' />
         </Button>
-        {import.meta.env.DEV && (
-          <Button className='w-fit' onClick={() => navigate(ROUTES.TEST!)}>
-            TEST
-          </Button>
-        )}
         <PlayerListButton />
         <Settings translate={false} />
         <CloseButton />

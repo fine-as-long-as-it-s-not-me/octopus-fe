@@ -10,6 +10,6 @@ export const DEFAULT_STROKE_WIDTH = 5
 export const MAX_STROKE_WIDTH = 150
 export const MIN_STROKE_WIDTH = 1
 
-export const CONFETTI_DELAY = 5300
+export const CONFETTI_DELAY = 5200
 
 export const SYSTEM = { name: 'System', UUID: 'system' } as Player

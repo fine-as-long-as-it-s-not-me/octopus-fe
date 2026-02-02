@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import Realistic from 'react-canvas-confetti/dist/presets/realistic'
 import { useTranslation } from 'react-i18next'
+import { twMerge } from 'tailwind-merge'
 
 import Card from '@/components/common/Card'
 import Img from '@/components/common/Img'
@@ -11,11 +12,11 @@ import useAvatar from '@/hooks/useAvatar'
 import { useRoundStore } from '@/store/roundStore'
 
 export default function VoteResultPage() {
-  const imageRef = useRef<HTMLImageElement | null>(null)
   const { octopuses, votedPlayer } = useRoundStore()
+  const { playSoundEffect, pauseMusic } = useSound()
   const { t } = useTranslation()
 
-  const { playSoundEffect, pauseMusic } = useSound()
+  const [hidden, setHidden] = useState(true)
 
   const avatar = useAvatar(octopuses[0]?.name || 'Unknown')
   const didFindOctopus = octopuses.some(
@@ -28,9 +29,8 @@ export default function VoteResultPage() {
   }, [playSoundEffect, pauseMusic])
 
   useEffect(() => {
-    if (!imageRef.current) return
     const timeout = setTimeout(() => {
-      if (imageRef.current) imageRef.current.style.filter = 'none'
+      setHidden(false)
     }, CONFETTI_DELAY)
 
     return () => clearTimeout(timeout)
@@ -40,13 +40,21 @@ export default function VoteResultPage() {
     <Card className='flex w-auto shrink-0 grow-4 flex-col items-center justify-center'>
       <Img
         src={avatar}
-        ref={imageRef}
         style={{
           transition: 'filter 0.5s ease-in-out',
         }}
-        className='mb-4 max-w-[160px] grayscale filter-[brightness(0)]'
+        className={twMerge(
+          'mb-4 max-w-[160px]',
+          hidden ? 'grayscale filter-[brightness(0)]' : '',
+        )}
       />
-      <div className='mb-8 text-center text-2xl font-bold'>
+
+      <div
+        className={twMerge(
+          'mb-8 text-center text-2xl font-bold',
+          hidden ? 'invisible' : '',
+        )}
+      >
         <p>
           {`${t(`The ${octopuses.length > 1 ? 'octopuses were' : 'octopus was'}`)} ${octopuses.map(octopus => octopus.name).join(', ')}.`}
         </p>

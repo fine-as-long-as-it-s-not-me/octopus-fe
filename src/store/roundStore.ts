@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { DEFAULT_STROKE_WIDTH } from '@/consts'
-import { Phase, type Player, type Stroke, type ToolType } from '@/types'
+import { Phase, Team, type Player, type Stroke, type ToolType } from '@/types'
 
 interface RoundState {
   phase: Phase
@@ -53,6 +53,9 @@ interface RoundState {
 
   octopuses: Player[]
   setOctopuses: (octopuses: Player[]) => void
+
+  winningTeam: Team | null
+  setWinningTeam: (team: Team | null) => void
 
   init: () => void
 }
@@ -110,6 +113,9 @@ export const useRoundStore = create<RoundState>()(
       octopuses: [],
       setOctopuses: octopuses => set({ octopuses }),
 
+      winningTeam: null,
+      setWinningTeam: team => set({ winningTeam: team }),
+
       init: () =>
         set(() => ({
           timeLeft: 0,
@@ -146,6 +152,7 @@ export const useRoundStore = create<RoundState>()(
                 'tool',
                 'votedPlayer',
                 'phase',
+                'winningTeam',
               ].includes(key),
           ),
         ),

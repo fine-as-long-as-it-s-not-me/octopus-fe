@@ -166,8 +166,16 @@ export type RoundResultResponse = {
   guessed: boolean
   isUnanimity: boolean
   octopuses: Player[]
+  winningTeam: 'octopus' | 'squid'
 }
 
 export type GameResultResponse = {
   ranks: Rank[]
 }
+
+export const Team = {
+  OCTOPUS: 'octopus',
+  SQUID: 'squid',
+}
+
+export type Team = (typeof Team)[keyof typeof Team]

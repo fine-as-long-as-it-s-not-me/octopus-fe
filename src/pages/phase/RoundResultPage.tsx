@@ -1,33 +1,52 @@
 import { useEffect } from 'react'
-import { useModal } from 'sam-react-modal'
+import { useTranslation } from 'react-i18next'
 import { twMerge } from 'tailwind-merge'
 
 import Card from '@/components/common/Card'
+import Profile from '@/components/player/Profile'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
 import { useGameStore } from '@/store/gameStore'
 import { useRoundStore } from '@/store/roundStore'
-import { Phase } from '@/types'
+import { useUserStore } from '@/store/userStore'
+import { Team, type Player } from '@/types'
 
 export default function RoundResultPage() {
-  const { direction } = useWindow()
-  const { openModal } = useModal()
-
-  const { ranks } = useGameStore()
-  const { phase } = useRoundStore()
-
   const { playSoundEffect } = useSound()
+  const { direction } = useWindow()
+  const { t } = useTranslation()
+  const { octopuses, winningTeam, isUnanimity, tied, guessed } = useRoundStore()
+  const { UUID } = useUserStore()
+  const { ranks } = useGameStore()
+
+  const team = octopuses.find((octopus: Player) => octopus.UUID === UUID)
+    ? Team.OCTOPUS
+    : Team.SQUID
+
+  const resultText =
+    winningTeam === team
+      ? team === Team.SQUID
+        ? isUnanimity
+          ? 'Squids Get Bonus from unanimity!'
+          : 'Squids Win! Octopuses failed to figure out the code.'
+        : tied
+          ? 'Octopuses Win because Squids were too indecisive'
+          : guessed
+            ? 'Octopuses Win! They figured out the code.'
+            : 'Octopuses Win! Squids failed to find them.'
+      : team === Team.SQUID
+        ? tied
+          ? 'Squids Lose because they were too indecisive'
+          : guessed
+            ? 'Squids Lose. The Octopus figured out the code.'
+            : 'Squids Lose. They failed to find an Octopus.'
+        : 'Octopuses Lose. They failed to figure out the code.'
 
   useEffect(() => {
-    if (phase === Phase.ROUND_RESULT) playSoundEffect('phase')
-    else if (phase === Phase.GAME_RESULT) playSoundEffect('gameResult')
-  }, [phase, playSoundEffect])
+    if (winningTeam === team) playSoundEffect('round-win')
+    else playSoundEffect('round-lose')
+  }, [playSoundEffect, winningTeam, team])
 
-  useEffect(() => {
-    if (phase === Phase.GAME_RESULT) {
-      openModal(<Card>Game Result Modal</Card>)
-    }
-  }, [phase, openModal])
   return (
     <Card
       className={twMerge(
@@ -35,23 +54,26 @@ export default function RoundResultPage() {
         direction === 'vertical' ? 'w-full' : 'w-fit',
       )}
     >
-      <h1 className='w-full text-center'>Result</h1>
+      <h1 className='w-full text-center'>{t('Round Result')}</h1>
+      <p className='text-center'>{t(resultText)}</p>
       <table className='border-separate border-spacing-y-8 text-center'>
         <thead>
           <tr>
-            <th className='w-6'>Ranking</th>
-            <th className='w-32'>Player</th>
-            <th className='w-10'>Delta</th>
-            <th className='w-20'>Total</th>
+            <th className='w-6'>{t('Ranking')}</th>
+            <th className='w-32'>{t('Player')}</th>
+            <th className='w-10'>{t('Round Score')}</th>
+            <th className='w-20'>{t('Total')}</th>
           </tr>
         </thead>
         <tbody>
           {ranks.map((rank, index) => (
             <tr key={rank.player.UUID}>
-              <td className='w-6'>{index + 1}</td>
-              <td className='w-32'>{rank.player.name}</td>
-              <td className='w-10'>{rank.score.delta}</td>
-              <td className='w-20'>{rank.score.total}</td>
+              <td>{index + 1}</td>
+              <td className='flex justify-center'>
+                <Profile size='sm' name={rank.player.name} />
+              </td>
+              <td>{rank.score.delta}</td>
+              <td>{rank.score.total}</td>
             </tr>
           ))}
         </tbody>

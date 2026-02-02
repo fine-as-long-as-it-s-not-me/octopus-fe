@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useToast } from '@/context/ToastContext'
+import { useWindow } from '@/context/WindowContext'
 import { createChatHandlers } from '@/hooks/socketHandlers/chatHandlers'
 import { createErrorHandlers } from '@/hooks/socketHandlers/errorHandlers'
 import { createGameHandlers } from '@/hooks/socketHandlers/gameHandlers'
@@ -25,6 +26,7 @@ export function useSocketHandlers(
   const { setRoomCode, setPlayers, setSettings, addChat, setCustomWords } =
     useRoomStore()
   const { setRound, setRanks } = useGameStore()
+  const { isFullscreen, fullscreenToggle } = useWindow()
   const {
     init: initRound,
     setTied,
@@ -40,6 +42,7 @@ export function useSocketHandlers(
     setPainterUUID,
     setNextPainterUUID,
     setVotedPlayer,
+    setWinningTeam,
   } = useRoundStore()
 
   const { notify } = useToast()
@@ -97,6 +100,7 @@ export function useSocketHandlers(
         setRanks,
         setCustomWords,
         setVotedPlayer,
+        setWinningTeam,
       }),
     [
       initRound,
@@ -116,6 +120,7 @@ export function useSocketHandlers(
       setRanks,
       setCustomWords,
       setVotedPlayer,
+      setWinningTeam,
     ],
   )
 
@@ -125,8 +130,10 @@ export function useSocketHandlers(
         setRanks,
         addChat,
         t,
+        isFullscreen,
+        fullscreenToggle,
       }),
-    [setRanks, addChat, t],
+    [setRanks, addChat, t, isFullscreen, fullscreenToggle],
   )
 
   const errorHandlers = useMemo(() => createErrorHandlers({ notify }), [notify])

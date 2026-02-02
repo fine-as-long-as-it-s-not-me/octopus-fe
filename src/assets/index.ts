@@ -90,6 +90,11 @@ export const soundEffectsAssets = {
   nav: '/sounds/effect/nav.mp3',
   'drum-roll': '/sounds/effect/drum-roll.mp3',
   notify: '/sounds/effect/notify.mp3',
+  'round-win': '/sounds/effect/round-win.mp3',
+  'round-lose': '/sounds/effect/round-lose.mp3',
+  win: '/sounds/effect/win.mp3',
+  lose: '/sounds/effect/lose.mp3',
+  'game-result': '/sounds/effect/game-result.mp3',
 
   'ddok!': '/sounds/effect/ddok!.mp3',
   ddok: '/sounds/effect/ddok.mp3',

@@ -2,17 +2,19 @@ import { useTranslation } from 'react-i18next'
 import { twMerge } from 'tailwind-merge'
 
 import { useRoundStore } from '@/store/roundStore'
+import type { Phase } from '@/types'
 import Card from '../common/Card'
 
-const PHASE_DESCRIPTIONS: Record<string, string> = {
-  waiting: 'Waiting for players',
+const PHASE_DESCRIPTIONS: Record<Phase, string> = {
+  end: 'Waiting for players',
   keyword: 'Check your given word',
   drawing: 'Draw the keyword',
   discussion: 'Discuss with other players',
   voting: 'Vote for the Octopus',
   'vote-result': 'The Octopus reveals itself!',
   guessing: 'Octopus, make your guess',
-  result: 'Round results',
+  'round-result': 'Round result',
+  'game-result': 'Game result',
 }
 
 export default function PhaseDescCard() {
