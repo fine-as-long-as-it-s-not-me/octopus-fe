@@ -27,13 +27,13 @@ export default function LobbyPage() {
   }
 
   return (
-    <>
+    <div className='flex w-full flex-col justify-center gap-4'>
       <Spacing />
       <Button onClick={randomRoomClickHandler}>{t('Join Random Room')}</Button>
       <Button onClick={useRoomCodeClickHandler}>{t('Use Room Code')}</Button>
       <Button onClick={createRoomClickHandler}>{t('Create Room')}</Button>
       <Button onClick={logoutClickHandler}>{t('Logout')}</Button>
       <Spacing />
-    </>
+    </div>
   )
 }

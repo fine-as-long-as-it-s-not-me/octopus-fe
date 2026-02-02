@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { Spacing, useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
 
-import { useWindow } from '@/context/WindowContext'
 import { parseCountryCodeToLang } from '@/lib/language'
 import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
@@ -21,7 +20,6 @@ export default function GameSettingListCard({ isHost }: Props) {
   const { t } = useTranslation()
   const { settings } = useRoomStore()
   const navigate = useNavigate()
-  const { direction } = useWindow()
 
   return (
     <Card className='flex w-full grow-2 flex-col sm:min-w-[240px]'>
@@ -36,8 +34,7 @@ export default function GameSettingListCard({ isHost }: Props) {
       <Spacing />
       <div
         className={twMerge(
-          'no-scrollbar flex flex-row flex-wrap items-center gap-4 overflow-scroll sm:gap-4',
-          direction === 'vertical' ? '' : 'max-w-[400px]',
+          'no-scrollbar flex w-full flex-row flex-wrap items-center justify-center gap-4 overflow-scroll sm:gap-4',
         )}
       >
         <SettingItem

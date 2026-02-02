@@ -18,7 +18,7 @@ export function getPhasePath(phase: Phase): string {
     case Phase.ROUND_RESULT:
       return ROUTES.ROUND_RESULT
     case Phase.GAME_RESULT:
-      return ROUTES.ROUND_RESULT
+      return ROUTES.GAME_RESULT
     default:
       return ROUTES.ROOM
   }

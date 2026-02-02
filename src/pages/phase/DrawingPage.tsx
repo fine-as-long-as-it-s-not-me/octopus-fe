@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { twMerge } from 'tailwind-merge'
 
 import Canvas from '@/components/game/Canvas'
 import Palette from '@/components/game/Palette'
 import { useSound } from '@/context/SoundContext'
+import { useToast } from '@/context/ToastContext'
 import { useWindow } from '@/context/WindowContext'
 import { useRoundStore } from '@/store/roundStore'
 import { useUserStore } from '@/store/userStore'
@@ -13,14 +15,21 @@ export default function DrawingPage() {
   const { painterUUID } = useRoundStore()
   const { UUID } = useUserStore()
   const { playMusic } = useSound()
+  const { notify } = useToast()
+  const { t } = useTranslation()
 
-  // const isDrawing = true
   const isDrawing = UUID === painterUUID
 
   useEffect(() => {
     if (isDrawing) playMusic('drawing')
     else playMusic('kidsgame')
   }, [isDrawing, playMusic])
+
+  useEffect(() => {
+    if (!isDrawing) return
+
+    notify(t("It's your turn!"))
+  }, [isDrawing, notify, t])
 
   return (
     <div

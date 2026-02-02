@@ -10,6 +10,7 @@ import HomePage from '@/pages/HomePage'
 import LobbyPage from '@/pages/LobbyPage'
 import DiscussionPage from '@/pages/phase/DiscussionPage'
 import DrawingPage from '@/pages/phase/DrawingPage'
+import GameResultPage from '@/pages/phase/GameResultPage'
 import GuessingPage from '@/pages/phase/GuessingPage'
 import KeywordPage from '@/pages/phase/KeywordPage'
 import RoundResultPage from '@/pages/phase/RoundResultPage'
@@ -83,12 +84,8 @@ const router = createBrowserRouter([
                 path: ROUTES.ROUND_RESULT,
               },
               {
-                ...(import.meta.env.DEV
-                  ? {
-                      element: <DiscussionPage />,
-                      path: ROUTES.TEST,
-                    }
-                  : undefined),
+                element: <GameResultPage />,
+                path: ROUTES.GAME_RESULT,
               },
             ],
           },

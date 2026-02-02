@@ -1,7 +1,7 @@
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useToast } from '@/context/ToastContext'
+import { useWindow } from '@/context/WindowContext'
 import { createChatHandlers } from '@/hooks/socketHandlers/chatHandlers'
 import { createErrorHandlers } from '@/hooks/socketHandlers/errorHandlers'
 import { createGameHandlers } from '@/hooks/socketHandlers/gameHandlers'
@@ -21,124 +21,60 @@ export function useSocketHandlers(
   ) => void,
 ): MessageHandlers {
   const { t } = useTranslation()
-  const { name, UUID, setId } = useUserStore()
-  const { setRoomCode, setPlayers, setSettings, addChat, setCustomWords } =
-    useRoomStore()
-  const { setRound, setRanks } = useGameStore()
-  const {
-    init: initRound,
-    setTied,
-    setGuessed,
-    setIsUnanimity,
-    setPhase,
-    setKeyword,
-    setStrokes,
-    setTimeLeft,
-    setOctopuses,
-    setVoteResult,
-    setCanvasColor,
-    setPainterUUID,
-    setNextPainterUUID,
-    setVotedPlayer,
-  } = useRoundStore()
-
   const { notify } = useToast()
+  const { isFullscreen, fullscreenToggle } = useWindow()
 
-  const roomHandlers = useMemo(
-    () =>
-      createRoomHandlers({
-        name,
-        UUID,
-        sendMessage,
-        setId,
-        setRoomCode,
-        setPlayers,
-        setSettings,
-        setPhase,
-      }),
-    [
-      name,
-      UUID,
+  const user = useUserStore()
+  const room = useRoomStore()
+  const game = useGameStore()
+  const round = useRoundStore()
+
+  return {
+    ...createRoomHandlers({
+      name: user.name,
+      UUID: user.UUID,
       sendMessage,
-      setId,
-      setRoomCode,
-      setPlayers,
-      setSettings,
-      setPhase,
-    ],
-  )
-
-  const chatHandlers = useMemo(
-    () =>
-      createChatHandlers({
-        t,
-        addChat,
-      }),
-    [t, addChat],
-  )
-
-  const roundHandlers = useMemo(
-    () =>
-      createRoundHandlers({
-        initRound,
-        setTied,
-        setGuessed,
-        setIsUnanimity,
-        setPhase,
-        setKeyword,
-        setStrokes,
-        setTimeLeft,
-        setOctopuses,
-        setVoteResult,
-        setCanvasColor,
-        setPainterUUID,
-        setNextPainterUUID,
-        setRound,
-        setRanks,
-        setCustomWords,
-        setVotedPlayer,
-      }),
-    [
-      initRound,
-      setTied,
-      setGuessed,
-      setIsUnanimity,
-      setPhase,
-      setKeyword,
-      setStrokes,
-      setTimeLeft,
-      setOctopuses,
-      setVoteResult,
-      setCanvasColor,
-      setPainterUUID,
-      setNextPainterUUID,
-      setRound,
-      setRanks,
-      setCustomWords,
-      setVotedPlayer,
-    ],
-  )
-
-  const gameHandlers = useMemo(
-    () =>
-      createGameHandlers({
-        setRanks,
-        addChat,
-        t,
-      }),
-    [setRanks, addChat, t],
-  )
-
-  const errorHandlers = useMemo(() => createErrorHandlers({ notify }), [notify])
-
-  return useMemo(
-    () => ({
-      ...roomHandlers,
-      ...chatHandlers,
-      ...roundHandlers,
-      ...gameHandlers,
-      ...errorHandlers,
+      setId: user.setId,
+      setRoomCode: room.setRoomCode,
+      setPlayers: room.setPlayers,
+      setSettings: room.setSettings,
+      setPhase: round.setPhase,
     }),
-    [roomHandlers, chatHandlers, roundHandlers, gameHandlers, errorHandlers],
-  )
+
+    ...createChatHandlers({
+      t,
+      addChat: room.addChat,
+    }),
+
+    ...createRoundHandlers({
+      initRound: round.init,
+      setTied: round.setTied,
+      setGuessed: round.setGuessed,
+      setIsUnanimity: round.setIsUnanimity,
+      setPhase: round.setPhase,
+      setKeyword: round.setKeyword,
+      setStrokes: round.setStrokes,
+      setTimeLeft: round.setTimeLeft,
+      setOctopuses: round.setOctopuses,
+      setVoteResult: round.setVoteResult,
+      setCanvasColor: round.setCanvasColor,
+      setPainterUUID: round.setPainterUUID,
+      setNextPainterUUID: round.setNextPainterUUID,
+      setVotedPlayer: round.setVotedPlayer,
+      setWinningTeam: round.setWinningTeam,
+      setRound: game.setRound,
+      setRanks: game.setRanks,
+      setCustomWords: room.setCustomWords,
+    }),
+
+    ...createGameHandlers({
+      setRanks: game.setRanks,
+      addChat: room.addChat,
+      t,
+      isFullscreen,
+      fullscreenToggle,
+    }),
+
+    ...createErrorHandlers({ notify }),
+  }
 }

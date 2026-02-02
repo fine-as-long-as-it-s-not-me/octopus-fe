@@ -28,7 +28,7 @@ export default function ChatCard() {
     <Card
       className={twMerge(
         'flex shrink-0 flex-col p-0 md:p-0 lg:p-0',
-        direction === 'vertical' ? 'w-full grow-1' : 'max-w-[22vw]',
+        direction === 'vertical' ? 'h-[240px] w-full grow-1' : 'max-w-[22vw]',
       )}
     >
       <div
