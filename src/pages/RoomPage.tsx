@@ -16,13 +16,13 @@ export default function RoomPage() {
   const { mutate: startGame } = useStartGame()
   const { players } = useRoomStore()
   const { UUID } = useUserStore()
-  const { notify } = useToast()
+  const { toast } = useToast()
 
   const isHost = !!players.find(player => player.host && player.UUID === UUID)
 
   const startGameClickHandler = () => {
     if (players.length < 3) {
-      notify('At least 3 residents are required to start the debate.')
+      toast('At least 3 residents are required to start the debate.')
       return
     }
     startGame()

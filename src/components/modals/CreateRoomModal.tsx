@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Spacing, useModal } from 'sam-react-modal'
 
 import { useChangeRoomSettings, useCreateRoom } from '@/apis/room'
+import { useToast } from '@/context/ToastContext'
+import { useRoomStore } from '@/store/roomStore'
 import type { ChangeableSettings } from '@/types'
 import Button from '../common/Button'
 import Checkbox from '../common/Checkbox'
@@ -22,19 +24,22 @@ interface Props {
 }
 
 export default function CreateRoomModal({ action }: Props) {
-  // ! TODO: action에 따른 초기값 설정
   const { t } = useTranslation()
+  const { toast } = useToast()
   const { closeModal } = useModal()
-  const [rounds, setRounds] = useState(3)
+  const { settings: prevSettings } = useRoomStore()
+  const [rounds, setRounds] = useState(prevSettings.rounds)
+  const [drawingTime, setDrawingTime] = useState(prevSettings.drawingTime)
+
   const { mutate: createRoom } = useCreateRoom()
-  const [drawingTime, setDrawingTime] = useState(10)
   const { mutate: changeSettings } = useChangeRoomSettings()
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const settings: ChangeableSettings = {
       rounds,
-      maxPlayers: Number(e.currentTarget.maxPlayers.value) || 8,
+      maxPlayers:
+        Number(e.currentTarget.maxPlayers.value) || prevSettings.maxPlayers,
       drawingTime,
       useCustomWord: !!e.currentTarget.useCustomWord.checked,
       isCustomWordVoteOpen: false,
@@ -50,7 +55,9 @@ export default function CreateRoomModal({ action }: Props) {
   return (
     <Modal>
       <Form onSubmit={submitHandler} className='flex flex-col gap-4 p-4 md:p-8'>
-        <p>{t(`${action === 'create' ? 'Create' : 'Change'} Room`)}</p>
+        <p className='text-xl'>
+          {t(`${action === 'create' ? 'Create' : 'Change'} Room`)}
+        </p>
         <Spacing />
         <SettingInputWrapper
           icon={<Icon name='change_circle' />}
@@ -82,10 +89,19 @@ export default function CreateRoomModal({ action }: Props) {
                 0,
                 parseInt(e.currentTarget.value) || 0,
               ).toString()
+
+              if (parseInt(e.currentTarget.value) > 12)
+                toast(t('Maximum players is 12'))
+
+              e.currentTarget.value = Math.min(
+                12,
+                parseInt(e.currentTarget.value) || 0,
+              ).toString()
             }}
             className='w-32'
             shape='sm'
-            defaultValue={8}
+            defaultValue={prevSettings.maxPlayers}
+            max={12}
             name='maxPlayers'
           />
         </SettingInputWrapper>
@@ -113,16 +129,27 @@ export default function CreateRoomModal({ action }: Props) {
           icon={<Icon name='abc' />}
           label={t('Use Custom Words')}
         >
-          <Checkbox type='checkbox' name='useCustomWord' />
+          <Checkbox
+            type='checkbox'
+            name='useCustomWord'
+            defaultChecked={prevSettings.useCustomWord}
+          />
         </SettingInputWrapper>
         <SettingInputWrapper
           icon={<Icon name='indeterminate_question_box' />}
           label={t('Fool Mode')}
         >
-          <Checkbox type='checkbox' name='isFoolMode' />
+          <Checkbox
+            type='checkbox'
+            name='isFoolMode'
+            defaultChecked={prevSettings.isFoolMode}
+          />
         </SettingInputWrapper>
         <SettingInputWrapper icon={<Icon name='lock' />} label={t('Room Type')}>
-          <select name='roomType'>
+          <select
+            name='roomType'
+            defaultValue={prevSettings.isPublic ? 'public' : 'private'}
+          >
             <option value='public'>{t('Public')}</option>
             <option value='private'>{t('Private')}</option>
           </select>

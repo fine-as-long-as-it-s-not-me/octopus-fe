@@ -129,5 +129,7 @@
   "At least 3 residents are required to start the debate.": "토론을 시작하려면 최소 3명의 주민이 모여야 합니다.",
   "Octopuses also get a code—without even knowing they’re octopuses.": "문어가 자신이 문어인지 모른 채 암호를 받습니다.",
   "The server differs by selected village.": "선택한 마을에 따라 서버가 바뀝니다.",
-  "Change Village": "마을 변경"
+  "Change Village": "마을 변경",
+  "Maximum players is 12": "최대 인원은 12명입니다.",
+  "More players, more octopuses": "오징어가 많이 모일수록 문어도 늘어납니다."
 }

@@ -48,11 +48,13 @@ export default function GameSettingListCard({ isHost }: Props) {
           label={t('Max Players')}
           value={settings.maxPlayers.toString()}
         />
-        <SettingItem
-          icon={<Icon name='domino_mask' />}
-          label={t('Octopus Amount')}
-          value={settings.octopusAmount.toString()}
-        />
+        <ToolTip tip='More players, more octopuses'>
+          <SettingItem
+            icon={<Icon name='domino_mask' />}
+            label={t('Octopus Amount')}
+            value={settings.octopusAmount.toString()}
+          />
+        </ToolTip>
         <SettingItem
           icon={<Icon name='timer' />}
           label={t('Drawing Time')}
@@ -63,6 +65,7 @@ export default function GameSettingListCard({ isHost }: Props) {
             icon={<Icon name='indeterminate_question_box' />}
             label={t('Fool Mode')}
             value={settings.isFoolMode ? t('On') : t('Off')}
+            underline
           />
         </ToolTip>
         <SettingItem

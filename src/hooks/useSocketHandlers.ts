@@ -21,7 +21,7 @@ export function useSocketHandlers(
   ) => void,
 ): MessageHandlers {
   const { t } = useTranslation()
-  const { notify } = useToast()
+  const { toast } = useToast()
   const { isFullscreen, fullscreenToggle } = useWindow()
 
   const user = useUserStore()
@@ -75,6 +75,6 @@ export function useSocketHandlers(
       fullscreenToggle,
     }),
 
-    ...createErrorHandlers({ notify }),
+    ...createErrorHandlers({ toast }),
   }
 }

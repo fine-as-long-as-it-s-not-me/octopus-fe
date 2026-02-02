@@ -24,7 +24,7 @@ export default function LanguageSelectModal() {
   return (
     <Modal className='min-w-[400px]'>
       <p>{t('Change Village')}</p>
-      <p className='text-sm text-black/80'>
+      <p className='text-base text-black/80'>
         {t('The server differs by selected village.')}
       </p>
       {languages.map(lang => (
