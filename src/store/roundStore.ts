@@ -135,6 +135,7 @@ export const useRoundStore = create<RoundState>()(
           guessed: false,
           isUnanimity: false,
           octopuses: [],
+          winningTeam: null,
         })),
     }),
     {

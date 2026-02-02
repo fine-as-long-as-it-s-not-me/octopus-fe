@@ -43,6 +43,8 @@ export default function RoundResultPage() {
         : 'Octopuses Lose. They failed to figure out the code.'
 
   useEffect(() => {
+    if (winningTeam === null) return
+    console.log(winningTeam, team)
     if (winningTeam === team) playSoundEffect('round-win')
     else playSoundEffect('round-lose')
   }, [playSoundEffect, winningTeam, team])
@@ -50,7 +52,7 @@ export default function RoundResultPage() {
   return (
     <Card
       className={twMerge(
-        'shrink-0 grow-4 flex-col gap-2',
+        'shrink-0 grow-4 flex-col gap-2 p-4 md:p-8',
         direction === 'vertical' ? 'w-full' : 'w-fit',
       )}
     >
@@ -61,7 +63,7 @@ export default function RoundResultPage() {
           <tr>
             <th className='w-6'>{t('Ranking')}</th>
             <th className='w-32'>{t('Player')}</th>
-            <th className='w-10'>{t('Round Score')}</th>
+            <th className='w-16'>{t('Round Score')}</th>
             <th className='w-20'>{t('Total')}</th>
           </tr>
         </thead>
@@ -72,7 +74,10 @@ export default function RoundResultPage() {
               <td className='flex justify-center'>
                 <Profile size='sm' name={rank.player.name} />
               </td>
-              <td>{rank.score.delta}</td>
+              <td>
+                {rank.score.delta > 0 && '+'}
+                {rank.score.delta}
+              </td>
               <td>{rank.score.total}</td>
             </tr>
           ))}
