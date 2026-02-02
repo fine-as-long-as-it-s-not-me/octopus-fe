@@ -10,14 +10,23 @@ interface Props {
   label: string
   value: string | number
   onClick?: () => void
+  underline?: boolean
 }
 
-export default function SettingItem({ icon, label, value, onClick }: Props) {
+export default function SettingItem({
+  icon,
+  label,
+  value,
+  onClick,
+  underline,
+}: Props) {
   return (
     <Parent onClick={onClick}>
       <div className='flex flex-row items-center gap-4'>
         {icon}
-        <span className='font-medium'>{label}</span>
+        <span className={twMerge('font-medium', underline ? 'underline' : '')}>
+          {label}
+        </span>
       </div>
       <span className='ml-auto text-gray-600'>{value}</span>
     </Parent>

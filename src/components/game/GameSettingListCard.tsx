@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { Spacing, useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
 
-import { useWindow } from '@/context/WindowContext'
 import { parseCountryCodeToLang } from '@/lib/language'
 import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
+import ToolTip from '../common/ToolTip'
 import CreateRoomModal from '../modals/CreateRoomModal'
 import SettingItem from '../room/SettingItem'
 
@@ -21,7 +21,6 @@ export default function GameSettingListCard({ isHost }: Props) {
   const { t } = useTranslation()
   const { settings } = useRoomStore()
   const navigate = useNavigate()
-  const { direction } = useWindow()
 
   return (
     <Card className='flex w-full grow-2 flex-col sm:min-w-[240px]'>
@@ -36,8 +35,7 @@ export default function GameSettingListCard({ isHost }: Props) {
       <Spacing />
       <div
         className={twMerge(
-          'no-scrollbar flex flex-row flex-wrap items-center gap-4 overflow-scroll sm:gap-4',
-          direction === 'vertical' ? '' : 'max-w-[400px]',
+          'flex w-full flex-row flex-wrap items-center justify-center gap-4 sm:gap-4',
         )}
       >
         <SettingItem
@@ -50,20 +48,30 @@ export default function GameSettingListCard({ isHost }: Props) {
           label={t('Max Players')}
           value={settings.maxPlayers.toString()}
         />
-        <SettingItem
-          icon={<Icon name='help_outline' />}
-          label={t('Octopus Amount')}
-          value={settings.octopusAmount.toString()}
-        />
+        <ToolTip tip='More players, more octopuses'>
+          <SettingItem
+            icon={<Icon name='domino_mask' />}
+            label={t('Octopus Amount')}
+            value={settings.octopusAmount.toString()}
+          />
+        </ToolTip>
         <SettingItem
           icon={<Icon name='timer' />}
           label={t('Drawing Time')}
           value={`${settings.drawingTime}${t('s')}`}
         />
+        <ToolTip tip='Octopuses also get a code—without even knowing they’re octopuses.'>
+          <SettingItem
+            icon={<Icon name='indeterminate_question_box' />}
+            label={t('Fool Mode')}
+            value={settings.isFoolMode ? t('On') : t('Off')}
+            underline
+          />
+        </ToolTip>
         <SettingItem
           icon={<Icon name='edit' />}
           label={t('Custom Words')}
-          value={t(settings.useCustomWord ? 'On' : 'Off')}
+          value={settings.useCustomWord ? t('On') : t('Off')}
           onClick={
             settings.useCustomWord
               ? () => {

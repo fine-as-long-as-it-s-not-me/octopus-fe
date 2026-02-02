@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 
 type ToastContextType = {
-  notify: (message: string) => void
+  toast: (message: string) => void
 }
 
 export const ToastContext = createContext<ToastContextType | null>(null)

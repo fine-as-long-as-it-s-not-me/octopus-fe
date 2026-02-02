@@ -14,6 +14,7 @@ interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   type?: 'button' | 'submit' | 'reset'
   active?: boolean
   cardClassName?: string
+  ref?: React.Ref<HTMLButtonElement>
 }
 
 export default function Button({
@@ -25,6 +26,7 @@ export default function Button({
   children,
   active = false,
   cardClassName,
+  ref,
   ...rest
 }: Props) {
   const { playSoundEffect } = useSound()
@@ -55,6 +57,7 @@ export default function Button({
         sizeButtonClassName[size],
         className,
       )}
+      ref={ref}
       {...rest}
     >
       <Card

@@ -2,6 +2,7 @@ import { twMerge } from 'tailwind-merge'
 
 import { useWindow } from '@/context/WindowContext'
 import { useRoundStore } from '@/store/roundStore'
+import { Phase } from '@/types'
 import Card from '../common/Card'
 import Icon from '../common/Icon'
 import Profile from './Profile'
@@ -13,7 +14,7 @@ interface Props {
 }
 
 export default function PlayerListItem({ UUID, name, host }: Props) {
-  const { painterUUID, nextPainterUUID } = useRoundStore()
+  const { painterUUID, nextPainterUUID, phase } = useRoundStore()
   const { direction } = useWindow()
 
   return (
@@ -32,10 +33,16 @@ export default function PlayerListItem({ UUID, name, host }: Props) {
           size='sm'
           className='items-center gap-2 border-none bg-transparent'
         >
-          {painterUUID === UUID ? (
-            <Icon name='edit' />
-          ) : nextPainterUUID === UUID ? (
-            <p>next</p>
+          {phase === Phase.DRAWING ? (
+            painterUUID === UUID ? (
+              <div className='flex aspect-square rounded-xl bg-[#333366] p-2'>
+                <Icon name='edit' color='#ffffff' />
+              </div>
+            ) : (
+              nextPainterUUID === UUID && (
+                <p className='rounded-xl bg-[#6666aa] p-2 text-white'>next</p>
+              )
+            )
           ) : (
             host && <Icon name='crown' />
           )}

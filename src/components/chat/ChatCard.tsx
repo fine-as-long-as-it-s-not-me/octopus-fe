@@ -12,7 +12,7 @@ import Bubble from './Bubble'
 
 export default function ChatCard() {
   const { t } = useTranslation()
-  const { chats } = useRoomStore()
+  const { chats, roomCode } = useRoomStore()
   const { direction } = useWindow()
   const { mutate: sendChat } = useSendChat()
 
@@ -26,9 +26,10 @@ export default function ChatCard() {
 
   return (
     <Card
+      key={roomCode}
       className={twMerge(
         'flex shrink-0 flex-col p-0 md:p-0 lg:p-0',
-        direction === 'vertical' ? 'w-full grow-1' : 'max-w-[22vw]',
+        direction === 'vertical' ? 'h-[240px] w-full grow-1' : 'max-w-[22vw]',
       )}
     >
       <div

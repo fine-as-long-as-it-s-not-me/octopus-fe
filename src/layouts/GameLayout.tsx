@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
-import { twMerge } from 'tailwind-merge'
 
 import ChatCard from '@/components/chat/ChatCard'
 import Card from '@/components/common/Card'
@@ -12,6 +11,9 @@ import TimerCard from '@/components/game/TimerCard'
 import PlayerListButton from '@/components/player/PlayerListButton'
 import PlayersCard from '@/components/player/PlayerListCard'
 import CloseButton from '@/components/room/CloseButton'
+import RoomContentWrapper from '@/components/room/RoomContentWrapper'
+import RoomHeaderWrapper from '@/components/room/RoomHeaderWrapper'
+import RoomWrapper from '@/components/room/RoomWrapper'
 import { useBackground } from '@/context/BackgroundContext'
 import { useWindow } from '@/context/WindowContext'
 import { useGameStore } from '@/store/gameStore'
@@ -20,7 +22,7 @@ import { useRoundStore } from '@/store/roundStore'
 
 export default function GameLayout() {
   const { setBackgroundImage } = useBackground()
-  const { setIsCompact, direction } = useWindow()
+  const { setIsCompact } = useWindow()
   const { settings } = useRoomStore()
   const { round } = useGameStore()
   const { keyword } = useRoundStore()
@@ -32,19 +34,21 @@ export default function GameLayout() {
   }, [setBackgroundImage, setIsCompact])
 
   return (
-    <div className='relative flex h-dvh w-full flex-col overflow-hidden sm:gap-4 sm:p-4 md:p-8 lg:p-16'>
-      <div className='flex h-fit w-full flex-row flex-wrap sm:gap-2'>
+    <RoomWrapper>
+      <RoomHeaderWrapper>
         <div className='flex min-w-[400px] grow flex-row sm:gap-2'>
           <Card size='md' className='order-0 w-auto shrink-0 items-center'>
             {t('Round')} {round}/{settings.rounds}
           </Card>
-          <Card
-            size='md'
-            className='order-2 flex w-auto shrink-0 flex-row items-center sm:order-1 sm:gap-2'
-          >
-            <Icon name='abc' />
-            <p>{keyword}</p>
-          </Card>
+          {keyword !== '' && (
+            <Card
+              size='md'
+              className='order-2 flex w-auto shrink-0 flex-row items-center sm:order-1 sm:gap-2'
+            >
+              <Icon name='abc' />
+              <p>{keyword}</p>
+            </Card>
+          )}
           <PhaseDescCard />
         </div>
         <div className='flex grow sm:gap-2'>
@@ -53,17 +57,12 @@ export default function GameLayout() {
           <SettingModalButton translate={false} />
           <CloseButton />
         </div>
-      </div>
-      <div
-        className={twMerge(
-          'flex h-full w-full items-stretch sm:gap-2',
-          direction === 'vertical' ? 'flex-col' : 'flex-row',
-        )}
-      >
+      </RoomHeaderWrapper>
+      <RoomContentWrapper>
         <PlayersCard />
         <Outlet />
         <ChatCard />
-      </div>
-    </div>
+      </RoomContentWrapper>
+    </RoomWrapper>
   )
 }

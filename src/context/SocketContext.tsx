@@ -1,9 +1,6 @@
 import { createContext, useContext } from 'react'
 
-import type { ErrorType } from '@/types'
-
 type SocketContextType = {
-  setError: (error: null | ErrorType) => void
   sendMessage: (
     mainType: string,
     subType: string,

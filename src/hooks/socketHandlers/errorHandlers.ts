@@ -1,13 +1,13 @@
 import type { MessageHandlers } from '@/types'
 
 type ErrorHandlersDeps = {
-  notify: (message: string) => void
+  toast: (message: string) => void
 }
 
 export const createErrorHandlers = ({
-  notify,
+  toast,
 }: ErrorHandlersDeps): Pick<MessageHandlers, 'error'> => ({
   error: ({ message }) => {
-    notify(message)
+    toast(message)
   },
 })

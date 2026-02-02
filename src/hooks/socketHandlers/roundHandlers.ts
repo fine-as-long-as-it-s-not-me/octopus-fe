@@ -4,6 +4,7 @@ import type {
   Player,
   RoundResultResponse,
   Stroke,
+  Team,
   VoteResultResponse,
 } from '@/types'
 
@@ -25,6 +26,7 @@ type RoundHandlersDeps = {
   setRanks: (ranks: RoundResultResponse['ranks']) => void
   setCustomWords: (customWords: [string, number][]) => void
   setVotedPlayer: (player: Player) => void
+  setWinningTeam: (team: Team | null) => void
 }
 
 export const createRoundHandlers = ({
@@ -45,6 +47,7 @@ export const createRoundHandlers = ({
   setRanks,
   setCustomWords,
   setVotedPlayer,
+  setWinningTeam,
 }: RoundHandlersDeps): Pick<
   MessageHandlers,
   | 'keyword'
@@ -85,11 +88,12 @@ export const createRoundHandlers = ({
     setOctopuses(octopuses)
     setVotedPlayer(votedPlayer)
   },
-  round_result: ({ ranks, tied, guessed, isUnanimity }) => {
+  round_result: ({ ranks, tied, guessed, isUnanimity, winningTeam }) => {
     setRanks(ranks)
     setTied(tied)
     setGuessed(guessed)
     setIsUnanimity(isUnanimity)
+    setWinningTeam(winningTeam)
   },
   custom_words_updated: ({ customWords }) => {
     setCustomWords(customWords)

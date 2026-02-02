@@ -6,3 +6,7 @@ export function useLogin() {
     'login',
   )
 }
+
+export function useChangeLanguage() {
+  return useMutation<{ lang: string }>('player', 'change_language')
+}

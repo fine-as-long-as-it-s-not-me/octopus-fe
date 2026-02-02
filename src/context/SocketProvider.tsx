@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import useRouteByPhase from '@/hooks/useRouteByPhase'
 import { useSocketConnection } from '@/hooks/useSocketConnection'
-import { useRoomStore } from '@/store/roomStore'
-import { useRoundStore } from '@/store/roundStore'
-import { useUserStore } from '@/store/userStore'
 import { type ErrorType } from '@/types'
 import { SocketContext } from './SocketContext'
 
@@ -15,11 +12,7 @@ interface Props {
 
 export default function SocketProvider({ children }: Props) {
   const [error, setError] = useState<null | ErrorType>(null)
-  const { phase } = useRoundStore()
-  const { roomCode } = useRoomStore()
-  const { id: userId, name: userName } = useUserStore()
-  const navigate = useNavigate()
-  const location = useLocation()
+  const { t } = useTranslation()
 
   const { connectSocket, isConnected, isConnecting, sendMessage } =
     useSocketConnection(setError)
@@ -32,19 +25,11 @@ export default function SocketProvider({ children }: Props) {
     }
   }, [error, isConnected, isConnecting, connectSocket, setError])
 
-  useRouteByPhase({
-    phase,
-    roomCode,
-    userId,
-    userName,
-    location,
-    navigate,
-  })
+  useRouteByPhase()
 
   return (
     <SocketContext.Provider
       value={{
-        setError,
         sendMessage,
       }}
     >
@@ -52,9 +37,8 @@ export default function SocketProvider({ children }: Props) {
 
       {error && (
         <div className='absolute inset-0 z-1002 flex flex-col items-center justify-center gap-4 bg-black/75 text-white'>
-          {/* <p className='text-red-400'>ERROR</p> */}
           <p>[{error.message}]</p>
-          <p>Connecting to server...</p>
+          <p>{t('Connecting to server...')}</p>
           <span className='loader' />
         </div>
       )}
