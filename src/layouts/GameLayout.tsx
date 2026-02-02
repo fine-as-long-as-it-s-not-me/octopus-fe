@@ -40,13 +40,15 @@ export default function GameLayout() {
           <Card size='md' className='order-0 w-auto shrink-0 items-center'>
             {t('Round')} {round}/{settings.rounds}
           </Card>
-          <Card
-            size='md'
-            className='order-2 flex w-auto shrink-0 flex-row items-center sm:order-1 sm:gap-2'
-          >
-            <Icon name='abc' />
-            <p>{keyword}</p>
-          </Card>
+          {keyword !== '' && (
+            <Card
+              size='md'
+              className='order-2 flex w-auto shrink-0 flex-row items-center sm:order-1 sm:gap-2'
+            >
+              <Icon name='abc' />
+              <p>{keyword}</p>
+            </Card>
+          )}
           <PhaseDescCard />
         </div>
         <div className='flex grow sm:gap-2'>

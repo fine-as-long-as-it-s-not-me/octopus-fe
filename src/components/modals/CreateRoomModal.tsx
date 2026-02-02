@@ -40,6 +40,7 @@ export default function CreateRoomModal({ action }: Props) {
       isCustomWordVoteOpen: false,
       customWordMinVotes: 1,
       isPublic: e.currentTarget.roomType.value === 'public',
+      isFoolMode: !!e.currentTarget.isFoolMode.checked,
     }
     if (action === 'create') createRoom({ settings })
     else if (action === 'change') changeSettings({ settings })
@@ -113,6 +114,12 @@ export default function CreateRoomModal({ action }: Props) {
           label={t('Use Custom Words')}
         >
           <Checkbox type='checkbox' name='useCustomWord' />
+        </SettingInputWrapper>
+        <SettingInputWrapper
+          icon={<Icon name='indeterminate_question_box' />}
+          label={t('Fool Mode')}
+        >
+          <Checkbox type='checkbox' name='isFoolMode' />
         </SettingInputWrapper>
         <SettingInputWrapper icon={<Icon name='lock' />} label={t('Room Type')}>
           <select name='roomType'>

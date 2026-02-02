@@ -15,10 +15,19 @@ export default function KeywordPage() {
     pauseMusic()
   }, [playSoundEffect, pauseMusic])
   return (
-    <Card className='flex min-h-[43dvh] w-auto grow-12 flex-col items-center justify-center gap-6 sm:h-auto'>
-      <p className='text-2xl'>{t('The secret code is...')}</p>
-      <p className='text-[80px]'>{keyword}</p>
-      <p className='text-2xl'>{t('The octopus gets different word.')}</p>
+    <Card className='flex min-h-[43dvh] w-auto grow-12 flex-col items-center justify-center gap-6 text-center sm:h-auto'>
+      {keyword === '' ? (
+        <>
+          <p className='text-[80px]'>{t('You are the Octopus.')}</p>
+          <p className='text-2xl'>{t('Guess what others draw.')}</p>
+        </>
+      ) : (
+        <>
+          <p className='text-2xl'>{t('The secret code is...')}</p>
+          <p className='text-[80px]'>{keyword}</p>
+          <p className='text-2xl'>{t('The octopus gets different word.')}</p>
+        </>
+      )}
     </Card>
   )
 }

@@ -122,5 +122,9 @@
   "Octopuses Lose. They failed to figure out the code.": "문어 패배. 암호 해독에 실패했습니다.",
   "Connecting to server...": "서버와 연결 중입니다...",
   "Change": "변경",
-  "It's your turn!": "당신 차례입니다!"
+  "It's your turn!": "당신 차례입니다!",
+  "Fool Mode": "바보 모드",
+  "You are the Octopus.": "당신은 문어입니다.",
+  "Guess what others draw.": "오징어들이 그리는 암호를 추측하세요.",
+  "At least 3 residents are required to start the debate.": "토론을 시작하려면 최소 3명의 주민이 모여야 합니다."
 }

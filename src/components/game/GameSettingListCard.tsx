@@ -58,9 +58,14 @@ export default function GameSettingListCard({ isHost }: Props) {
           value={`${settings.drawingTime}${t('s')}`}
         />
         <SettingItem
+          icon={<Icon name='indeterminate_question_box' />}
+          label={t('Fool Mode')}
+          value={settings.isFoolMode ? t('On') : t('Off')}
+        />
+        <SettingItem
           icon={<Icon name='edit' />}
           label={t('Custom Words')}
-          value={t(settings.useCustomWord ? 'On' : 'Off')}
+          value={settings.useCustomWord ? t('On') : t('Off')}
           onClick={
             settings.useCustomWord
               ? () => {
