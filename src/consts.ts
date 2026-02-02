@@ -26,3 +26,8 @@ export const DEFAULT_SETTINGS: Settings = {
   lang: 'en',
   isFoolMode: false,
 }
+
+export const LANGUAGE_LABELS = {
+  en: 'English',
+  ko: '한국어',
+}

@@ -39,7 +39,7 @@ export default function RoomLayout() {
   }
 
   return (
-    <RoomWrapper>
+    <RoomWrapper key={roomCode}>
       <RoomHeaderWrapper>
         <Button
           size='md'

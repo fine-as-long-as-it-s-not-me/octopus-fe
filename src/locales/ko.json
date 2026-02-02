@@ -126,5 +126,8 @@
   "Fool Mode": "바보 모드",
   "You are the Octopus.": "당신은 문어입니다.",
   "Guess what others draw.": "오징어들이 그리는 암호를 추측하세요.",
-  "At least 3 residents are required to start the debate.": "토론을 시작하려면 최소 3명의 주민이 모여야 합니다."
+  "At least 3 residents are required to start the debate.": "토론을 시작하려면 최소 3명의 주민이 모여야 합니다.",
+  "Octopuses also get a code—without even knowing they’re octopuses.": "문어가 자신이 문어인지 모른 채 암호를 받습니다.",
+  "The server differs by selected village.": "선택한 마을에 따라 서버가 바뀝니다.",
+  "Change Village": "마을 변경"
 }
