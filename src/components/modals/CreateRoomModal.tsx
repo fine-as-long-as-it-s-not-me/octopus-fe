@@ -42,7 +42,7 @@ export default function CreateRoomModal({ action }: Props) {
         Number(e.currentTarget.maxPlayers.value) || prevSettings.maxPlayers,
       drawingTime,
       useCustomWord: !!e.currentTarget.useCustomWord.checked,
-      isCustomWordVoteOpen: false,
+      isCustomWordVoteOpen: !!e.currentTarget.useCustomWord.checked,
       customWordMinVotes: 1,
       isPublic: e.currentTarget.roomType.value === 'public',
       isFoolMode: !!e.currentTarget.isFoolMode.checked,

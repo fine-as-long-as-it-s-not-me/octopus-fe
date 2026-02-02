@@ -14,16 +14,20 @@ export default function DrawingPage() {
   const { direction } = useWindow()
   const { painterUUID } = useRoundStore()
   const { UUID } = useUserStore()
-  const { playMusic } = useSound()
+  const { playMusic, playSoundEffect } = useSound()
   const { toast } = useToast()
   const { t } = useTranslation()
 
   const isDrawing = UUID === painterUUID
 
   useEffect(() => {
-    if (isDrawing) playMusic('drawing')
-    else playMusic('kidsgame')
-  }, [isDrawing, playMusic])
+    if (isDrawing) {
+      playMusic('drawing')
+      playSoundEffect('whoo')
+    } else {
+      playMusic('kidsgame')
+    }
+  }, [isDrawing, playMusic, playSoundEffect])
 
   useEffect(() => {
     if (!isDrawing) return

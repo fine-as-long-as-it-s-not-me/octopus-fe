@@ -24,7 +24,9 @@ type RoundHandlersDeps = {
   setNextPainterUUID: (uuid: string) => void
   setRound: (round: number) => void
   setRanks: (ranks: RoundResultResponse['ranks']) => void
-  setCustomWords: (customWords: [string, number][]) => void
+  setCustomWords: (
+    customWords: { keyword: string; voteCount: number }[],
+  ) => void
   setVotedPlayer: (player: Player) => void
   setWinningTeam: (team: Team | null) => void
 }

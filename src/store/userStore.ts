@@ -30,9 +30,7 @@ export const useUserStore = create<UserState>()(
           ? (browserLang as Language)
           : 'en'
       })(),
-      setLang: (lang: Language) => {
-        set({ lang })
-      },
+      setLang: (lang: Language) => set({ lang }),
     }),
     {
       name: 'user-storage', // unique name

@@ -8,6 +8,10 @@ type SoundContextType = {
   playMusic: (key: string) => void
   pauseMusic: () => void
   muteMusicToggle: () => void
+  setMusicVolume: (volume: number) => void
+  setEffectVolume: (volume: number) => void
+  musicVolume: number
+  effectVolume: number
 }
 
 export const SoundContext = createContext<SoundContextType | null>(null)

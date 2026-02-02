@@ -50,6 +50,7 @@ export default function GameSettingListCard({ isHost }: Props) {
         />
         <ToolTip tip='More players, more octopuses'>
           <SettingItem
+            underline
             icon={<Icon name='domino_mask' />}
             label={t('Octopus Amount')}
             value={settings.octopusAmount.toString()}
@@ -68,18 +69,21 @@ export default function GameSettingListCard({ isHost }: Props) {
             underline
           />
         </ToolTip>
-        <SettingItem
-          icon={<Icon name='edit' />}
-          label={t('Custom Words')}
-          value={settings.useCustomWord ? t('On') : t('Off')}
-          onClick={
-            settings.useCustomWord
-              ? () => {
-                  navigate(ROUTES.CUSTOM_WORD)
-                }
-              : undefined
-          }
-        />
+        <ToolTip tip='Use your own words for code!'>
+          <SettingItem
+            underline
+            icon={<Icon name='edit' />}
+            label={t('Custom Words')}
+            value={settings.useCustomWord ? t('On') : t('Off')}
+            onClick={
+              settings.useCustomWord
+                ? () => {
+                    navigate(ROUTES.CUSTOM_WORD)
+                  }
+                : undefined
+            }
+          />
+        </ToolTip>
         <SettingItem
           icon={<Icon name='lock_open' />}
           label={t('Room Type')}
