@@ -15,7 +15,7 @@ export default function DrawingPage() {
   const { painterUUID } = useRoundStore()
   const { UUID } = useUserStore()
   const { playMusic } = useSound()
-  const { notify } = useToast()
+  const { toast } = useToast()
   const { t } = useTranslation()
 
   const isDrawing = UUID === painterUUID
@@ -28,8 +28,8 @@ export default function DrawingPage() {
   useEffect(() => {
     if (!isDrawing) return
 
-    notify(t("It's your turn!"))
-  }, [isDrawing, notify, t])
+    toast(t("It's your turn!"))
+  }, [isDrawing, toast, t])
 
   return (
     <div

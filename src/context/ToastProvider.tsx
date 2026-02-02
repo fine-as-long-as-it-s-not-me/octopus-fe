@@ -18,7 +18,7 @@ export const ToastProvider = ({ children }: Props) => {
   const nextId = useRef(1)
   const { playSoundEffect } = useSound()
 
-  const notify = (message: string) => {
+  const toast = (message: string) => {
     const toast = {
       id: nextId.current++,
       message,
@@ -42,7 +42,7 @@ export const ToastProvider = ({ children }: Props) => {
   return (
     <ToastContext.Provider
       value={{
-        notify,
+        toast,
       }}
     >
       {children}

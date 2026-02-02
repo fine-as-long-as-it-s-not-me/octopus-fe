@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+import { DEFAULT_SETTINGS } from '@/consts'
 import type { Chat, Player, Settings } from '@/types'
-import { mockSetting } from './mocks'
 
 interface RoomState {
   roomCode: string
@@ -30,7 +30,7 @@ export const useRoomStore = create<RoomState>()(
       roomCode: '',
       setRoomCode: (roomCode: string) => set({ roomCode }),
 
-      settings: mockSetting,
+      settings: DEFAULT_SETTINGS,
       setSettings: (settings: Settings) => set({ settings }),
 
       customWords: [],
