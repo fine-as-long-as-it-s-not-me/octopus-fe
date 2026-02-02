@@ -29,6 +29,10 @@ export default function VoteResultPage() {
   }, [playSoundEffect, pauseMusic])
 
   useEffect(() => {
+    if (!hidden) playSoundEffect('gasp')
+  }, [hidden, playSoundEffect])
+
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setHidden(false)
     }, CONFETTI_DELAY)

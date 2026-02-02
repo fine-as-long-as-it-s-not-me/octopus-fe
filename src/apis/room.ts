@@ -27,3 +27,7 @@ export function useLeaveRoom() {
 export function useVoteCustomWord() {
   return useMutation<{ keyword: string }>('room', 'vote_keyword')
 }
+
+export function useDeleteCustomWord() {
+  return useMutation<{ keyword: string }>('room', 'delete_keyword')
+}

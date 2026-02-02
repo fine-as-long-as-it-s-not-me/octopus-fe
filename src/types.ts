@@ -3,8 +3,6 @@ import type { Language } from './i18n'
 export interface Player {
   UUID: string
   name: string
-  photoUrl?: string
-  host?: boolean
 }
 
 export const Phase = {
@@ -90,7 +88,10 @@ export type Message =
   | { type: 'game_result'; data: GameResultResponse }
   | { type: 'error'; data: ErrorType }
   | { type: 'game_ended'; data: undefined }
-  | { type: 'custom_words_updated'; data: { customWords: [string, number][] } }
+  | {
+      type: 'custom_words_updated'
+      data: { customWords: { keyword: string; voteCount: number }[] }
+    }
 
 export type WelcomeResponse = {
   roomCode: string

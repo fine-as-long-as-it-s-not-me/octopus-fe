@@ -18,6 +18,7 @@ type RoomHandlersDeps = {
   setPlayers: (players: PlayersUpdatedResponse['players']) => void
   setSettings: (settings: SettingsUpdatedResponse['settings']) => void
   setPhase: (phase: Phase) => void
+  setHostUUID: (hostUUID: string | null) => void
 }
 
 export const createRoomHandlers = ({
@@ -29,6 +30,7 @@ export const createRoomHandlers = ({
   setPlayers,
   setSettings,
   setPhase,
+  setHostUUID,
 }: RoomHandlersDeps): Pick<
   MessageHandlers,
   'player_logged_in' | 'welcome' | 'players_updated' | 'settings_updated'
@@ -45,12 +47,8 @@ export const createRoomHandlers = ({
     setPhase(phase)
   },
   players_updated: ({ hostUUID, players }) => {
-    setPlayers(
-      players.map(player => ({
-        ...player,
-        host: player.UUID === hostUUID,
-      })),
-    )
+    setPlayers(players)
+    setHostUUID(hostUUID)
   },
   settings_updated: ({ settings }) => {
     setSettings(settings)

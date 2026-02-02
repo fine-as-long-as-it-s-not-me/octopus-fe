@@ -39,6 +39,7 @@ export function useSocketHandlers(
       setPlayers: room.setPlayers,
       setSettings: room.setSettings,
       setPhase: round.setPhase,
+      setHostUUID: room.setHostUUID,
     }),
 
     ...createChatHandlers({

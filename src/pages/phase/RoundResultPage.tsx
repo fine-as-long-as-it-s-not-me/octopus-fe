@@ -12,7 +12,7 @@ import { useUserStore } from '@/store/userStore'
 import { Team, type Player } from '@/types'
 
 export default function RoundResultPage() {
-  const { playSoundEffect } = useSound()
+  const { playSoundEffect, pauseMusic } = useSound()
   const { direction } = useWindow()
   const { t } = useTranslation()
   const { octopuses, winningTeam, isUnanimity, tied, guessed } = useRoundStore()
@@ -44,10 +44,13 @@ export default function RoundResultPage() {
 
   useEffect(() => {
     if (winningTeam === null) return
-    console.log(winningTeam, team)
     if (winningTeam === team) playSoundEffect('round-win')
     else playSoundEffect('round-lose')
   }, [playSoundEffect, winningTeam, team])
+
+  useEffect(() => {
+    pauseMusic()
+  }, [pauseMusic])
 
   return (
     <Card

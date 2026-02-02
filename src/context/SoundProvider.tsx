@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 
 import { useAssets } from './AssetContext'
 import { useBackground } from './BackgroundContext'
@@ -11,20 +11,29 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
   const [isMusicMuted, setIsMusicMuted] = useState(
     Boolean(localStorage.getItem('isMusicMuted')),
   )
-  const [playingMusicKey, setPlayingMusicKey] = useState<string | null>(null)
-  const [playingMusic, setPlayingMusic] = useState<HTMLAudioElement | null>(
-    null,
-  )
+  const playingMusicKey = useRef<string>(null)
+  const playingMusic = useRef<HTMLAudioElement>(null)
+
+  const [musicVolume, setMusicVolume] = useState(0.5)
+  const [effectVolume, setEffectVolume] = useState(0.5)
+  console.log(effectVolume)
+
+  useEffect(() => {
+    if (playingMusic.current) {
+      playingMusic.current.volume = musicVolume
+    }
+  }, [musicVolume, playingMusic])
+
   const { sounds } = useAssets()
   const { interacted } = useBackground()
 
   function playMusic(key: string) {
     if (!interacted) return
     if (isMusicMuted) return
-    if (key === playingMusicKey) return
+    if (key === playingMusicKey.current) return
 
-    if (playingMusic) {
-      playingMusic.pause()
+    if (playingMusic.current) {
+      playingMusic.current.pause()
     }
 
     const music = sounds[key]
@@ -32,17 +41,18 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
     if (music) {
       const musicClone = music.cloneNode() as HTMLAudioElement
       musicClone.loop = true
+      musicClone.volume = musicVolume
       musicClone.play()
-      setPlayingMusic(musicClone)
-      setPlayingMusicKey(key)
+      playingMusic.current = musicClone
+      playingMusicKey.current = key
     }
   }
 
   function pauseMusic() {
-    if (playingMusic) {
-      playingMusic.pause()
-      setPlayingMusicKey(null)
-      setPlayingMusic(null)
+    if (playingMusic.current) {
+      playingMusic.current.pause()
+      playingMusicKey.current = null
+      playingMusic.current = null
     }
   }
 
@@ -50,11 +60,34 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
     setIsMusicMuted(prev => {
       const newMuteState = !prev
       localStorage.setItem('isMusicMuted', newMuteState ? 'true' : '')
-      if (newMuteState && playingMusic) {
-        playingMusic.pause()
-      } else if (!newMuteState && playingMusic) {
-        playingMusic.play()
+      if (newMuteState && playingMusic.current) {
+        playingMusic.current.pause()
+      } else if (!newMuteState && playingMusic.current) {
+        playingMusic.current.play()
       }
+      return newMuteState
+    })
+  }
+
+  const playSoundEffect = useCallback(
+    (key: string) => {
+      if (!interacted) return
+      if (isEffectMuted) return
+
+      const sound = sounds[key]
+      if (!sound) return
+
+      const soundClone = sound.cloneNode() as HTMLAudioElement
+      soundClone.volume = effectVolume
+      soundClone.play()
+    },
+    [interacted, isEffectMuted, sounds, effectVolume],
+  )
+
+  function muteSoundEffectToggle() {
+    setIsEffectMuted(prev => {
+      const newMuteState = !prev
+      localStorage.setItem('isEffectMuted', newMuteState ? 'true' : '')
       return newMuteState
     })
   }
@@ -64,35 +97,14 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
     const clickSound = sounds['taek']
     if (clickSound) {
       const handleClick = () => {
-        if (isEffectMuted) return
-        const soundClone = clickSound.cloneNode() as HTMLAudioElement
-        soundClone.play()
+        playSoundEffect('taek')
       }
       window.addEventListener('click', handleClick)
       return () => {
         window.removeEventListener('click', handleClick)
       }
     }
-  })
-
-  function playSoundEffect(key: string) {
-    if (!interacted) return
-    if (isEffectMuted) return
-
-    const sound = sounds[key]
-    if (!sound) return
-
-    const soundClone = sound.cloneNode() as HTMLAudioElement
-    soundClone.play()
-  }
-
-  function muteSoundEffectToggle() {
-    setIsEffectMuted(prev => {
-      const newMuteState = !prev
-      localStorage.setItem('isEffectMuted', newMuteState ? 'true' : '')
-      return newMuteState
-    })
-  }
+  }, [sounds, interacted, isEffectMuted, playSoundEffect])
 
   return (
     <SoundContext.Provider
@@ -104,6 +116,10 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
         muteMusicToggle,
         playSoundEffect,
         muteSoundEffectToggle,
+        setMusicVolume,
+        setEffectVolume,
+        musicVolume,
+        effectVolume,
       }}
     >
       {children}

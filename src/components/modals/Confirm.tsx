@@ -24,7 +24,7 @@ export default function Confirm({ children }: Props) {
       {children}
       <div
         className={twMerge(
-          'mt-4 flex flex-row items-center justify-between gap-4',
+          'mt-3 flex flex-row items-center justify-between gap-4',
         )}
       >
         <Button
