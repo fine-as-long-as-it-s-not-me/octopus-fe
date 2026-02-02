@@ -88,7 +88,10 @@ export type Message =
   | { type: 'game_result'; data: GameResultResponse }
   | { type: 'error'; data: ErrorType }
   | { type: 'game_ended'; data: undefined }
-  | { type: 'custom_words_updated'; data: { customWords: [string, number][] } }
+  | {
+      type: 'custom_words_updated'
+      data: { customWords: { keyword: string; voteCount: number }[] }
+    }
 
 export type WelcomeResponse = {
   roomCode: string

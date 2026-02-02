@@ -21,7 +21,7 @@ export default function RoomPage() {
   const isHost = hostUUID === UUID
 
   const startGameClickHandler = () => {
-    if (players.length < 3) {
+    if (import.meta.env.PROD && players.length < 3) {
       toast('At least 3 residents are required to start the debate.')
       return
     }

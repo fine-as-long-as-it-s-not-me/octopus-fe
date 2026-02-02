@@ -95,6 +95,9 @@ export const soundEffectsAssets = {
   win: '/sounds/effect/win.mp3',
   lose: '/sounds/effect/lose.mp3',
   'game-result': '/sounds/effect/game-result.mp3',
+  gasp: '/sounds/effect/gasp.mp3',
+  whoo: '/sounds/effect/whoo.mp3',
+  taek: '/sounds/effect/taek.mp3',
 
   'ddok!': '/sounds/effect/ddok!.mp3',
   ddok: '/sounds/effect/ddok.mp3',
@@ -106,7 +109,6 @@ export const soundEffectsAssets = {
   bbap: '/sounds/effect/bbap.mp3',
   chung: '/sounds/effect/chung.mp3',
   chulugrruk: '/sounds/effect/chulugrruk.mp3',
-  taek: '/sounds/effect/taek.mp3',
   'pyap!': '/sounds/effect/pyap!.mp3',
   disabled: '/sounds/effect/disabled.mp3',
 }
@@ -118,4 +120,5 @@ export const musicAssets = {
   citymafia: '/sounds/music/citymafia.mp3',
   kidsgame: '/sounds/music/kidsgame.mp3',
   discuss: '/sounds/music/discuss.mp3',
+  suspense: '/sounds/music/suspense.mp3',
 }

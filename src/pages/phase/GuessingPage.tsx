@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useModal } from 'sam-react-modal'
 
@@ -7,18 +8,29 @@ import Card from '@/components/common/Card'
 import Form from '@/components/common/Form'
 import Input from '@/components/common/Input'
 import Confirm from '@/components/modals/Confirm'
+import { useSound } from '@/context/SoundContext'
 import { useRoundStore } from '@/store/roundStore'
 import { useUserStore } from '@/store/userStore'
 
 export default function GuessingPage() {
   const { octopuses, votedPlayer } = useRoundStore()
-  const { UUID } = useUserStore()
-  const { t } = useTranslation()
   const { mutate: guess } = useGuessWord()
   const { openModal } = useModal()
+  const { playMusic, playSoundEffect } = useSound()
+  const { UUID } = useUserStore()
+  const { t } = useTranslation()
 
   // const isOctopus = true
   const isOctopus = octopuses.some(octopus => octopus.UUID === UUID)
+
+  useEffect(() => {
+    playMusic('suspense')
+  }, [playMusic])
+
+  useEffect(() => {
+    if (isOctopus) playSoundEffect('nav')
+  }, [isOctopus, playSoundEffect])
+
   return (
     <Card className='flex w-auto shrink-0 grow-4 flex-col items-center justify-center p-8 sm:p-8 md:p-8'>
       {isOctopus ? (
