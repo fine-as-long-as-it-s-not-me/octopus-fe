@@ -3,8 +3,6 @@ import type { Language } from './i18n'
 export interface Player {
   UUID: string
   name: string
-  photoUrl?: string
-  host?: boolean
 }
 
 export const Phase = {

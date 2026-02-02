@@ -27,14 +27,30 @@ export default function CustomWordPage() {
     e.currentTarget.reset()
   }
 
+  console.log(customWords)
+
+  const enabledCount = customWords.filter(
+    ({ voteCount }) => voteCount >= settings.customWordMinVotes,
+  ).length
+
   return (
     <>
-      <Card className='flex min-h-[30dvh] grow flex-col items-center justify-between gap-4'>
-        {t('Custom Word List')}
+      <Card className='flex min-h-[30dvh] grow flex-col items-center justify-between gap-2'>
+        <div>
+          {t('Custom Word List')}
+          <p>
+            {enabledCount} {t('words enabled')} ( &ge;{' '}
+            {settings.customWordMinVotes} {t('votes')} )
+          </p>
+        </div>
         <div className='no-scrollbar flex max-h-[calc(70dvh-120px)] flex-row flex-wrap justify-center gap-2 overflow-scroll p-4'>
           {customWords.length ? (
-            customWords.map(([word, votes]) => (
-              <CustomWordListItem key={word} word={word} votes={votes} />
+            customWords.map(({ keyword, voteCount }) => (
+              <CustomWordListItem
+                key={keyword}
+                word={keyword}
+                votes={voteCount}
+              />
             ))
           ) : (
             <p className='text-black/50'>{t('No custom words added yet.')}</p>
@@ -59,7 +75,7 @@ export default function CustomWordPage() {
           </Button>
         </Form>
       </Card>
-      <div className='flex h-full grow flex-col sm:h-auto sm:gap-4'>
+      <div className='flex h-full grow flex-col sm:h-auto sm:gap-2'>
         <Card className='grow-1 flex-col items-center justify-center gap-4'>
           {settings.isCustomWordVoteOpen ? (
             <>
@@ -109,18 +125,31 @@ export default function CustomWordPage() {
           </Button>
         </Card>
         <Card className='grow-1 items-center justify-center'>
-          <Form onSubmit={() => {}} className='flex flex-col gap-2'>
+          <Form
+            onSubmit={e => {
+              const minVote = new FormData(e.currentTarget).get('minVotes')
+              fetchSettings({
+                settings: {
+                  customWordMinVotes: Number(minVote),
+                },
+              })
+            }}
+            className='flex flex-col gap-2'
+          >
             <h2>{t('Minimum votes to get registered')}</h2>
             <Input
               shape='sm'
               type='number'
               min={0}
-              defaultValue={0}
+              defaultValue={settings.customWordMinVotes}
+              name='minVotes'
               onChange={e => {
-                const value = Math.max(0, parseInt(e.currentTarget.value) || 0)
-                fetchSettings({ settings: { customWordMinVotes: value } })
+                e.target.value = Math.max(0, Number(e.target.value)).toString()
               }}
-            ></Input>
+            />
+            <Button type='submit' size='md'>
+              {t('Apply')}
+            </Button>
           </Form>
         </Card>
       </div>

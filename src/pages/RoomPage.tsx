@@ -14,11 +14,11 @@ export default function RoomPage() {
   const { t } = useTranslation()
 
   const { mutate: startGame } = useStartGame()
-  const { players } = useRoomStore()
+  const { players, hostUUID } = useRoomStore()
   const { UUID } = useUserStore()
   const { toast } = useToast()
 
-  const isHost = !!players.find(player => player.host && player.UUID === UUID)
+  const isHost = hostUUID === UUID
 
   const startGameClickHandler = () => {
     if (players.length < 3) {
