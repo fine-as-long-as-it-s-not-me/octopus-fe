@@ -4,11 +4,15 @@ import type { ChatResponse, MessageHandlers, SystemChatResponse } from '@/types'
 type ChatHandlersDeps = {
   t: (key: string) => string
   addChat: (chat: ChatResponse) => void
+  revote: () => void
+  toast: (message: string) => void
 }
 
 const createSystemChatHandler = (
   t: ChatHandlersDeps['t'],
   addChat: ChatHandlersDeps['addChat'],
+  revote: () => void,
+  toast: (message: string) => void,
 ): MessageHandlers['system_chat'] => {
   const addSystemChat = (text: string) => {
     addChat({ player: SYSTEM, text })
@@ -42,6 +46,8 @@ const createSystemChatHandler = (
         break
       }
       case 'revote': {
+        revote()
+        toast("Vote again! There's a tie.")
         addSystemChat(
           t(
             'Revote has been initiated due to a tie. If tie occurs again, octopus wins.',
@@ -63,11 +69,13 @@ const createSystemChatHandler = (
 export const createChatHandlers = ({
   t,
   addChat,
+  revote,
+  toast,
 }: ChatHandlersDeps): Pick<MessageHandlers, 'chat_added' | 'system_chat'> => ({
   chat_added: ({ player, text }: ChatResponse) => {
     // Handled in Chat component
     const chat = { player, text }
     addChat(chat)
   },
-  system_chat: createSystemChatHandler(t, addChat),
+  system_chat: createSystemChatHandler(t, addChat, revote, toast),
 })
