@@ -13,7 +13,7 @@ import RoomContentWrapper from '@/components/room/RoomContentWrapper'
 import RoomHeaderWrapper from '@/components/room/RoomHeaderWrapper'
 import RoomWrapper from '@/components/room/RoomWrapper'
 import { useSound } from '@/context/SoundContext'
-import { encryptCode } from '@/lib/code'
+import { encode } from '@/lib/code'
 import { useRoomStore } from '@/store/roomStore'
 
 export default function RoomLayout() {
@@ -28,7 +28,7 @@ export default function RoomLayout() {
 
   const copyLinkHandler = () => {
     navigator.clipboard.writeText(
-      `${window.location.origin}/guest-room?roomCode=${encryptCode(roomCode)}`,
+      `${window.location.origin}/guest-room?roomCode=${encode(roomCode)}`,
     )
     openModal(<Alert>{t('Room link copied to clipboard!')}</Alert>)
   }

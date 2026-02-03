@@ -12,7 +12,7 @@ import Img from '@/components/common/Img'
 import Input from '@/components/common/Input'
 import Alert from '@/components/modals/Alert'
 import useAvatar from '@/hooks/useAvatar'
-import { decryptCode } from '@/lib/code'
+import { decode } from '@/lib/code'
 import { ROUTES } from '@/routes/ROUTES'
 import { useUserStore } from '@/store/userStore'
 
@@ -29,7 +29,7 @@ export default function GuestRoomPage() {
   const avatarUrl = useAvatar(enteredName)
 
   const [params] = useSearchParams()
-  const roomCode = decryptCode(params.get('roomCode') ?? '')
+  const roomCode = decode(params.get('roomCode') ?? '')
 
   const enterSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,10 +40,8 @@ export default function GuestRoomPage() {
     setName(enteredName)
     login({ name: enteredName, UUID, lang })
 
-    if (roomCode) {
-      console.log('Joining room with code:', roomCode)
-      joinPrivateRoom({ roomCode, UUID })
-    }
+    if (roomCode) joinPrivateRoom({ roomCode, UUID })
+
     navigate(ROUTES.LOBBY)
   }
 

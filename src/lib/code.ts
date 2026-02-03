@@ -1,8 +1,8 @@
-export const encryptCode = (code: string) => {
+export const encode = (code: string) => {
   return btoa(code)
 }
 
-export const decryptCode = (encryptedCode: string) => {
+export const decode = (encryptedCode: string) => {
   try {
     return atob(encryptedCode)
   } catch {

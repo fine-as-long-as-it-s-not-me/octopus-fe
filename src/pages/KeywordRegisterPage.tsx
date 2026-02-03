@@ -12,7 +12,7 @@ import Form from '@/components/common/Form'
 import Input from '@/components/common/Input'
 import CustomKeywordListItem from '@/components/room/CustomKeywordListItem'
 import { useToast } from '@/context/ToastContext'
-import { decryptCode } from '@/lib/code'
+import { decode } from '@/lib/code'
 import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
 import { useUserStore } from '@/store/userStore'
@@ -25,7 +25,7 @@ export default function KeywordRegisterPage() {
   const { mutate: voteCustomKeywordAnonymous } = useVoteCustomKeywordAnonymous()
 
   const [params] = useSearchParams()
-  const roomCode = decryptCode(params.get('roomCode') ?? '')
+  const roomCode = decode(params.get('roomCode') ?? '')
   const navigate = useNavigate()
 
   const { settings, customKeywords } = useRoomStore()
@@ -60,7 +60,7 @@ export default function KeywordRegisterPage() {
     }
 
     joinRoomAnonymous({ roomCode })
-  }, [roomCode, navigate, toast, joinRoomAnonymous, UUID])
+  }, [roomCode, navigate, toast, joinRoomAnonymous])
 
   return (
     <Card className='flex min-h-[30dvh] grow flex-col items-center justify-between gap-2'>

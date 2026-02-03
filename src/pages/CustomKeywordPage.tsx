@@ -9,7 +9,7 @@ import Icon from '@/components/common/Icon'
 import Input from '@/components/common/Input'
 import Alert from '@/components/modals/Alert'
 import CustomKeywordListItem from '@/components/room/CustomKeywordListItem'
-import { encryptCode } from '@/lib/code'
+import { encode } from '@/lib/code'
 import { useRoomStore } from '@/store/roomStore'
 
 export default function CustomKeywordPage() {
@@ -120,7 +120,7 @@ export default function CustomKeywordPage() {
             cardClassName='gap-2 px-4 py-3 md:px-6 md:py-4 rounded-xl'
             onClick={() => {
               navigator.clipboard.writeText(
-                `${window.location.origin}/room/keyword-register?roomCode=${encryptCode(roomCode)}`,
+                `${window.location.origin}/room/keyword-register?roomCode=${encode(roomCode)}`,
               )
               openModal(<Alert>{t('Vote link copied to clipboard!')}</Alert>)
             }}
