@@ -24,9 +24,9 @@ export interface Settings {
   maxPlayers: number
   octopusAmount: number
   drawingTime: number
-  useCustomWord: boolean
-  isCustomWordVoteOpen: boolean
-  customWordMinVotes: number
+  useCustomKeyword: boolean
+  isCustomKeywordVoteOpen: boolean
+  customKeywordMinVotes: number
   isPublic: boolean
   lang: Language
   isFoolMode: boolean
@@ -90,7 +90,7 @@ export type Message =
   | { type: 'game_ended'; data: undefined }
   | {
       type: 'custom_words_updated'
-      data: { customWords: { keyword: string; voteCount: number }[] }
+      data: { customKeywords: { keyword: string; voteCount: number }[] }
     }
 
 export type WelcomeResponse = {
@@ -102,6 +102,7 @@ export type PlayersUpdatedResponse = {
   players: Player[]
 }
 export type ErrorType = {
+  cause: string
   message: string
   code?: string
   error?: unknown

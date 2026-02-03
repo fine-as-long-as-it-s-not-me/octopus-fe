@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
@@ -14,24 +13,15 @@ import CloseButton from '@/components/room/CloseButton'
 import RoomContentWrapper from '@/components/room/RoomContentWrapper'
 import RoomHeaderWrapper from '@/components/room/RoomHeaderWrapper'
 import RoomWrapper from '@/components/room/RoomWrapper'
-import { useBackground } from '@/context/BackgroundContext'
-import { useWindow } from '@/context/WindowContext'
 import { useGameStore } from '@/store/gameStore'
 import { useRoomStore } from '@/store/roomStore'
 import { useRoundStore } from '@/store/roundStore'
 
 export default function GameLayout() {
-  const { setBackgroundImage } = useBackground()
-  const { setIsCompact } = useWindow()
   const { settings } = useRoomStore()
   const { round } = useGameStore()
   const { keyword } = useRoundStore()
   const { t } = useTranslation()
-
-  useEffect(() => {
-    setBackgroundImage('room')
-    setIsCompact(true)
-  }, [setBackgroundImage, setIsCompact])
 
   return (
     <RoomWrapper>
