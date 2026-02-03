@@ -10,13 +10,13 @@ import Confirm from '../modals/Confirm'
 export default function CloseButton() {
   const navigate = useNavigate()
   const isRoomPage = useMatch(ROUTES.ROOM)
-  const isCustomWordPage = useMatch(ROUTES.CUSTOM_WORD)
+  const isCustomKeywordPage = useMatch(ROUTES.CUSTOM_WORD)
   const isGamePage = useMatch(`${ROUTES.ROOM}/*`)
 
   const { t } = useTranslation()
   const { openModal } = useModal()
 
-  if (isCustomWordPage)
+  if (isCustomKeywordPage)
     return (
       <Button
         cardClassName='py-2 md:py-3 h-full'

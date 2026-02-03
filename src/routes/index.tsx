@@ -5,8 +5,10 @@ import GameLayout from '@/layouts/GameLayout'
 import GameRoomLayout from '@/layouts/GameRoomLayout'
 import RoomLayout from '@/layouts/RoomLayout'
 import RootLayout from '@/layouts/RootLayout'
-import CustomWordPage from '@/pages/CustomWordPage'
+import CustomKeywordPage from '@/pages/CustomKeywordPage'
+import GuestRoomPage from '@/pages/GuestRoomPage'
 import HomePage from '@/pages/HomePage'
+import KeywordRegisterPage from '@/pages/KeywordRegisterPage'
 import LobbyPage from '@/pages/LobbyPage'
 import DiscussionPage from '@/pages/phase/DiscussionPage'
 import DrawingPage from '@/pages/phase/DrawingPage'
@@ -34,6 +36,10 @@ const router = createBrowserRouter([
             element: <LobbyPage />,
             path: ROUTES.LOBBY,
           },
+          {
+            element: <GuestRoomPage />,
+            path: ROUTES.GUEST_ROOM,
+          },
         ],
       },
       {
@@ -47,7 +53,7 @@ const router = createBrowserRouter([
                 path: ROUTES.ROOM,
               },
               {
-                element: <CustomWordPage />,
+                element: <CustomKeywordPage />,
                 path: ROUTES.CUSTOM_WORD,
               },
             ],
@@ -88,6 +94,10 @@ const router = createBrowserRouter([
                 path: ROUTES.GAME_RESULT,
               },
             ],
+          },
+          {
+            element: <KeywordRegisterPage />,
+            path: ROUTES.KEYWORD_REGISTER,
           },
         ],
       },

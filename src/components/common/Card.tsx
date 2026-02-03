@@ -17,7 +17,7 @@ export default function Card({
   const { isCompact } = useWindow()
 
   const sizeClassName = {
-    sm: `text-md md:text-base w-fit px-2.5 py-2 rounded-[24px]`,
+    sm: `text-sm md:text-base w-fit px-2.5 py-2 rounded-[24px]`,
     md: `text-lg w-full p-3 md:p-4 ${isCompact ? 'sm:rounded-2xl' : 'rounded-2xl'}`,
     lg: `text-lg w-full p-3 md:p-4 ${isCompact ? 'sm:rounded-2xl' : 'rounded-2xl'}`,
   }

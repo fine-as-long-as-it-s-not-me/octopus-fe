@@ -18,6 +18,7 @@ export default function Alert({ children }: Props) {
         {children}
       </div>
       <Button
+        cardClassName='rounded-xl'
         onClick={() => {
           closeModal()
         }}

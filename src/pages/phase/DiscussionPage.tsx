@@ -19,8 +19,11 @@ export default function DiscussionPage() {
 
   useEffect(() => {
     playSoundEffect('phase')
+  }, [playSoundEffect])
+
+  useEffect(() => {
     playMusic('discuss')
-  }, [playSoundEffect, playMusic])
+  }, [playMusic])
 
   return (
     <div className={twMerge('flex flex-col sm:gap-2')}>

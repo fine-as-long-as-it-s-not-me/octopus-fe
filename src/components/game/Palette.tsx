@@ -66,7 +66,7 @@ export default function Palette() {
         cardClassName='rounded-2xl p-3'
         onClick={() => openModal(<CanvasColorModal />)}
       >
-        {t('Canvas Color')}
+        {t('Change Canvas')}
       </Button>
     </Card>
   )

@@ -12,5 +12,6 @@ export const ROUTES = {
   VOTE_RESULT: `/room/vote-result`,
   ROUND_RESULT: `/room/round-result`,
   GAME_RESULT: `/room/game-result`,
-  TEST: `/room/discussion`,
+  GUEST_ROOM: `/guest-room`,
+  KEYWORD_REGISTER: `/room/keyword-register`,
 }

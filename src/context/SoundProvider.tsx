@@ -16,7 +16,6 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
 
   const [musicVolume, setMusicVolume] = useState(0.5)
   const [effectVolume, setEffectVolume] = useState(0.5)
-  console.log(effectVolume)
 
   useEffect(() => {
     if (playingMusic.current) {

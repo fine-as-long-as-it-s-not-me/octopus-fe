@@ -48,7 +48,7 @@ export default function SettingButtons({ className, translate = true }: Props) {
       <div className='group relative h-full grow-1 self-center sm:flex'>
         <Button
           size='md'
-          className='h-full grow-1 self-center sm:flex'
+          className='h-full w-full grow-1 self-center sm:flex'
           cardClassName={twMerge(
             `h-auto py-2 md:py-3 grow-1 h-full`,
             className,
@@ -67,7 +67,7 @@ export default function SettingButtons({ className, translate = true }: Props) {
       <div className='group relative h-full grow-1 self-center sm:flex'>
         <Button
           size='md'
-          className='w-full'
+          className='h-full w-full grow-1 self-center sm:flex'
           cardClassName={twMerge(
             `h-auto py-2 md:py-3 grow-1 h-full `,
             className,

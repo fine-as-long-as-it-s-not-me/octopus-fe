@@ -11,7 +11,7 @@ export default function VolumeControl({ value, onChange, className }: Props) {
         type='range'
         min={0}
         max={1}
-        step={0.05}
+        step={0.01}
         value={value}
         onChange={e => onChange(Number(e.target.value))}
         className={className}

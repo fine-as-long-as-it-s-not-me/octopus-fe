@@ -7,6 +7,8 @@ import { useRoomStore } from '@/store/roomStore'
 import { useRoundStore } from '@/store/roundStore'
 import { useUserStore } from '@/store/userStore'
 
+const bypassPaths = [ROUTES.GUEST_ROOM, ROUTES.KEYWORD_REGISTER]
+
 export default function useRouteByPhase() {
   const { phase } = useRoundStore()
   const { roomCode } = useRoomStore()
@@ -14,6 +16,8 @@ export default function useRouteByPhase() {
   const navigate = useNavigate()
   const location = useLocation()
   useEffect(() => {
+    if (bypassPaths.some(path => matchPath(path, location.pathname))) return
+
     if (userId === -1 || !userName) navigate(ROUTES.HOME)
     else {
       if (roomCode) {

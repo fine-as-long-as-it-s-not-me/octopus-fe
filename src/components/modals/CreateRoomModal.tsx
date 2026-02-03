@@ -41,9 +41,9 @@ export default function CreateRoomModal({ action }: Props) {
       maxPlayers:
         Number(e.currentTarget.maxPlayers.value) || prevSettings.maxPlayers,
       drawingTime,
-      useCustomWord: !!e.currentTarget.useCustomWord.checked,
-      isCustomWordVoteOpen: !!e.currentTarget.useCustomWord.checked,
-      customWordMinVotes: 1,
+      useCustomKeyword: !!e.currentTarget.useCustomKeyword.checked,
+      isCustomKeywordVoteOpen: !!e.currentTarget.useCustomKeyword.checked,
+      customKeywordMinVotes: 1,
       isPublic: e.currentTarget.roomType.value === 'public',
       isFoolMode: !!e.currentTarget.isFoolMode.checked,
     }
@@ -127,12 +127,12 @@ export default function CreateRoomModal({ action }: Props) {
         </SettingInputWrapper>
         <SettingInputWrapper
           icon={<Icon name='abc' />}
-          label={t('Use Custom Words')}
+          label={t('Use Custom Keywords')}
         >
           <Checkbox
             type='checkbox'
-            name='useCustomWord'
-            defaultChecked={prevSettings.useCustomWord}
+            name='useCustomKeyword'
+            defaultChecked={prevSettings.useCustomKeyword}
           />
         </SettingInputWrapper>
         <SettingInputWrapper
@@ -149,12 +149,13 @@ export default function CreateRoomModal({ action }: Props) {
           <select
             name='roomType'
             defaultValue={prevSettings.isPublic ? 'public' : 'private'}
+            className='cursor-pointer p-2'
           >
             <option value='public'>{t('Public')}</option>
             <option value='private'>{t('Private')}</option>
           </select>
         </SettingInputWrapper>
-        <Button size='lg' type='submit'>
+        <Button size='lg' type='submit' cardClassName='rounded-xl'>
           {t(action === 'create' ? 'Create' : 'Change')}
         </Button>
       </Form>

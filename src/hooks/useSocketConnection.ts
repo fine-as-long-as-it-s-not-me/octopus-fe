@@ -3,10 +3,12 @@ import { useCallback, useRef, useState } from 'react'
 import { SOCKET_MESSAGE_ERROR } from '@/consts'
 import { useSocketHandlers } from '@/hooks/useSocketHandlers'
 import { useUserStore } from '@/store/userStore'
-import { type ErrorType, type Message, type MessageHandlers } from '@/types'
+import { type Message, type MessageHandlers } from '@/types'
 
 export function useSocketConnection(
-  setError: (error: null | ErrorType) => void,
+  setError: (
+    error: null | { message: string; code: string; error?: unknown },
+  ) => void,
 ) {
   const ws = useRef<WebSocket | null>(null)
   const [isConnecting, setIsConnecting] = useState(false)
