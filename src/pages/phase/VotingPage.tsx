@@ -8,15 +8,19 @@ import CanvasOpenButton from '@/components/game/CanvasOpenButton'
 import VoteCard from '@/components/game/VoteCard'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
+import { useRoundStore } from '@/store/roundStore'
 
 export default function VotingPage() {
   const { direction } = useWindow()
   const { mutate: vote } = useVoteOctopus()
   const { playSoundEffect } = useSound()
+  const { revoting } = useRoundStore()
 
   useEffect(() => {
     playSoundEffect('nav')
   }, [playSoundEffect])
+
+  console.log(revoting.toString())
 
   return (
     <div className={twMerge('flex grow-1 flex-col sm:gap-2')}>
@@ -26,8 +30,8 @@ export default function VotingPage() {
       >
         {direction !== 'vertical' && <Canvas />}
         <VoteCard
+          key={revoting.toString()}
           onSubmit={(targetUUID: string) => vote({ targetUUID })}
-          key={'voting'}
         />
       </Card>
     </div>

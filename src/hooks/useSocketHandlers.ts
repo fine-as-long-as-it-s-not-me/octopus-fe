@@ -48,6 +48,8 @@ export function useSocketHandlers(
     ...createChatHandlers({
       t,
       addChat: room.addChat,
+      revote: round.revote,
+      toast,
     }),
 
     ...createRoundHandlers({

@@ -57,6 +57,9 @@ interface RoundState {
   winningTeam: Team | null
   setWinningTeam: (team: Team | null) => void
 
+  revoting: boolean
+  revote: () => void
+
   init: () => void
 }
 
@@ -116,6 +119,9 @@ export const useRoundStore = create<RoundState>()(
       winningTeam: null,
       setWinningTeam: team => set({ winningTeam: team }),
 
+      revoting: false,
+      revote: () => set({ revoting: true }),
+
       init: () =>
         set(() => ({
           timeLeft: 0,
@@ -136,6 +142,8 @@ export const useRoundStore = create<RoundState>()(
           isUnanimity: false,
           octopuses: [],
           winningTeam: null,
+
+          revoting: false,
         })),
     }),
     {
