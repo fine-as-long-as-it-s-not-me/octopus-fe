@@ -40,7 +40,7 @@ export default function LoadingScreen() {
       </div>
       <p className='max-w-[720px] p-4 text-center leading-relaxed whitespace-pre-wrap'>
         {t(
-          `Deep beneath the sea lies a peaceful squid village.\nOne day, a disguised octopus sneaks in, very insidious.\nThe squids draw secret words with their ink\nto uncover the octopus who doesn’t know the code!`,
+          `Deep beneath the sea lies a peaceful squid village.\nOne day, a cunning octopus slips in disguised among them.\nThe squids write a secret keyword in ink,\ntrying to expose the intruder who doesn’t know the keyword.`,
         )}
       </p>
     </button>

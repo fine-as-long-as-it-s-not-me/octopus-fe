@@ -27,8 +27,6 @@ export default function CustomWordPage() {
     e.currentTarget.reset()
   }
 
-  console.log(customWords)
-
   const enabledCount = customWords.filter(
     ({ voteCount }) => voteCount >= settings.customWordMinVotes,
   ).length

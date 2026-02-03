@@ -58,7 +58,7 @@
   "You have already extended the discussion time.": "이미 토론 시간을 연장했습니다.",
   "You have already shortened the discussion time.": "이미 토론 시간을 단축했습니다.",
   "Who's the Octopus?": "이 중에 문어가 있습니다...",
-  "Deep beneath the sea lies a peaceful squid village.\nOne day, a disguised octopus sneaks in, very insidious.\nThe squids draw secret words with their ink\nto uncover the octopus who doesn’t know the code!": "깊은 바다, 평화로운 오징어 마을.\n한 음흉한 문어가 위장술로 숨어들며 소동이 시작됩니다.\n오징어들은 먹물로 마을의 암호를 표현하여 이를 모르는 문어를 찾아내기로 합니다.",
+  "Deep beneath the sea lies a peaceful squid village.\nOne day, a cunning octopus slips in disguised among them.\nThe squids write a secret keyword in ink,\ntrying to expose the intruder who doesn’t know the keyword.": "깊은 바다, 평화로운 오징어 마을.\n한 음흉한 문어가 위장술로 숨어들며 소동이 시작됩니다.\n오징어들은 먹물로 마을의 암호를 표현하여 이를 모르는 문어를 찾아내기로 합니다.",
   "Vote for a Player": "문어를 색출하세요!",
   "Confirm": "확정",
   "Logout": "로그아웃",
@@ -127,7 +127,7 @@
   "You are the Octopus.": "당신은 문어입니다.",
   "Guess what others draw.": "오징어들이 그리는 암호를 추측하세요.",
   "At least 3 residents are required to start the debate.": "토론을 시작하려면 최소 3명의 주민이 모여야 합니다.",
-  "Octopuses also get a code—without even knowing they’re octopuses.": "문어가 자신이 문어인지 모른 채 암호를 받습니다.",
+  "Octopuses also get a Keyword without even knowing they’re octopuses.": "문어가 자신이 문어인지 모른 채 암호를 받습니다.",
   "The server differs by selected village.": "선택한 마을에 따라 서버가 바뀝니다.",
   "Change Village": "마을 변경",
   "Maximum players is 12": "최대 인원은 12명입니다.",
@@ -136,6 +136,6 @@
   "Apply": "적용",
   "votes": "표",
   "Deleting Keyword": "제시어를 삭제합니다. ",
-  "Use your own words for code!": "자신만의 단어로 암호를 만드세요!",
+  "Use your own words as keywords!": "자신만의 단어를 암호로 사용하세요!",
   "You have already voted for this word.": "이미 추가한 단어입니다."
 }

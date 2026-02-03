@@ -61,7 +61,7 @@ export default function GameSettingListCard({ isHost }: Props) {
           label={t('Drawing Time')}
           value={`${settings.drawingTime}${t('s')}`}
         />
-        <ToolTip tip='Octopuses also get a code—without even knowing they’re octopuses.'>
+        <ToolTip tip='Octopuses also get a Keyword without even knowing they’re octopuses.'>
           <SettingItem
             icon={<Icon name='indeterminate_question_box' />}
             label={t('Fool Mode')}
@@ -69,7 +69,7 @@ export default function GameSettingListCard({ isHost }: Props) {
             underline
           />
         </ToolTip>
-        <ToolTip tip='Use your own words for code!'>
+        <ToolTip tip='Use your own words as keywords!'>
           <SettingItem
             underline
             icon={<Icon name='edit' />}
