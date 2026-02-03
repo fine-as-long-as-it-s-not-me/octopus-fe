@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import { useToast } from '@/context/ToastContext'
 import { useWindow } from '@/context/WindowContext'
@@ -21,6 +22,8 @@ export function useSocketHandlers(
   ) => void,
 ): MessageHandlers {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+
   const { toast } = useToast()
   const { isFullscreen, fullscreenToggle } = useWindow()
 
@@ -65,7 +68,7 @@ export function useSocketHandlers(
       setWinningTeam: round.setWinningTeam,
       setRound: game.setRound,
       setRanks: game.setRanks,
-      setCustomWords: room.setCustomWords,
+      setCustomKeywords: room.setCustomKeywords,
     }),
 
     ...createGameHandlers({
@@ -76,6 +79,6 @@ export function useSocketHandlers(
       fullscreenToggle,
     }),
 
-    ...createErrorHandlers({ toast }),
+    ...createErrorHandlers({ toast, setUsername: user.setName, navigate }),
   }
 }

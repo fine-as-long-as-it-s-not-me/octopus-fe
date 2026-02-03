@@ -12,28 +12,23 @@ import CloseButton from '@/components/room/CloseButton'
 import RoomContentWrapper from '@/components/room/RoomContentWrapper'
 import RoomHeaderWrapper from '@/components/room/RoomHeaderWrapper'
 import RoomWrapper from '@/components/room/RoomWrapper'
-import { useBackground } from '@/context/BackgroundContext'
 import { useSound } from '@/context/SoundContext'
-import { useWindow } from '@/context/WindowContext'
+import { encryptCode } from '@/lib/code'
 import { useRoomStore } from '@/store/roomStore'
 
 export default function RoomLayout() {
   const { t } = useTranslation()
-  const { setBackgroundImage } = useBackground()
   const { playMusic } = useSound()
   const { roomCode } = useRoomStore()
   const { openModal } = useModal()
-  const { setIsCompact } = useWindow()
 
   useEffect(() => {
     playMusic('waiting')
-    setBackgroundImage('room')
-    setIsCompact(true)
-  }, [playMusic, setBackgroundImage, setIsCompact])
+  }, [playMusic])
 
   const copyLinkHandler = () => {
     navigator.clipboard.writeText(
-      `${import.meta.env.VITE_BASE_URL}/room/${roomCode}`,
+      `${window.location.origin}/guest-room?roomCode=${encryptCode(roomCode)}`,
     )
     openModal(<Alert>{t('Room link copied to clipboard!')}</Alert>)
   }

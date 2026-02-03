@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import useRouteByPhase from '@/hooks/useRouteByPhase'
 import { useSocketConnection } from '@/hooks/useSocketConnection'
-import { type ErrorType } from '@/types'
 import { SocketContext } from './SocketContext'
 
 interface Props {
@@ -11,7 +10,12 @@ interface Props {
 }
 
 export default function SocketProvider({ children }: Props) {
-  const [error, setError] = useState<null | ErrorType>(null)
+  const [error, setError] = useState<null | {
+    message: string
+    code: string
+    error?: unknown
+  }>(null)
+  useRouteByPhase()
   const { t } = useTranslation()
 
   const { connectSocket, isConnected, isConnecting, sendMessage } =
@@ -25,7 +29,28 @@ export default function SocketProvider({ children }: Props) {
     }
   }, [error, isConnected, isConnecting, connectSocket, setError])
 
-  useRouteByPhase()
+  useEffect(() => {
+    return () => {
+      sendMessage('player', 'logout')
+    }
+  }, [sendMessage])
+
+  const pingInterval = useRef<number>(null)
+
+  useEffect(() => {
+    if (isConnected) {
+      pingInterval.current = setInterval(() => {
+        sendMessage('player', 'ping', {})
+      }, 5000)
+    }
+
+    return () => {
+      if (pingInterval.current) {
+        clearInterval(pingInterval.current)
+        pingInterval.current = null
+      }
+    }
+  }, [isConnected, sendMessage])
 
   return (
     <SocketContext.Provider

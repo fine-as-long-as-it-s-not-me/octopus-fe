@@ -11,9 +11,9 @@ interface RoomState {
   settings: Settings
   setSettings: (settings: Settings) => void
 
-  customWords: { keyword: string; voteCount: number }[]
-  setCustomWords: (
-    customWords: { keyword: string; voteCount: number }[],
+  customKeywords: { keyword: string; voteCount: number }[]
+  setCustomKeywords: (
+    customKeywords: { keyword: string; voteCount: number }[],
   ) => void
 
   players: Player[]
@@ -38,9 +38,10 @@ export const useRoomStore = create<RoomState>()(
       settings: DEFAULT_SETTINGS,
       setSettings: (settings: Settings) => set({ settings }),
 
-      customWords: [],
-      setCustomWords: (customWords: { keyword: string; voteCount: number }[]) =>
-        set({ customWords }),
+      customKeywords: [],
+      setCustomKeywords: (
+        customKeywords: { keyword: string; voteCount: number }[],
+      ) => set({ customKeywords }),
 
       players: [],
       setPlayers: (players: Player[]) => set({ players }),
@@ -60,7 +61,7 @@ export const useRoomStore = create<RoomState>()(
           roomCode: '',
           players: [],
           chats: [],
-          customWords: [],
+          customKeywords: [],
           hostUUID: null,
         }),
     }),

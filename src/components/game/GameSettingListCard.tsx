@@ -73,10 +73,10 @@ export default function GameSettingListCard({ isHost }: Props) {
           <SettingItem
             underline
             icon={<Icon name='edit' />}
-            label={t('Custom Words')}
-            value={settings.useCustomWord ? t('On') : t('Off')}
+            label={t('Custom Keywords')}
+            value={settings.useCustomKeyword ? t('On') : t('Off')}
             onClick={
-              settings.useCustomWord
+              settings.useCustomKeyword
                 ? () => {
                     navigate(ROUTES.CUSTOM_WORD)
                   }

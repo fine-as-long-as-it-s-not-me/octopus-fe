@@ -24,8 +24,8 @@ type RoundHandlersDeps = {
   setNextPainterUUID: (uuid: string) => void
   setRound: (round: number) => void
   setRanks: (ranks: RoundResultResponse['ranks']) => void
-  setCustomWords: (
-    customWords: { keyword: string; voteCount: number }[],
+  setCustomKeywords: (
+    customKeywords: { keyword: string; voteCount: number }[],
   ) => void
   setVotedPlayer: (player: Player) => void
   setWinningTeam: (team: Team | null) => void
@@ -47,7 +47,7 @@ export const createRoundHandlers = ({
   setNextPainterUUID,
   setRound,
   setRanks,
-  setCustomWords,
+  setCustomKeywords,
   setVotedPlayer,
   setWinningTeam,
 }: RoundHandlersDeps): Pick<
@@ -97,7 +97,7 @@ export const createRoundHandlers = ({
     setIsUnanimity(isUnanimity)
     setWinningTeam(winningTeam)
   },
-  custom_words_updated: ({ customWords }) => {
-    setCustomWords(customWords)
+  custom_words_updated: ({ customKeywords }) => {
+    setCustomKeywords(customKeywords)
   },
 })
