@@ -204,3 +204,12 @@ progress::-moz-progress-bar {
     transform: rotate(360deg);
   }
 }
+
+input.vertical[type=range] {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  appearance: slider-vertical;
+  vertical-align: bottom;
+  background-color: #001b29;
+  color: #ff0000;
+}

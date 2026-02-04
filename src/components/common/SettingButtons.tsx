@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
 
@@ -27,6 +28,25 @@ export default function SettingButtons({ className, translate = true }: Props) {
   const { fullscreenToggle, isFullscreen } = useWindow()
   const { openModal } = useModal()
 
+  const ref = useRef(null)
+  const [direction, setDirection] = useState<'vertical' | 'horizontal'>(
+    'vertical',
+  )
+
+  useEffect(() => {
+    if (!ref.current) return
+    const resizeObserver = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width
+        setDirection(width >= 110 ? 'horizontal' : 'vertical')
+      }
+    })
+    resizeObserver.observe(ref.current)
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
+
   return (
     <>
       {translate && (
@@ -45,7 +65,10 @@ export default function SettingButtons({ className, translate = true }: Props) {
           <Icon name='translate' />
         </Button>
       )}
-      <div className='group relative h-full grow-1 self-center sm:flex'>
+      <div
+        className='group relative h-full grow-1 self-center sm:flex'
+        ref={ref}
+      >
         <Button
           size='md'
           className='h-full w-full grow-1 self-center sm:flex'
@@ -58,11 +81,13 @@ export default function SettingButtons({ className, translate = true }: Props) {
         >
           <Icon name={isMusicMuted ? 'music_off' : 'music_note'} />
         </Button>
-        <VolumeControl
-          value={musicVolume}
-          onChange={setMusicVolume}
-          className='absolute bottom-full left-0 z-2020 hidden w-full group-hover:block'
-        />
+        {!isMusicMuted && (
+          <VolumeControl
+            value={musicVolume}
+            onChange={setMusicVolume}
+            direction={direction}
+          />
+        )}
       </div>
       <div className='group relative h-full grow-1 self-center sm:flex'>
         <Button
@@ -79,11 +104,13 @@ export default function SettingButtons({ className, translate = true }: Props) {
         >
           <Icon name={isEffectMuted ? 'volume_off' : 'volume_up'} />
         </Button>
-        <VolumeControl
-          value={effectVolume}
-          onChange={setEffectVolume}
-          className='absolute bottom-full left-0 z-2020 hidden w-full group-hover:block'
-        />
+        {!isEffectMuted && (
+          <VolumeControl
+            value={effectVolume}
+            onChange={setEffectVolume}
+            direction={direction}
+          />
+        )}
       </div>
       <Button
         size='md'
