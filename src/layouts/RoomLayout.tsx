@@ -29,10 +29,11 @@ export default function RoomLayout() {
   const { mutate: changeLanguage } = useChangeLanguage()
 
   useEffect(() => {
+    if (i18n.language === settings.lang) return
     i18n.changeLanguage(settings.lang)
     setLang(settings.lang)
     changeLanguage({ lang: settings.lang })
-  }, [settings, i18n, setLang, changeLanguage])
+  }, [settings.lang, i18n, setLang, changeLanguage])
 
   useEffect(() => {
     playMusic('waiting')
