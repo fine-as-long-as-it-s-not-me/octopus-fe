@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 import { useModal } from 'sam-react-modal'
 
+import { useChangeLanguage } from '@/apis/player'
 import Button from '@/components/common/Button'
 import Icon from '@/components/common/Icon'
 import Settings from '@/components/common/Settings'
@@ -15,12 +16,24 @@ import RoomWrapper from '@/components/room/RoomWrapper'
 import { useSound } from '@/context/SoundContext'
 import { encode } from '@/lib/code'
 import { useRoomStore } from '@/store/roomStore'
+import { useUserStore } from '@/store/userStore'
 
 export default function RoomLayout() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { playMusic } = useSound()
-  const { roomCode } = useRoomStore()
+  const { roomCode, settings } = useRoomStore()
   const { openModal } = useModal()
+
+  const { setLang } = useUserStore()
+
+  const { mutate: changeLanguage } = useChangeLanguage()
+
+  useEffect(() => {
+    if (i18n.language === settings.lang) return
+    i18n.changeLanguage(settings.lang)
+    setLang(settings.lang)
+    changeLanguage({ lang: settings.lang })
+  }, [settings.lang, i18n, setLang, changeLanguage])
 
   useEffect(() => {
     playMusic('waiting')
