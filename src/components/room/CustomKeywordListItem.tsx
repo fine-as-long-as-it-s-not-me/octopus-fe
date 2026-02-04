@@ -43,7 +43,7 @@ export default function CustomKeywordListItem({ word, votes }: Props) {
       <p>{word}</p>
       <p>{votes}</p>
       {isHost && (
-        <div className='absolute inset-0 left-1/2 z-2020 flex h-full w-full -translate-x-1/2 items-center justify-center bg-gray-600/80 text-center text-xl text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
+        <div className='absolute inset-0 left-1/2 z-49 flex h-full w-full -translate-x-1/2 items-center justify-center bg-gray-600/80 text-center text-xl text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
           x
         </div>
       )}
