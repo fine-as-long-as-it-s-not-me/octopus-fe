@@ -210,6 +210,4 @@ input.vertical[type=range] {
   direction: rtl;
   appearance: slider-vertical;
   vertical-align: bottom;
-  background-color: #001b29;
-  color: #ff0000;
 }
