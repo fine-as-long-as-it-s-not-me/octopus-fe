@@ -11,6 +11,7 @@ type AssetContextType = {
   progress: number // 0–100
   avatarCache: Record<string, string>
   setAvatarCache: React.Dispatch<React.SetStateAction<Record<string, string>>>
+  interacted: boolean
 }
 
 export const AssetContext = createContext<AssetContextType | null>(null)

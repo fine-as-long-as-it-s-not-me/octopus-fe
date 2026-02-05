@@ -1,6 +1,7 @@
 import { Outlet, useBlocker } from 'react-router-dom'
 import { ModalProvider, useModal } from 'sam-react-modal'
 
+import LoadingScreen from '@/components/common/LoadingScreen'
 import SocketProvider from '@/context/SocketProvider'
 import { ToastProvider } from '@/context/ToastProvider'
 
@@ -10,6 +11,7 @@ export default function RootLayout() {
       <SocketProvider>
         <ModalProviderWrapper>
           <Outlet />
+          <LoadingScreen />
         </ModalProviderWrapper>
       </SocketProvider>
     </ToastProvider>

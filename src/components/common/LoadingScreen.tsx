@@ -2,12 +2,11 @@ import { useTranslation } from 'react-i18next'
 import { twMerge } from 'tailwind-merge'
 
 import { useAssets } from '@/context/AssetContext'
-import { useWindow } from '@/context/WindowContext'
 
 export default function LoadingScreen() {
   const { progress } = useAssets()
   const { t } = useTranslation()
-  const { interacted, setInteracted } = useWindow()
+  const { interacted } = useAssets()
   return (
     <button
       className={twMerge(
@@ -17,9 +16,6 @@ export default function LoadingScreen() {
       style={{
         background: 'linear-gradient(rgb(82, 165, 255), rgb(5, 47, 118))',
       }}
-      onClick={() => setInteracted(true)}
-      onKeyDown={() => setInteracted(true)}
-      tabIndex={0}
       type='button'
     >
       {progress === 100 ? (
@@ -29,7 +25,12 @@ export default function LoadingScreen() {
       )}
 
       <div className='relative flex flex-col items-center'>
-        <div className='water-round-container'>
+        <div
+          className={twMerge(
+            'water-round-container relative overflow-hidden rounded-full border-[3px] text-center',
+            progress === 100 ? 'border-[#44ee66bb]' : 'border-[#eeeeee88]',
+          )}
+        >
           <Wave number={1} top={`${95 - progress}%`} />
           <Wave number={2} top={`${100 - progress}%`} />
           <Wave number={3} top={`${105 - progress}%`} />

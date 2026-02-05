@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 
 import { useAssets } from './AssetContext'
 import { SoundContext } from './SoundContext'
-import { useWindow } from './WindowContext'
 
 export default function SoundProvider({ children }: { children: ReactNode }) {
   const [isEffectMuted, setIsEffectMuted] = useState(
@@ -24,7 +23,7 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
   }, [musicVolume, playingMusic])
 
   const { sounds } = useAssets()
-  const { interacted } = useWindow()
+  const { interacted } = useAssets()
 
   function playMusic(key: string) {
     if (!interacted) return
