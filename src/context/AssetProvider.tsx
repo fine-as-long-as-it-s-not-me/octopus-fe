@@ -86,7 +86,6 @@ export const AssetProvider = ({ children }: Props) => {
   }, [])
 
   useEffect(() => {
-    console.log(interacted)
     if (!interacted) return
 
     let cancelled = false

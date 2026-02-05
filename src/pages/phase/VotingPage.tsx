@@ -20,8 +20,6 @@ export default function VotingPage() {
     playSoundEffect('nav')
   }, [playSoundEffect])
 
-  console.log(revoting.toString())
-
   return (
     <div className={twMerge('flex grow-1 flex-col sm:gap-2')}>
       {direction === 'vertical' && <CanvasOpenButton />}

@@ -8,7 +8,7 @@ export default function LoadingScreen() {
   const { t } = useTranslation()
   const { interacted } = useAssets()
   return (
-    <button
+    <div
       className={twMerge(
         `absolute inset-0 flex h-[100lvh] flex-col items-center justify-center gap-6 text-white`,
         interacted && progress === 100 ? 'hidden' : 'flex',
@@ -16,7 +16,6 @@ export default function LoadingScreen() {
       style={{
         background: 'linear-gradient(rgb(82, 165, 255), rgb(5, 47, 118))',
       }}
-      type='button'
     >
       {progress === 100 ? (
         <p>{t('press anywhere to continue')}</p>
@@ -44,7 +43,7 @@ export default function LoadingScreen() {
           `Deep beneath the sea lies a peaceful squid village.\nOne day, a cunning octopus slips in disguised among them.\nThe squids write a secret keyword in ink,\ntrying to expose the intruder who doesn’t know the keyword.`,
         )}
       </p>
-    </button>
+    </div>
   )
 }
 
