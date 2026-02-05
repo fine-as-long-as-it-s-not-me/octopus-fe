@@ -6,7 +6,7 @@ type GameHandlersDeps = {
   addChat: (chat: ChatResponse) => void
   t: (key: string) => string
   isFullscreen: boolean
-  fullscreenToggle: () => void
+  fullscreenToggle: (onError?: () => void) => void
 }
 
 export const createGameHandlers = ({

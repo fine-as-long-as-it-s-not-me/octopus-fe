@@ -2,16 +2,16 @@ import { useTranslation } from 'react-i18next'
 import { twMerge } from 'tailwind-merge'
 
 import { useAssets } from '@/context/AssetContext'
-import { useBackground } from '@/context/BackgroundContext'
+import { useWindow } from '@/context/WindowContext'
 
 export default function LoadingScreen() {
   const { progress } = useAssets()
   const { t } = useTranslation()
-  const { interacted, setInteracted } = useBackground()
+  const { interacted, setInteracted } = useWindow()
   return (
     <button
       className={twMerge(
-        `absolute inset-0 flex flex-col items-center justify-center gap-6 text-white`,
+        `absolute inset-0 flex h-[100lvh] flex-col items-center justify-center gap-6 text-white`,
         interacted && progress === 100 ? 'hidden' : 'flex',
       )}
       style={{
