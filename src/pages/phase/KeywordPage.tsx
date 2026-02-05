@@ -15,7 +15,7 @@ export default function KeywordPage() {
     pauseMusic()
   }, [playSoundEffect, pauseMusic])
   return (
-    <Card className='flex min-h-[43dvh] w-auto grow-12 flex-col items-center justify-center gap-6 text-center sm:h-auto'>
+    <Card className='flex min-h-[43lvh] w-auto grow-12 flex-col items-center justify-center gap-6 text-center sm:h-auto'>
       {keyword === '' ? (
         <>
           <p className='text-[80px] break-words'>{t('You are the Octopus.')}</p>

@@ -182,3 +182,8 @@ export const Team = {
 }
 
 export type Team = (typeof Team)[keyof typeof Team]
+
+export type LoaderEntry<T> = {
+  key: string
+  loader: () => Promise<T>
+}

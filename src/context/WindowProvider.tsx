@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { debounce } from 'lodash'
 
+import { useAssets } from './AssetContext'
 import { WindowContext, type ScreenSize } from './WindowContext'
 
 const RESIZE_THROTTLE_MS = 300
@@ -50,20 +51,28 @@ export default function WindowProvider({
     }
   }, [])
 
-  const fullscreenToggle = (onError: () => void) => {
+  const fullscreenToggle = (onError?: () => void) => {
     if (!document.fullscreenElement) {
       try {
         screenRef.current?.requestFullscreen()
       } catch {
-        onError()
+        onError?.()
       }
     } else {
       try {
         document.exitFullscreen()
       } catch {
-        onError()
+        onError?.()
       }
     }
+  }
+
+  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null)
+  const { backgrounds } = useAssets()
+
+  function setBackgroundImage(key: string) {
+    const platform = window.innerWidth >= 768 ? 'desktop' : 'mobile'
+    if (backgrounds[platform][key]) setBgImage(backgrounds[platform][key])
   }
 
   return (
@@ -75,11 +84,25 @@ export default function WindowProvider({
         setIsCompact,
         isFullscreen,
         fullscreenToggle,
+        setBackgroundImage,
       }}
     >
-      <div className='h-[100lvh] w-[100lvw] overflow-visible' ref={screenRef}>
-        {children}
-      </div>
+      <>
+        <div
+          className='flex h-[100lvh] w-[100lvw] flex-col items-center justify-center overflow-visible'
+          style={{
+            backgroundImage: bgImage ? `url(${bgImage.src})` : 'none',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            width: '100%',
+            height: '100%',
+          }}
+          ref={screenRef}
+        >
+          {children}
+        </div>
+      </>
     </WindowContext.Provider>
   )
 }
