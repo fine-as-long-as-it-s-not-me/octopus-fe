@@ -7,96 +7,104 @@ import {
   musicAssets,
   soundEffectsAssets,
 } from '@/assets'
-import { loadAudio, loadImage } from '@/lib/loaders'
+import { buildEntries, loadAudio, loadGroup, loadImage } from '@/lib/loaders'
 import { AssetContext } from './AssetContext'
 
 type Props = { children: ReactNode }
 
+type BackgroundAssets = {
+  desktop: Record<string, HTMLImageElement>
+  mobile: Record<string, HTMLImageElement>
+}
+
 export const AssetProvider = ({ children }: Props) => {
-  // 기본 에셋
   const [images, setImages] = useState<Record<string, HTMLImageElement>>({})
-  const [backgrounds, setBackgrounds] = useState<{
-    desktop: Record<string, HTMLImageElement>
-    mobile: Record<string, HTMLImageElement>
-  }>({ desktop: {}, mobile: {} })
+  const [backgrounds, setBackgrounds] = useState<BackgroundAssets>({
+    desktop: {},
+    mobile: {},
+  })
   const [sounds, setSounds] = useState<Record<string, HTMLAudioElement>>({})
   const [loading, setLoading] = useState(true)
   const [progress, setProgress] = useState(0)
   const [avatarCache, setAvatarCache] = useState<Record<string, string>>({})
 
+  const [interacted, setInteracted] = useState(false)
+
   useEffect(() => {
-    const loadAll = async () => {
-      const imageEntries = Object.entries(avatarAssets).map(([k, v]) => ({
-        key: k,
-        loader: () => loadImage(v),
-      }))
-
-      const desktopBgEntries = Object.entries(desktopBgAssets).map(
-        ([k, v]) => ({
-          key: k,
-          loader: () => loadImage(v),
-        }),
-      )
-      const mobileBgEntries = Object.entries(mobileBgAssets).map(([k, v]) => ({
-        key: k,
-        loader: () => loadImage(v),
-      }))
-      const soundEntries = [
-        ...Object.entries(soundEffectsAssets).map(([k, v]) => ({
-          key: k,
-          loader: () => loadAudio(v),
-        })),
-        ...Object.entries(musicAssets).map(([k, v]) => ({
-          key: k,
-          loader: () => loadAudio(v),
-        })),
-      ]
-
-      const total =
-        imageEntries.length +
-        soundEntries.length +
-        desktopBgEntries.length +
-        mobileBgEntries.length
-
-      let loaded = 0
-      const images: Record<string, HTMLImageElement> = {}
-      const backgrounds = {
-        desktop: {} as Record<string, HTMLImageElement>,
-        mobile: {} as Record<string, HTMLImageElement>,
+    if (interacted) {
+      document.onclick = null
+      document.ontouchstart = null
+    } else {
+      document.onclick = () => {
+        setInteracted(true)
       }
-      const sounds: Record<string, HTMLAudioElement> = {}
-
-      for (const item of imageEntries) {
-        images[item.key] = await item.loader()
-        loaded++
-        setProgress(Math.round((loaded / total) * 100))
+      document.ontouchstart = () => {
+        setInteracted(true)
       }
-      for (const item of desktopBgEntries) {
-        backgrounds.desktop[item.key] = await item.loader()
-        loaded++
-        setProgress(Math.round((loaded / total) * 100))
-      }
-      for (const item of mobileBgEntries) {
-        backgrounds.mobile[item.key] = await item.loader()
-        loaded++
-        setProgress(Math.round((loaded / total) * 100))
-      }
+    }
+    return () => {
+      document.onclick = null
+      document.ontouchstart = null
+    }
+  }, [interacted])
 
-      for (const item of soundEntries) {
-        sounds[item.key] = await item.loader()
-        loaded++
-        setProgress(Math.round((loaded / total) * 100))
-      }
+  useEffect(() => {
+    let cancelled = false
 
-      setImages(images)
-      setBackgrounds(backgrounds)
-      setSounds(sounds)
+    const imageEntries = buildEntries(avatarAssets, loadImage)
+    const desktopEntries = buildEntries(desktopBgAssets, loadImage)
+    const mobileEntries = buildEntries(mobileBgAssets, loadImage)
 
-      setLoading(false)
+    const total =
+      imageEntries.length + desktopEntries.length + mobileEntries.length
+
+    let loaded = 0
+
+    const onItemLoaded = () => {
+      loaded++
+      if (!cancelled) setProgress(Math.round((loaded / total) * 100))
     }
 
-    loadAll()
+    Promise.all([
+      loadGroup(imageEntries, onItemLoaded),
+      loadGroup(desktopEntries, onItemLoaded),
+      loadGroup(mobileEntries, onItemLoaded),
+    ]).then(([imagesRes, desktopRes, mobileRes]) => {
+      if (cancelled) return
+
+      setImages(imagesRes)
+      setBackgrounds({
+        desktop: desktopRes,
+        mobile: mobileRes,
+      })
+      setLoading(false)
+    })
+
+    return () => {
+      cancelled = true
+    }
   }, [])
+
+  useEffect(() => {
+    if (!interacted) return
+
+    let cancelled = false
+
+    const soundEntries = [
+      ...buildEntries(soundEffectsAssets, loadAudio),
+      ...buildEntries(musicAssets, loadAudio),
+    ]
+
+    loadGroup(soundEntries).then(soundsRes => {
+      if (cancelled) return
+
+      setSounds(soundsRes)
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [interacted])
 
   return (
     <AssetContext.Provider
@@ -108,6 +116,7 @@ export const AssetProvider = ({ children }: Props) => {
         progress,
         avatarCache,
         setAvatarCache,
+        interacted,
       }}
     >
       {children}

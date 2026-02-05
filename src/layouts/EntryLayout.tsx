@@ -4,13 +4,11 @@ import { Outlet } from 'react-router-dom'
 import logo from '@/assets/images/logo/logo.png'
 import Img from '@/components/common/Img'
 import SettingModalButton from '@/components/common/Settings'
-import { useBackground } from '@/context/BackgroundContext'
 import { useSound } from '@/context/SoundContext'
 import { useWindow } from '@/context/WindowContext'
 
 export default function EntryLayout() {
-  const { setBackgroundImage } = useBackground()
-  const { setIsCompact } = useWindow()
+  const { setBackgroundImage, setIsCompact } = useWindow()
   const { playMusic } = useSound()
 
   useEffect(() => {
@@ -20,7 +18,10 @@ export default function EntryLayout() {
   })
 
   return (
-    <div className='no-scrollbar box-content flex h-full w-full max-w-[720px] flex-col items-center justify-around gap-4 overflow-scroll p-4 md:p-8 lg:p-12'>
+    <div
+      id='entry-layout'
+      className='no-scrollbar box-border flex h-full w-full max-w-[720px] flex-col items-center justify-around gap-4 overflow-x-hidden overflow-y-scroll p-4 md:p-8 lg:p-12'
+    >
       <Img
         src={logo}
         alt='Logo'

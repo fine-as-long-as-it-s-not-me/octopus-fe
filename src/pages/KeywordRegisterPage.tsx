@@ -63,7 +63,7 @@ export default function KeywordRegisterPage() {
   }, [roomCode, navigate, toast, joinRoomAnonymous])
 
   return (
-    <Card className='flex min-h-[30dvh] grow flex-col items-center justify-between gap-2'>
+    <Card className='flex min-h-[30lvh] grow flex-col items-center justify-between gap-2'>
       <div className='text-center'>
         {t('Custom Keyword List')}
         <p>
@@ -71,7 +71,7 @@ export default function KeywordRegisterPage() {
           {settings.customKeywordMinVotes} {t('votes')} )
         </p>
       </div>
-      <div className='no-scrollbar flex max-h-[calc(70dvh-120px)] flex-row flex-wrap justify-center gap-2 overflow-scroll p-4'>
+      <div className='no-scrollbar flex max-h-[calc(70lvh-120px)] flex-row flex-wrap justify-center gap-2 overflow-scroll p-4'>
         {customKeywords.length ? (
           customKeywords.map(({ keyword, voteCount }) => (
             <CustomKeywordListItem

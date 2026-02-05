@@ -3,6 +3,7 @@ import { useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
 
 import { useSound } from '@/context/SoundContext'
+import { useToast } from '@/context/ToastContext'
 import { useWindow } from '@/context/WindowContext'
 import LanguageSelectModal from '../modals/LanguageSelectModal'
 import Button from './Button'
@@ -27,6 +28,7 @@ export default function SettingButtons({ className, translate = true }: Props) {
   } = useSound()
   const { fullscreenToggle, isFullscreen } = useWindow()
   const { openModal } = useModal()
+  const { toast } = useToast()
 
   const ref = useRef(null)
   const [direction, setDirection] = useState<'vertical' | 'horizontal'>(
@@ -116,7 +118,11 @@ export default function SettingButtons({ className, translate = true }: Props) {
         size='md'
         className='h-full grow-1 self-center sm:flex'
         cardClassName={twMerge(`h-auto py-2 md:py-3 grow-1 h-full`, className)}
-        onClick={() => fullscreenToggle()}
+        onClick={() =>
+          fullscreenToggle(() => {
+            toast("Device doesn't support fullscreen mode.")
+          })
+        }
         aria-label={'Toggle fullscreen mode'}
       >
         <Icon name={isFullscreen ? 'fullscreen_exit' : 'fullscreen'} />

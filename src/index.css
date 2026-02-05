@@ -7,6 +7,10 @@
   --color-disabled: #f3f4f6;
 }
 
+html::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -15,7 +19,8 @@ body {
 }
 
 #root {
-  height: 100%;
+  height: 100lvh;
+  width: 100lvw;
 }
 
 h1 {
@@ -148,13 +153,8 @@ progress::-moz-progress-bar {
 
 .water-round-container {
   margin: 0 auto;
-  overflow: hidden;
-  position: relative;
   width: min(80vw, 250px);
   height: min(80vw, 250px);
-  border-radius: 50%;
-  border: 3px solid silver;
-  text-align: center;
   line-height: 50px;
   animation: water-waves linear infinite;
 }

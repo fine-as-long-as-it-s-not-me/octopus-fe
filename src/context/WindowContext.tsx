@@ -12,7 +12,8 @@ type WindowContextType = {
   isCompact: boolean
   setIsCompact: (isCompact: boolean) => void
   isFullscreen: boolean
-  fullscreenToggle: () => void
+  fullscreenToggle: (onError?: () => void) => void
+  setBackgroundImage: (key: string) => void
 }
 
 export const WindowContext = createContext<WindowContextType | null>(null)

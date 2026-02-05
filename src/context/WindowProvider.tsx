@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { debounce } from 'lodash'
 
+import { useAssets } from './AssetContext'
 import { WindowContext, type ScreenSize } from './WindowContext'
 
 const RESIZE_THROTTLE_MS = 300
@@ -50,28 +51,28 @@ export default function WindowProvider({
     }
   }, [])
 
-  const fullscreenToggle = () => {
+  const fullscreenToggle = (onError?: () => void) => {
     if (!document.fullscreenElement) {
-      screenRef.current
-        ?.requestFullscreen()
-        .then(() => {
-          // State will be updated by the 'fullscreenchange' event handler
-        })
-        .catch(error => {
-          console.error('Failed to enter fullscreen:', error)
-          // State remains unchanged because fullscreen was not entered
-        })
+      try {
+        screenRef.current?.requestFullscreen()
+      } catch {
+        onError?.()
+      }
     } else {
-      document
-        .exitFullscreen()
-        .then(() => {
-          // State will be updated by the 'fullscreenchange' event handler
-        })
-        .catch(error => {
-          console.error('Failed to exit fullscreen:', error)
-          // State remains unchanged because fullscreen exit failed
-        })
+      try {
+        document.exitFullscreen()
+      } catch {
+        onError?.()
+      }
     }
+  }
+
+  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null)
+  const { backgrounds } = useAssets()
+
+  function setBackgroundImage(key: string) {
+    const platform = window.innerWidth >= 768 ? 'desktop' : 'mobile'
+    if (backgrounds[platform][key]) setBgImage(backgrounds[platform][key])
   }
 
   return (
@@ -83,9 +84,19 @@ export default function WindowProvider({
         setIsCompact,
         isFullscreen,
         fullscreenToggle,
+        setBackgroundImage,
       }}
     >
-      <div className='h-dvh w-dvw overflow-hidden' ref={screenRef}>
+      <div
+        className='flex h-lvh w-lvw flex-col items-center justify-center overflow-hidden'
+        style={{
+          backgroundImage: bgImage ? `url(${bgImage.src})` : 'none',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+        ref={screenRef}
+      >
         {children}
       </div>
     </WindowContext.Provider>
