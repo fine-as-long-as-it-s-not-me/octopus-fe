@@ -25,7 +25,49 @@
       "sizes": "720x480 1280x720 1920x1080 2560x1440",
       "type": "image/webp",
       "form_factor": "wide",
-      "label": "Home screen showing main navigation and featured content"
+      "label": "Home screen showing login page"
+    },
+    {
+      "src": "images/screenshots/lobby.webp",
+      "sizes": "720x480 1280x720 1920x1080 2560x1440",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Lobby screen showing main navigation"
+    },
+    {
+      "src": "images/screenshots/room.webp",
+      "sizes": "720x480 1280x720 1920x1080 2560x1440",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Room screen showing Game environment and players"
+    },
+    {
+      "src": "images/screenshots/draw.webp",
+      "sizes": "720x480 1280x720 1920x1080 2560x1440",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Game screen showing main gameplay"
+    },
+    {
+      "src": "images/screenshots/discuss.webp",
+      "sizes": "720x480 1280x720 1920x1080 2560x1440",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Discussion screen showing players discussing who the octopus is"
+    },
+    {
+      "src": "images/screenshots/vote.webp",
+      "sizes": "720x480 1280x720 1920x1080 2560x1440",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Vote screen showing voting UI"
+    },
+    {
+      "src": "images/screenshots/vote-result.webp",
+      "sizes": "720x480 1280x720 1920x1080 2560x1440",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Vote Result screen showing voting results"
     }
   ]
 }
