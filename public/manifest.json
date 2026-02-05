@@ -3,6 +3,11 @@
   "name": "Find The Octopus",
   "icons": [
     {
+      "src": "octopus.ico",
+      "type": "image/x-icon",
+      "sizes": "32x32"
+    },
+    {
       "src": "octopus.png",
       "type": "image/png",
       "sizes": "192x192 360x360"

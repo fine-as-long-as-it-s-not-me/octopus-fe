@@ -7,6 +7,10 @@
   --color-disabled: #f3f4f6;
 }
 
+html {
+  background-color: #003163;
+}
+
 html::-webkit-scrollbar {
   display: none;
 }
