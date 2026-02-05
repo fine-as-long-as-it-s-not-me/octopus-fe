@@ -5,16 +5,27 @@
     {
       "src": "octopus.png",
       "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "octopus.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "192x192 360x360"
     }
   ],
   "start_url": ".",
   "display": "fullscreen",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff"
+  "theme_color": "#003163",
+  "background_color": "#003163",
+  "categories": [
+    "games",
+    "kids",
+    "entertainment",
+    "social"
+  ],
+  "orientation": "any",
+  "screenshots": [
+    {
+      "src": "images/screenshots/home.webp",
+      "sizes": "720x480 1280x720 1920x1080 2560x1440",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Home screen showing main navigation and featured content"
+    }
+  ]
 }

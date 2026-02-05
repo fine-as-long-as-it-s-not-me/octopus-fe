@@ -87,22 +87,18 @@ export default function WindowProvider({
         setBackgroundImage,
       }}
     >
-      <>
-        <div
-          className='flex h-[100lvh] w-[100lvw] flex-col items-center justify-center overflow-visible'
-          style={{
-            backgroundImage: bgImage ? `url(${bgImage.src})` : 'none',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            width: '100%',
-            height: '100%',
-          }}
-          ref={screenRef}
-        >
-          {children}
-        </div>
-      </>
+      <div
+        className='flex h-lvh w-lvw flex-col items-center justify-center overflow-hidden'
+        style={{
+          backgroundImage: bgImage ? `url(${bgImage.src})` : 'none',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+        ref={screenRef}
+      >
+        {children}
+      </div>
     </WindowContext.Provider>
   )
 }
