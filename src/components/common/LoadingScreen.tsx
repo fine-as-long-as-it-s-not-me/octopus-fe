@@ -16,7 +16,6 @@ export default function LoadingScreen() {
       style={{
         background: 'linear-gradient(rgb(82, 165, 255), rgb(5, 47, 118))',
       }}
-      tabIndex={0}
       type='button'
     >
       {progress === 100 ? (
