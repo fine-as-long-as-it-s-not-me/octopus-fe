@@ -61,7 +61,7 @@ export default function SocketProvider({ children }: Props) {
       {children}
 
       {error && (
-        <div className='absolute inset-0 z-1002 flex flex-col items-center justify-center gap-4 bg-black/75 text-white'>
+        <div className='absolute top-0 left-0 z-1002 flex h-lvh w-lvw flex-col items-center justify-center gap-4 bg-black/75 text-white'>
           <p>[{error.message}]</p>
           <p>{t('Connecting to server...')}</p>
           <span className='loader' />

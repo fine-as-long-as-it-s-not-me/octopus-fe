@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { debounce } from 'lodash'
 
-import LoadingScreen from '@/components/common/LoadingScreen'
 import { useAssets } from './AssetContext'
 import { WindowContext, type ScreenSize } from './WindowContext'
 
@@ -69,7 +68,6 @@ export default function WindowProvider({
   }
 
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null)
-  const [interacted, setInteracted] = useState(false)
   const { backgrounds } = useAssets()
 
   function setBackgroundImage(key: string) {
@@ -86,8 +84,6 @@ export default function WindowProvider({
         setIsCompact,
         isFullscreen,
         fullscreenToggle,
-        interacted,
-        setInteracted,
         setBackgroundImage,
       }}
     >
@@ -106,7 +102,6 @@ export default function WindowProvider({
         >
           {children}
         </div>
-        <LoadingScreen />
       </>
     </WindowContext.Provider>
   )
