@@ -1,6 +1,7 @@
 {
   "short_name": "Find The Octopus",
   "name": "Find The Octopus",
+  "description": "A multiplayer social deduction game where players work together to find the hidden octopus among them.",
   "icons": [
     {
       "src": "octopus.ico",
