@@ -50,27 +50,19 @@ export default function WindowProvider({
     }
   }, [])
 
-  const fullscreenToggle = () => {
+  const fullscreenToggle = (onError: () => void) => {
     if (!document.fullscreenElement) {
-      screenRef.current
-        ?.requestFullscreen()
-        .then(() => {
-          // State will be updated by the 'fullscreenchange' event handler
-        })
-        .catch(error => {
-          console.error('Failed to enter fullscreen:', error)
-          // State remains unchanged because fullscreen was not entered
-        })
+      try {
+        screenRef.current?.requestFullscreen()
+      } catch {
+        onError()
+      }
     } else {
-      document
-        .exitFullscreen()
-        .then(() => {
-          // State will be updated by the 'fullscreenchange' event handler
-        })
-        .catch(error => {
-          console.error('Failed to exit fullscreen:', error)
-          // State remains unchanged because fullscreen exit failed
-        })
+      try {
+        document.exitFullscreen()
+      } catch {
+        onError()
+      }
     }
   }
 
@@ -85,7 +77,7 @@ export default function WindowProvider({
         fullscreenToggle,
       }}
     >
-      <div className='h-dvh w-dvw overflow-hidden' ref={screenRef}>
+      <div className='h-[100lvh] w-[100lvw] overflow-visible' ref={screenRef}>
         {children}
       </div>
     </WindowContext.Provider>
