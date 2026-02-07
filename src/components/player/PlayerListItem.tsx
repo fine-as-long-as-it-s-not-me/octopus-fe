@@ -39,7 +39,7 @@ export default function PlayerListItem({ UUID, name, host }: Props) {
     >
       <Card
         size='sm'
-        className='group flex w-full shrink-0 items-center justify-between gap-2 py-0 pr-2 md:pr-4'
+        className='group relative flex w-full shrink-0 items-center justify-between gap-2 py-0 pr-2 md:pr-4'
       >
         <Profile name={name} />
         <Card
