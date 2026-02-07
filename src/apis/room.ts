@@ -46,3 +46,7 @@ export function useVoteCustomKeywordAnonymous() {
 export function useDeleteCustomKeyword() {
   return useMutation<{ keyword: string }>('room', 'delete_keyword')
 }
+
+export function useKickPlayer() {
+  return useMutation<{ targetUUID: string }>('room', 'kick_player')
+}

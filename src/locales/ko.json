@@ -145,5 +145,7 @@
   "Waiting for host to start the game...": "호스트가 게임을 시작할 때까지 기다리는 중...",
   "Vote link copied to clipboard!": "투표 링크가 클립보드에 복사되었습니다!",
   "Vote again! There's a tie.": "동점이 발생했어요. 다시 투표하세요!",
-  "Device doesn't support fullscreen mode.": "전체 화면을 지원하지 않는 기기입니다."
+  "Device doesn't support fullscreen mode.": "전체 화면을 지원하지 않는 기기입니다.",
+  "has been kicked from the room.": "님이 방에서 추방되었습니다.",
+  "Kick player": "플레이어를 추방합니다. :"
 }

@@ -33,7 +33,11 @@ export const createRoomHandlers = ({
   setHostUUID,
 }: RoomHandlersDeps): Pick<
   MessageHandlers,
-  'player_logged_in' | 'welcome' | 'players_updated' | 'settings_updated'
+  | 'player_logged_in'
+  | 'welcome'
+  | 'players_updated'
+  | 'settings_updated'
+  | 'kicked'
 > => ({
   player_logged_in: ({ roomCode, id }) => {
     setId(id)
@@ -52,5 +56,9 @@ export const createRoomHandlers = ({
   },
   settings_updated: ({ settings }) => {
     setSettings(settings)
+  },
+  kicked: () => {
+    setPhase(Phase.END)
+    setRoomCode('')
   },
 })

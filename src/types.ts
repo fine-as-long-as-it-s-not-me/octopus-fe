@@ -92,6 +92,7 @@ export type Message =
       type: 'custom_words_updated'
       data: { customKeywords: { keyword: string; voteCount: number }[] }
     }
+  | { type: 'kicked'; data: undefined }
 
 export type WelcomeResponse = {
   roomCode: string
@@ -142,7 +143,7 @@ export type KeywordResponse = {
 export type ChatResponse = Chat
 
 type SystemChatVariable =
-  | { name: string } // for player_joined, player_left, player_voted
+  | { name: string } // for player_joined, player_left, player_voted, player_kicked
   | { name: string; amount: number } // for discussion_time_changed
   | { voterName: string }
 
@@ -154,6 +155,7 @@ export type SystemChatResponse = {
     | 'player_voted'
     | 'revote'
     | 'octopus_guessed'
+    | 'player_kicked'
   variable: SystemChatVariable
 }
 

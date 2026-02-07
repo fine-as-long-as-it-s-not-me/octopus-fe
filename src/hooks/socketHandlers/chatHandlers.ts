@@ -60,6 +60,11 @@ const createSystemChatHandler = (
         addSystemChat(`${name} ${t('guessed the code :')} '${word}'`)
         break
       }
+      case 'player_kicked': {
+        const { name } = variable as { name: string }
+        addSystemChat(`${name} ${t('has been kicked from the room.')}`)
+        break
+      }
       default:
         break
     }
