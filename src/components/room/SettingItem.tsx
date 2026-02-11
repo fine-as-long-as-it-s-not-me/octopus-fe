@@ -41,7 +41,8 @@ function Parent({
   const { direction } = useWindow()
 
   const commonClass = twMerge(
-    'break-keep rounded-[24px] pr-3 py-1 rounded-lg px-1.5 sm:p-2 sm:pr-4 shrink-0 text-base items-center flex-row flex gap-2 sm:gap-4',
+    'break-keep pr-3 py-1 rounded-lg pl-1.5 shrink-0 text-base items-center flex-row flex gap-2',
+    'sm:p-2 sm:pr-4 sm:gap-4',
     direction === 'vertical' ? 'w-fit' : 'w-auto',
   )
   if (onClick) {
