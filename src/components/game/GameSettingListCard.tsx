@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { Spacing, useModal } from 'sam-react-modal'
+import { useModal } from 'sam-react-modal'
 import { twMerge } from 'tailwind-merge'
 
+import { useWindow } from '@/context/WindowContext'
 import { parseCountryCodeToLang } from '@/lib/language'
 import { ROUTES } from '@/routes/ROUTES'
 import { useRoomStore } from '@/store/roomStore'
@@ -21,9 +22,15 @@ export default function GameSettingListCard({ isHost }: Props) {
   const { t } = useTranslation()
   const { settings } = useRoomStore()
   const navigate = useNavigate()
+  const { direction } = useWindow()
 
   return (
-    <Card className='flex w-full grow-2 flex-col sm:min-w-[240px]'>
+    <Card
+      className={twMerge(
+        'flex w-full flex-col gap-2 sm:min-w-[240px] sm:gap-4',
+        direction === 'vertical' ? 'grow-0' : 'grow-1',
+      )}
+    >
       <button
         className='flex flex-row items-center justify-center gap-2 p-2 pt-0'
         onClick={() => openModal(<CreateRoomModal action='change' />)}
@@ -32,10 +39,9 @@ export default function GameSettingListCard({ isHost }: Props) {
         <p>{t('Game Settings')}</p>
         {isHost && <Icon name='arrow_forward' />}
       </button>
-      <Spacing />
       <div
         className={twMerge(
-          'flex w-full flex-row flex-wrap items-center justify-center gap-4 sm:gap-4',
+          'no-scrollbar flex w-full flex-row flex-wrap items-center justify-center gap-2 overflow-scroll sm:gap-4',
         )}
       >
         <SettingItem

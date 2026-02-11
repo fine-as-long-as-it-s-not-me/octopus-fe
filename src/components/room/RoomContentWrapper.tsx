@@ -12,7 +12,7 @@ export default function RoomContentWrapper({
   return (
     <div
       className={twMerge(
-        'flex h-full w-full items-stretch sm:gap-2',
+        'flex h-full w-full items-stretch overflow-hidden sm:gap-2',
         direction === 'vertical' ? 'flex-col' : 'flex-row',
       )}
     >

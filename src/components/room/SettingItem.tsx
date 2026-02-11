@@ -22,11 +22,9 @@ export default function SettingItem({
 }: Props) {
   return (
     <Parent onClick={onClick}>
-      <div className='flex flex-row items-center gap-4'>
+      <div className={twMerge('flex flex-row items-center gap-2 sm:gap-4')}>
         {icon}
-        <span className={twMerge('font-medium', underline ? 'underline' : '')}>
-          {label}
-        </span>
+        <span className={twMerge(underline ? 'underline' : '')}>{label}</span>
       </div>
       <span className='ml-auto text-gray-600'>{value}</span>
     </Parent>
@@ -43,7 +41,8 @@ function Parent({
   const { direction } = useWindow()
 
   const commonClass = twMerge(
-    'break-keep rounded-[24px] gap-4 pr-4 shrink-0',
+    'break-keep pr-3 py-1 rounded-lg pl-1.5 shrink-0 text-base items-center flex-row flex gap-2',
+    'sm:p-2 sm:pr-4 sm:gap-4',
     direction === 'vertical' ? 'w-fit' : 'w-auto',
   )
   if (onClick) {

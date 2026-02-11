@@ -26,7 +26,7 @@ export default function DiscussionPage() {
   }, [playMusic])
 
   return (
-    <div className={twMerge('flex flex-col sm:gap-2')}>
+    <div className={twMerge('flex flex-col overflow-hidden sm:gap-2')}>
       {direction === 'vertical' ? (
         <CanvasOpenButton />
       ) : (
